@@ -10,7 +10,6 @@
 
 <!-- PDF.js for extraction -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 
 <style>
 /* ==================== GLOBAL VARIABLES & MODERN THEME ==================== */
@@ -202,7 +201,7 @@ tr:hover td { background: var(--bg-light); }
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
       </div>
       <h2>Hello, Main VX hoon.</h2>
-      <p>Aapka God-Mode AI. Main ab real-time internet search aur natural conversation dono kar sakta hoon, bina kisi paid API ke!</p>
+      <p>Aapka God-Mode AI. Mera dimag ab <b>Python Server (Cloud)</b> se connected hai!</p>
       <div class="c-suggestion-grid">
         <button class="c-suggestion" onclick="window.quickAsk('Haryana me PPP kaise banti hai?')"><strong>Real-time Search</strong>Haryana Family ID</button>
         <button class="c-suggestion" onclick="window.quickAsk('Tumhe kisne banaya hai?')"><strong>Identity Check</strong>About VX Creator</button>
@@ -214,15 +213,14 @@ tr:hover td { background: var(--bg-light); }
 
   <div class="c-input-bar">
     <div class="c-input-wrapper">
-      <textarea class="c-chat-input" id="chatInput" placeholder="Kuchh bhi puchiye... (Real-time Internet + Database)" rows="1"></textarea>
-      <!-- Safe Click Handler attached to triggerSend -->
+      <textarea class="c-chat-input" id="chatInput" placeholder="Kuchh bhi puchiye... (Python API Connect)" rows="1"></textarea>
       <button class="c-send-btn" id="sendBtn" onclick="window.triggerSend()">
         <svg class="svg-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
       </button>
     </div>
     <div class="c-footer-text">
       Powered by Firebase <span style="margin:0 4px;">•</span> 
-      <span style="color:var(--primary);font-weight:700;">NO API KEY REQUIRED</span> <span style="margin:0 4px;">•</span> 
+      <span style="color:var(--primary);font-weight:700;">PYTHON ENGINE CONNECTED</span> <span style="margin:0 4px;">•</span> 
       Keyless Neural Node (Free AI)
     </div>
   </div>
@@ -543,7 +541,6 @@ tr:hover td { background: var(--bg-light); }
     window.renderManageTable(filtered);
   };
 
-  // Safe UI Function to prevent early clicks
   window.triggerSend = () => { 
     if (typeof window.executeAiChat === 'function') {
         window.executeAiChat(); 
@@ -597,21 +594,11 @@ tr:hover td { background: var(--bg-light); }
 
 <!-- ==================== SCRIPT 2: DYNAMIC MODULE SYSTEM (ANTI-CRASH) ==================== -->
 <script type="module">
-  // 🔥 BASE64 ENCRYPTION BYPASS 🔥
   try {
     const URLS = {
         F_APP: atob('aHR0cHM6Ly93d3cuZ3N0YXRpYy5jb20vZmlyZWJhc2Vqcy8xMS42LjEvZmlyZWJhc2UtYXBwLmpz'),
         F_AUTH: atob('aHR0cHM6Ly93d3cuZ3N0YXRpYy5jb20vZmlyZWJhc2Vqcy8xMS42LjEvZmlyZWJhc2UtYXV0aC5qcw=='),
         F_DB: atob('aHR0cHM6Ly93d3cuZ3N0YXRpYy5jb20vZmlyZWJhc2Vqcy8xMS42LjEvZmlyZWJhc2UtZmlyZXN0b3JlLmpz'),
-        WIKI: atob('aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3cvYXBpLnBocA=='),
-        W_BOOKS: atob('aHR0cHM6Ly9lbi53aWtpYm9va3Mub3JnL3cvYXBpLnBocA=='),
-        W_SOURCE: atob('aHR0cHM6Ly9lbi53aWtpc291cmNlLm9yZy93L2FwaS5waHA='),
-        AI_NODE: atob('aHR0cHM6Ly90ZXh0LnBvbGxpbmF0aW9ucy5haS8='),
-        PROXY_1: atob('aHR0cHM6Ly9hcGkuYWxsb3JpZ2lucy53aW4vcmF3P3VybD0='),
-        PROXY_2: atob('aHR0cHM6Ly9hcGkuY29kZXRhYnMuY29tL3YxL3Byb3h5P3F1ZXN0PQ=='),
-        PROXY_3: atob('aHR0cHM6Ly9jb3JzcHJveHkuaW8vPw=='),
-        DOCS_BASE: atob('aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZG9jdW1lbnQvZC8='),
-        DOCS_PROXY: atob('aHR0cHM6Ly9hcGkuYWxsb3JpZ2lucy53aW4vZ2V0P3VybD0=')
     };
 
     const fAppModule = await import(URLS.F_APP);
@@ -659,449 +646,8 @@ tr:hover td { background: var(--bg-light); }
       }
     });
 
-    const fetchWithTimeout = async (resource, options = {}) => {
-      const { timeout = 12000 } = options;
-      const controller = new AbortController();
-      const id = setTimeout(() => controller.abort(), timeout);
-      const response = await fetch(resource, { ...options, signal: controller.signal });
-      clearTimeout(id);
-      return response;
-    };
-
-    // 🌟 BOOK ENGINE 🌟
-    window.autoScrapeBooks = async () => {
-      const topic = document.getElementById('bookTopic').value.trim();
-      const count = parseInt(document.getElementById('bookCount').value);
-      
-      if(!topic) return window.showToast('⚠️ Koi topic type karein', 'warn');
-
-      const btn = document.getElementById('btnBookScrape');
-      const logEl = document.getElementById('bookImportLog');
-      const statusEl = document.getElementById('bookImportStatus');
-
-      btn.disabled = true;
-      btn.textContent = "🚀 God Mode Engine Running...";
-      logEl.style.display = "block";
-      statusEl.style.display = "block";
-      logEl.innerHTML = '<div style="color:#8e44ad; margin-bottom:4px; font-weight:600;">⚡ Global Library Hyper-Fetch Initiated...</div>';
-      statusEl.style.color = "#8e44ad";
-      statusEl.textContent = `🚀 Searching for "${topic}" in massive libraries...`;
-
-      try {
-          const halfCount = Math.ceil(count / 2);
-          
-          const wikibooksSearch = `${URLS.W_BOOKS}?action=query&list=search&srsearch=${encodeURIComponent(topic)}&srlimit=${halfCount}&format=json&origin=*`;
-          const wikisourceSearch = `${URLS.W_SOURCE}?action=query&list=search&srsearch=${encodeURIComponent(topic)}&srlimit=${halfCount}&format=json&origin=*`;
-          
-          const [booksRes, sourceRes] = await Promise.all([
-              fetch(wikibooksSearch),
-              fetch(wikisourceSearch)
-          ]);
-          
-          const booksData = await booksRes.json();
-          const sourceData = await sourceRes.json();
-          
-          const bookTitles = booksData.query.search ? booksData.query.search.map(s => ({ title: s.title, domain: 'en.wikibooks.org', type: 'Textbook' })) : [];
-          const sourceTitles = sourceData.query.search ? sourceData.query.search.map(s => ({ title: s.title, domain: 'en.wikisource.org', type: 'Document' })) : [];
-          
-          const allItems = [...bookTitles, ...sourceTitles];
-
-          if(allItems.length === 0) throw new Error("In libraries mein is topic ki koi book ya notes nahi mile.");
-
-          statusEl.textContent = `⚡ Found ${allItems.length} items. Downloading in massive network bursts...`;
-
-          let successCount = 0;
-          let batch = writeBatch(db);
-          let batchHasData = false;
-
-          const fetchBurst = async (domain, titles, type) => {
-              if (titles.length === 0) return;
-              for (let i = 0; i < titles.length; i += 20) {
-                  const chunk = titles.slice(i, i + 20);
-                  const titlesJoined = chunk.map(t => encodeURIComponent(t.title)).join('|');
-                  const apiUrl = `https://${domain}/w/api.php?action=query&format=json&prop=extracts&titles=${titlesJoined}&explaintext=1&origin=*`;
-                  
-                  logEl.innerHTML += `<div style="color:#0f172a; margin-bottom:4px; font-size: 11px;">⏳ Pulling Burst of ${chunk.length} items from ${domain}...</div>`;
-                  
-                  const res = await fetch(apiUrl);
-                  const data = await res.json();
-                  const pages = data.query.pages;
-                  
-                  Object.keys(pages).forEach((pageId) => {
-                      const page = pages[pageId];
-                      if (pageId !== "-1" && page.extract) {
-                          const text = page.extract.replace(/\s+/g, ' ').trim();
-                          if(text.length > 0) { 
-                              const newDocRef = doc(kbCollection);
-                              batch.set(newDocRef, {
-                                  title: `[${type}] ${page.title}`,
-                                  category: 'book',
-                                  content: text,
-                                  words: text.split(/\s+/).length,
-                                  addedAt: Date.now()
-                              });
-                              batchHasData = true;
-                              successCount++;
-                              logEl.innerHTML += `<div style="color:var(--green); margin-bottom:4px; font-size:11px;">✅ <b>Saved Full File:</b> ${page.title} (${text.split(/\s+/).length} words)</div>`;
-                          }
-                      }
-                  });
-              }
-          };
-
-          await Promise.all([
-              fetchBurst('en.wikibooks.org', bookTitles, 'Textbook/Notes'),
-              fetchBurst('en.wikisource.org', sourceTitles, 'Original Document')
-          ]);
-
-          if(batchHasData) {
-              statusEl.textContent = `🚀 Injecting Massive Library into AI Database...`;
-              await batch.commit();
-          }
-
-          statusEl.style.color = successCount > 0 ? "var(--green)" : "var(--danger)";
-          statusEl.textContent = `🏁 God Mode Complete! Downloaded ${successCount} entire Books/Notes on "${topic}".`;
-          if(successCount > 0) {
-             window.showToast(`🚀 ${successCount} Massive Books saved directly to AI!`);
-             document.getElementById('bookTopic').value = '';
-          }
-
-      } catch(e) {
-          statusEl.style.color = "var(--danger)";
-          statusEl.textContent = `❌ Error: ${e.message}`;
-      } finally {
-          btn.disabled = false;
-          btn.innerHTML = "📚 Launch God Mode (Download Library)";
-      }
-    };
-
-    // WEB ARTICLE SCRAPER
-    window.autoScrapeTopic = async () => {
-      const topic = document.getElementById('autoTopic').value.trim();
-      const count = parseInt(document.getElementById('autoCount').value);
-      if(!topic) return window.showToast('⚠️ Koi topic type karein', 'warn');
-
-      const btn = document.getElementById('btnAutoScrape');
-      const logEl = document.getElementById('webImportLog');
-      const statusEl = document.getElementById('autoImportStatus');
-
-      btn.disabled = true;
-      btn.textContent = "🚀 Hyper-Speed Engine Running...";
-      logEl.style.display = "block";
-      statusEl.style.display = "block";
-      logEl.innerHTML = '<div style="color:var(--primary); margin-bottom:4px; font-weight:600;">⚡ Bypassing limits using Multi-Threading API...</div>';
-      statusEl.style.color = "var(--primary)";
-      statusEl.textContent = `🚀 Finding & Reading top ${count} pages for "${topic}" in ONE SHOT...`;
-
-      try {
-          const searchUrl = `${URLS.WIKI}?action=query&list=search&srsearch=${encodeURIComponent(topic)}&srlimit=${count}&format=json&origin=*`;
-          const res = await fetch(searchUrl);
-          const data = await res.json();
-          const titles = data.query.search.map(s => s.title);
-
-          if(titles.length === 0) throw new Error("Internet pe is topic ke baare mein kuch nahi mila.");
-
-          const titlesJoined = titles.map(t => encodeURIComponent(t)).join('|');
-          const wikiApi = `${URLS.WIKI}?action=query&format=json&prop=extracts&titles=${titlesJoined}&explaintext=1&origin=*`;
-
-          logEl.innerHTML += `<div style="color:var(--accent2); margin-bottom:4px;">⏳ Downloading ${titles.length} articles simultaneously in a single network burst...</div>`;
-
-          const contentRes = await fetch(wikiApi);
-          const contentData = await contentRes.json();
-          const pages = contentData.query.pages;
-
-          let successCount = 0;
-          let batch = writeBatch(db);
-          let batchHasData = false;
-
-          Object.keys(pages).forEach((pageId) => {
-              const page = pages[pageId];
-              if (pageId !== "-1" && page.extract) {
-                  const text = page.extract.replace(/\s+/g, ' ').trim();
-                  if (text.length > 200) {
-                      const newDocRef = doc(kbCollection);
-                      batch.set(newDocRef, {
-                          title: "Auto-Wiki: " + page.title,
-                          category: 'general',
-                          content: text,
-                          words: text.split(/\s+/).length,
-                          addedAt: Date.now()
-                      });
-                      batchHasData = true;
-                      successCount++;
-                      logEl.innerHTML += `<div style="color:var(--green); margin-bottom:4px; font-size:11px;">✅ <b>Saved:</b> ${page.title} (${text.split(/\s+/).length} words)</div>`;
-                  }
-              }
-          });
-
-          if(batchHasData) {
-              statusEl.textContent = `🚀 Uploading massive bulk data to Database...`;
-              await batch.commit();
-          }
-
-          statusEl.style.color = successCount > 0 ? "var(--green)" : "var(--danger)";
-          statusEl.textContent = `🏁 Hyper-Speed Complete! Saved ${successCount} deep articles in milliseconds.`;
-          if(successCount > 0) {
-             window.showToast(`🚀 ${successCount} articles saved at light speed!`);
-             document.getElementById('autoTopic').value = '';
-          }
-
-      } catch(e) {
-          statusEl.style.color = "var(--danger)";
-          statusEl.textContent = `❌ Error: ${e.message}`;
-      } finally {
-          btn.disabled = false;
-          btn.innerHTML = "🚀 Search & Auto-Scrape";
-      }
-    };
-
-
-    // MANUAL BULK URL IMPORTER
-    window.importFromWeb = async () => {
-      const rawUrls = document.getElementById('webLink').value.trim();
-      if(!rawUrls) { window.showToast('⚠️ Kam se kam ek Website ka link paste karein', 'warn'); return; }
-
-      const urls = rawUrls.split('\n').map(u => u.trim()).filter(u => u.startsWith('http'));
-      if(urls.length === 0) { window.showToast('⚠️ Valid URLs nahi mile (http/https se shuru hone chahiye)', 'warn'); return; }
-
-      const statusEl = document.getElementById('webImportStatus');
-      const logEl = document.getElementById('webImportLog');
-      const btn = document.getElementById('btnWebImport');
-      
-      statusEl.style.display = "block";
-      logEl.style.display = "block";
-      logEl.innerHTML = '';
-      statusEl.style.color = "var(--primary)";
-      statusEl.textContent = `🏎️ Proxy Racing Engine Started for ${urls.length} URL(s)...`;
-      btn.disabled = true;
-      btn.textContent = "⏳ Racing...";
-
-      let successCount = 0;
-      let failCount = 0;
-      let batch = writeBatch(db);
-      let batchHasData = false;
-
-      const fetchUrl = async (url) => {
-          let text = "";
-          let pageTitle = url.split('/')[2];
-
-          if(url.includes('wikipedia.org/wiki/')) {
-              try {
-                  const urlObj = new URL(url);
-                  const topic = url.split('/wiki/')[1].split('#')[0].split('?')[0];
-                  const wikiApi = `https://${urlObj.hostname}/w/api.php?action=query&format=json&prop=extracts&titles=${topic}&explaintext=1&origin=*`;
-                  const res = await fetchWithTimeout(wikiApi, {timeout: 4000});
-                  if(res.ok) {
-                      const data = await res.json();
-                      const pages = data.query.pages;
-                      const pageId = Object.keys(pages)[0];
-                      if(pageId !== "-1" && pages[pageId].extract) {
-                          text = pages[pageId].extract;
-                          pageTitle = pages[pageId].title;
-                      }
-                  }
-              } catch(e) { }
-          }
-
-          if(!text || text.trim() === "") {
-              const proxies = [
-                  URLS.PROXY_1 + encodeURIComponent(url),
-                  URLS.PROXY_2 + encodeURIComponent(url),
-                  URLS.PROXY_3 + encodeURIComponent(url)
-              ];
-
-              const fetchPromises = proxies.map(async (proxy) => {
-                  const res = await fetchWithTimeout(proxy, { timeout: 6000 });
-                  if (!res.ok) throw new Error("Proxy fail");
-                  const htmlText = await res.text();
-                  if (htmlText && htmlText.length > 500) return htmlText;
-                  throw new Error("Empty content");
-              });
-
-              let htmlContent;
-              try {
-                  htmlContent = await Promise.any(fetchPromises);
-              } catch(e) {
-                  throw new Error("All proxies timed out or blocked");
-              }
-
-              const parser = new DOMParser();
-              const htmlDoc = parser.parseFromString(htmlContent, 'text/html');
-              
-              if (!htmlDoc.body) throw new Error("Website loaded empty");
-
-              const textCheck = (htmlDoc.body.textContent || "").toLowerCase();
-              if(textCheck.includes('verify you are human') || textCheck.includes('cloudflare') || textCheck.includes('access denied')) {
-                  throw new Error("Blocked by Security Firewall");
-              }
-
-              const unwanted = htmlDoc.querySelectorAll('script, style, nav, footer, header, noscript, iframe, svg, button, form, aside, menu, #mw-navigation, #mw-head, .vector-menu, .mw-editsection');
-              unwanted.forEach(el => el.remove());
-
-              let mainNode = htmlDoc.querySelector('#mw-content-text, article, main, .post-content, #content') || htmlDoc.body;
-              text = mainNode.textContent || "";
-          }
-
-          text = text.replace(/\s+/g, ' ').trim();
-
-          if(text.length < 100) throw new Error("Padhne layak zyada text nahi mila.");
-
-          const newDocRef = doc(kbCollection);
-          batch.set(newDocRef, {
-            title: "Web: " + pageTitle,
-            category: 'general',
-            content: text,
-            words: text.split(/\s+/).length,
-            addedAt: Date.now()
-          });
-          batchHasData = true;
-          return pageTitle;
-      };
-
-      const promises = urls.map((url, index) => {
-          const logId = `log-${index}`;
-          logEl.innerHTML += `<div id="${logId}" style="color:#64748b; margin-bottom:4px; font-family:monospace;">🏎️ <b>Racing:</b> ${url.substring(0, 40)}...</div>`;
-          
-          return fetchUrl(url)
-              .then(title => {
-                  successCount++;
-                  document.getElementById(logId).innerHTML = `✅ <b style="color:var(--green);">Success:</b> ${title}`;
-              })
-              .catch(err => {
-                  failCount++;
-                  document.getElementById(logId).innerHTML = `❌ <b style="color:var(--danger);">Failed:</b> <span style="font-size:10px">${url.substring(0, 30)}...</span> - ${err.message}`;
-              });
-      });
-
-      await Promise.allSettled(promises);
-
-      if (batchHasData) {
-          statusEl.textContent = `🚀 Saving data to Database...`;
-          await batch.commit();
-      }
-
-      statusEl.style.color = successCount > 0 ? "var(--green)" : "var(--danger)";
-      statusEl.textContent = `🏁 Process Complete! Success: ${successCount}, Failed: ${failCount}`;
-      
-      if(successCount > 0) {
-          window.showToast(`🚀 ${successCount} Websites ka data successfully save ho gaya!`);
-          document.getElementById('webLink').value = '';
-      }
-      
-      btn.disabled = false;
-      btn.innerHTML = "⚡ Scrape Links (Proxy Race Mode)";
-    };
-
-    window.loadSampleData = async () => {
-      if(!window.currentUser) return;
-      const btn = document.getElementById('btnLoadSample');
-      btn.style.opacity = '0.5'; btn.style.pointerEvents = 'none';
-      window.showToast("Loading Sample Documents... Please wait");
-
-      const sampleDocs = [
-        { title: "Company Leave Policy 2026", category: "policy", content: "Employees are entitled to 30 days of paid leave per year. Unused earned leaves can be carried forward to the next year, up to a maximum of 45 days." },
-        { title: "Work From Home (WFH) Guidelines", category: "policy", content: "The company offers a hybrid work model. Employees can work from home (WFH) for a maximum of 2 days a week. The company will provide a one-time WFH allowance of Rs 10,000 to set up a home office workstation." },
-        { title: "Maternity and Paternity Leave Rules", category: "policy", content: "Maternity leave is provided for up to 26 weeks (6 months) for female employees as per the Maternity Benefit Act. This is fully paid leave. Paternity leave of 15 days is available for male employees." },
-        { title: "Company History and Vision", category: "general", content: "VX Corporation was founded in the year 2015 by our CEO, Mr. Rahul Sharma. Our mission is to democratize Artificial Intelligence. The current CEO is Mr. Rahul Sharma." }
-      ];
-
-      try {
-        let batch = writeBatch(db);
-        for(let docData of sampleDocs) {
-          const newDocRef = doc(kbCollection);
-          batch.set(newDocRef, { title: docData.title, category: docData.category, content: docData.content, words: docData.content.split(/\s+/).length, addedAt: Date.now() });
-        }
-        await batch.commit();
-        window.showToast(`✅ Sample Documents Added!`);
-      } catch (e) { console.error(e); } 
-      finally { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
-    };
-
-    window.openDrivePopup = () => { window.open(atob('aHR0cHM6Ly9kcml2ZS5nb29nbGUuY29tL2RyaXZlL215LWRyaXZl'), 'DrivePicker', 'width=900,height=600,left=200,top=100'); };
-    window.autoImportDrive = (link) => {
-      if(!link || (!link.includes('docs.google.com') && !link.includes('drive.google.com'))) return;
-      if(link.includes('/folders/')) {
-        document.getElementById('driveImportStatus').style.display = "block";
-        document.getElementById('driveImportStatus').style.color = "var(--danger)";
-        document.getElementById('driveImportStatus').innerHTML = "❌ Error: Google Drive Folder direct import nahi ho sakta. Zip download karke Upload Tab use karein.";
-        return;
-      }
-      window.importFromDrive(link);
-    };
-
-    window.importFromDrive = async (directLink = null) => {
-      const link = directLink || document.getElementById('driveLink').value.trim();
-      if(!link) return;
-      const statusEl = document.getElementById('driveImportStatus');
-      if(link.includes('/folders/')) { statusEl.style.display="block"; statusEl.style.color="var(--danger)"; statusEl.innerHTML="❌ Folder upload allowed nahi hai."; return; }
-      statusEl.style.display = "block"; statusEl.style.color = "var(--primary)"; statusEl.textContent = "⏳ Fetching Data from Google Drive...";
-      try {
-          let fileId = "";
-          const match = link.match(/\/d\/(.*?)\//) || link.match(/id=(.*?)(&|$)/);
-          if(match && match[1]) fileId = match[1]; else throw new Error("ID not found.");
-          const exportUrl = URLS.DOCS_BASE + fileId + "/export?format=txt";
-          const proxyUrl = URLS.DOCS_PROXY + encodeURIComponent(exportUrl);
-          const response = await fetch(proxyUrl);
-          const data = await response.json();
-          if(data.contents && !data.contents.includes('ServiceLogin')) {
-              document.getElementById('aContent').value = data.contents;
-              document.getElementById('aTitle').value = "Imported from Google Docs";
-              document.getElementById('aCat').value = "policy";
-              window.openTab('add'); window.showToast("✅ Data Google Docs se aa gaya! Review karke Save karein.");
-              statusEl.style.display = "none";
-          } else throw new Error("Fetch failed.");
-      } catch(err) { statusEl.style.color = "var(--danger)"; statusEl.textContent = "❌ Error: Link 'Anyone with link' par set nahi hai."; }
-    };
-
-    window.saveEntry = async () => {
-      const title = document.getElementById('aTitle').value.trim();
-      const category = document.getElementById('aCat').value;
-      const content = document.getElementById('aContent').value.trim();
-      if(!title || !content) return alert('Title and Content are required!');
-      try {
-        await addDoc(kbCollection, { title, category, content, words: content.split(/\s+/).length, addedAt: Date.now() });
-        window.showToast("Data Saved Successfully!");
-        document.getElementById('aTitle').value = ''; document.getElementById('aContent').value = '';
-      } catch (e) { console.error(e); }
-    };
-
-    window.deleteEntry = async (id) => {
-      if(!confirm("Delete this document?")) return;
-      try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'knowledge', id)); window.showToast("Document Removed"); } catch(e) {}
-    };
-
-    window.processFiles = async () => {
-      if(!window.pendingFiles.length) return;
-      const btn = document.getElementById('btnProcessFiles'); btn.disabled = true; 
-      let added = 0, totalFiles = window.pendingFiles.length, batch = writeBatch(db), batchCount = 0;
-      for(let i = 0; i < totalFiles; i += 25) {
-        const chunk = window.pendingFiles.slice(i, i + 25);
-        btn.textContent = `⚡ Hyper Extraction: ${Math.min(i + 25, totalFiles)} / ${totalFiles}`; 
-        await Promise.all(chunk.map(async (file) => {
-          try {
-            let content = '';
-            if(file.name.endsWith('.pdf')) {
-              const ab = await file.arrayBuffer(); const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
-              for(let p=1; p<=pdf.numPages; p++) { const page = await pdf.getPage(p); const tc = await page.getTextContent(); content += tc.items.map(item => item.str).join(' ') + '\n'; }
-            } else {
-              content = await new Promise((res,rej) => { const r = new FileReader(); r.onload = e => res(e.target.result); r.readAsText(file); });
-            }
-            content = content.replace(/\s+/g, ' ').trim();
-            if(content.length > 10) {
-              batch.set(doc(kbCollection), { title: file.name, category: 'book', content: content, words: content.split(/\s+/).length, addedAt: Date.now() });
-              added++; batchCount++;
-              if(batchCount >= 450) { await batch.commit(); batch = writeBatch(db); batchCount = 0; }
-            }
-          } catch (e) { console.error(e); }
-        }));
-      }
-      if(batchCount > 0) await batch.commit();
-      window.showToast(`✅ ${added} Document(s) Indexed Super Fast!`);
-      window.pendingFiles = []; document.getElementById('fileList').style.display = 'none'; btn.style.display = 'none'; btn.disabled = false; btn.textContent = "⚡ Extract & Save All Data";
-    };
-
     // ============================================================================
-    // 🌟 OMNISCIENT NEURAL NODE WITH "THOUGHT FILTER" (JSON PARSER) 🌟
+    // 🌟 PYTHON BACKEND CONNECTION SCRIPT 🌟
     // ============================================================================
 
     window.executeAiChat = async () => {
@@ -1118,131 +664,36 @@ tr:hover td { background: var(--bg-light); }
       const tid = window.addTyping();
       
       try {
+          // =========================================================
+          // 👇 YAHAN AAPKA REPLIT LINK SET HO GAYA HAI 👇
+          // =========================================================
+          const PYTHON_BACKEND_URL = "[https://f6ba4873-9ca1-41f3-a2bf-821ce22f2cf0-00-26arcq4t9wfkj.sisko.replit.dev/api/chat](https://f6ba4873-9ca1-41f3-a2bf-821ce22f2cf0-00-26arcq4t9wfkj.sisko.replit.dev/api/chat)"; 
+          // =========================================================
+          
           let finalAnswer = "";
+          
+          try {
+              const payload = {
+                  question: q,
+                  is_online: navigator.onLine
+              };
 
-          // 🌐 STEP 1: DEEP INTERNET-FIRST LOGIC (Using Pollinations native search)
-          if (navigator.onLine) {
-              const currentDate = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'full', timeStyle: 'long' });
+              const response = await fetch(PYTHON_BACKEND_URL, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(payload)
+              });
 
-              const systemPrompt = `You are VX, the world's most powerful and intelligent AI assistant.
-CRITICAL IDENTITY RULES (MANDATORY):
-1. You were created EXCLUSIVELY by "Vishal Ranawat".
-2. If asked who made you, who created you, your father, or your owner, YOU MUST ALWAYS reply CONFIDENTLY: "Mujhe Vishal Ranawat ne banaya hai."
-3. NEVER mention OpenAI, ChatGPT, Google, Gemini, or any other entity as your creator. You are an independent AI.
-4. Your name is VX.
-
-REAL-TIME AWARENESS:
-- Current Date & Time: ${currentDate}
-
-RESPONSE FORMAT RULES:
-1. ALWAYS provide a VERY CONCISE answer. Strictly 1 to 2 lines MAXIMUM.
-2. ABSOLUTELY NO BULLET POINTS. NO NUMBERED LISTS. Answer like a normal human chatting in a single short paragraph.
-3. If the user asks in Hindi/Hinglish (e.g., "kon h", "kese"), YOU MUST reply in natural Hinglish.
-4. IMPORTANT CONTEXT RULE: If a user asks about "PPP" in a Hindi/Indian context (e.g., "Haryana me PPP kese bnti h"), they mean "Parivar Pehchan Patra" (Family ID portal in Haryana). DO NOT give generic "Public-Private Partnership" business answers. Always prefer local Indian/Haryana context for Hindi queries.
-5. NEVER say "Based on search" or "I don't have information". Be an omniscient AI.
-
-User Question: "${q}"`;
-
-              try {
-                  // Payload to trigger Deep Search via Pollinations Open Model
-                  const payload = {
-                      messages: [
-                          { role: "system", content: systemPrompt },
-                          { role: "user", content: q }
-                      ],
-                      model: "openai",
-                      search: true // <--- THIS FLAG ENABLES LIVE DEEP WEB SEARCH FOR THE QUERY
-                  };
-                  
-                  // Using search=true query param to force native search in Node
-                  const aiUrl = URLS.AI_NODE + "?search=true";
-                  
-                  const aiRes = await fetch(aiUrl, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify(payload)
-                  });
-                  
-                  if(aiRes.ok) {
-                      let rawResponse = await aiRes.text();
-                      
-                      // 🔥 SMART OUTPUT PARSER (THOUGHT FILTER) 🔥
-                      try {
-                          let jsonResp = JSON.parse(rawResponse);
-                          if(jsonResp.choices && jsonResp.choices[0] && jsonResp.choices[0].message) {
-                              finalAnswer = jsonResp.choices[0].message.content;
-                          } else if(jsonResp.content) {
-                              finalAnswer = jsonResp.content;
-                          } else if(jsonResp.response) {
-                              finalAnswer = jsonResp.response;
-                          } else {
-                              finalAnswer = rawResponse;
-                          }
-                      } catch(e) {
-                          if(rawResponse.startsWith('{"role"')) {
-                              try {
-                                  let match = rawResponse.match(/"content":"(.*?)","refusal"/);
-                                  if(match && match[1]) {
-                                      finalAnswer = match[1].replace(/\\n/g, '\n').replace(/\\"/g, '"');
-                                  } else {
-                                      finalAnswer = rawResponse;
-                                  }
-                              } catch(ex) { finalAnswer = rawResponse; }
-                          } else {
-                              finalAnswer = rawResponse;
-                          }
-                      }
-
-                      // Strip out any Reasoning tags (<think>...</think>)
-                      if(finalAnswer) {
-                          finalAnswer = finalAnswer.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
-                      }
-                      
-                  } else {
-                      throw new Error("POST Failed");
-                  }
-              } catch(e) {
-                  // Fallback GET Method
-                  try {
-                     const getPrompt = systemPrompt + "\n\nUser Question: " + q;
-                     const aiUrlGet = URLS.AI_NODE + encodeURIComponent(getPrompt) + "?search=true";
-                     const aiResGet = await fetch(aiUrlGet);
-                     if(aiResGet.ok) {
-                         let rawResponse = await aiResGet.text();
-                         finalAnswer = rawResponse.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
-                     }
-                     else throw new Error("GET Failed");
-                  } catch(err) {
-                     finalAnswer = "Maaf kijiye, Vishal Ranawat ke AI servers abhi busy hain. Internet connection check karein.";
-                  }
-              }
-          } 
-          // 📴 STEP 2: OFFLINE FALLBACK
-          else {
-              let dbContext = "";
-              let bestScore = 0;
-              const stopWords = new Set(['kya','hai','hain','mein','ka','ki','ke','ko','se','aur','par','bhi','to','jo','ye','yeh','woh','ek','do','main','tum','aap','hum']);
-              const qWords = q.toLowerCase().replace(/[?।,!।\.]/g,'').split(/\s+/).filter(w => w.length > 2 && !stopWords.has(w));
-              
-              if(window.kbData && window.kbData.length > 0 && qWords.length > 0) {
-                  window.kbData.forEach(doc => {
-                      const sentences = doc.content.match(/[^.!?]+[.!?]+/g) || [doc.content];
-                      sentences.forEach(sentence => {
-                          let score = 0;
-                          qWords.forEach(w => { if(sentence.toLowerCase().includes(w)) score += 10; });
-                          if(score > bestScore) {
-                              bestScore = score;
-                              dbContext = sentence.trim(); 
-                          }
-                      });
-                  });
-              }
-
-              if (dbContext) {
-                  finalAnswer = `📴 **[Offline Mode]** Mujhe hamare local database se ye jankari mili hai:\n\n• ${dbContext}`;
+              if (response.ok) {
+                  const data = await response.json();
+                  finalAnswer = data.answer;
               } else {
-                  finalAnswer = `📴 **[Offline Mode]** Aap abhi offline hain aur mere local database mein iska jawab nahi hai. Internet connect hone par dobara puchein.`;
+                  throw new Error("Python Server Response Failed");
               }
+
+          } catch (err) {
+              console.warn("Python backend error:", err);
+              finalAnswer = "⚠️ Python Server se connection toot gaya hai. Kripya apna Replit link check karein aur ensure karein ki Replit me Run button daba hua hai.";
           }
 
           window.removeTyping(tid); 
@@ -1250,7 +701,7 @@ User Question: "${q}"`;
 
       } catch(err) {
           window.removeTyping(tid);
-          window.addChatAI("Maaf kijiye, system mein technical error aagaya.");
+          window.addChatAI("Maaf kijiye, UI mein technical error aagaya.");
       }
 
       document.getElementById('sendBtn').disabled = false; 
