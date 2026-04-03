@@ -111,8 +111,6 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .c-msg.user .c-bubble { background: var(--surface-dark-hover); border-top-right-radius: 4px; }
 .c-msg.ai .c-bubble { background: var(--surface-dark); border: 1px solid var(--border-dark); border-top-left-radius: 4px; }
 .c-msg.ai .c-bubble strong { color: #fff; font-weight: 600; }
-.c-msg.ai .c-bubble a { color: var(--primary); text-decoration: none; }
-.c-msg.ai .c-bubble a:hover { text-decoration: underline; }
 
 .c-typing { display: flex; gap: 4px; align-items: center; padding: 16px 20px; background: var(--surface-dark); border: 1px solid var(--border-dark); border-radius: 12px; border-top-left-radius: 4px; }
 .c-dot { width: 6px; height: 6px; background: var(--muted-dark); border-radius: 50%; animation: blink 1.4s infinite; }
@@ -140,7 +138,6 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .c-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .c-footer-text { text-align: center; font-size: 11px; color: var(--muted-dark); margin-top: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px;}
-.c-internet-badge { background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px;}
 
 /* ==================== ADMIN VIEW (LIGHT - CORPORATE) ==================== */
 #admin-view { background: var(--bg-light); color: var(--text-light); min-height: 100vh; }
@@ -157,11 +154,11 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .a-header-stat { font-size: 13px; color: var(--muted-light); font-weight: 500;}
 .a-header-stat strong { color: var(--text-light); font-weight: 700;}
 
-.a-tabs { background: var(--surface-light); border-bottom: 1px solid var(--border-light); padding: 0 32px; display: flex; gap: 8px; }
+.a-tabs { background: var(--surface-light); border-bottom: 1px solid var(--border-light); padding: 0 32px; display: flex; gap: 8px; overflow-x: auto;}
 .a-tab { 
   padding: 16px 20px; font-family: inherit; font-size: 14px; font-weight: 500; 
   color: var(--muted-light); cursor: pointer; background: none; border: none; 
-  border-bottom: 2px solid transparent; transition: all 0.2s; 
+  border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
 }
 .a-tab:hover { color: var(--text-light); }
 .a-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
@@ -180,15 +177,15 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .a-stat-card .label { font-size: 12px; font-weight: 600; color: var(--muted-light); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
 
 /* Dashboard Quick Actions */
-.a-quick-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
+.a-quick-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
 .a-action-btn {
   background: var(--surface-light); border: 2px dashed var(--primary); border-radius: 12px;
-  padding: 32px 24px; text-align: center; cursor: pointer; transition: all 0.2s;
+  padding: 24px 16px; text-align: center; cursor: pointer; transition: all 0.2s;
   color: var(--primary); display: flex; flex-direction: column; align-items: center; gap: 12px;
 }
 .a-action-btn:hover { background: var(--primary-light); transform: translateY(-2px); }
-.a-action-btn h3 { font-size: 16px; font-weight: 700; color: var(--text-light); }
-.a-action-btn p { font-size: 13px; color: var(--muted-light); }
+.a-action-btn h3 { font-size: 14px; font-weight: 700; color: var(--text-light); }
+.a-action-btn p { font-size: 12px; color: var(--muted-light); }
 
 .a-card { background: var(--surface-light); border: 1px solid var(--border-light); border-radius: 12px; overflow: hidden; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
 .a-card-head { padding: 20px 24px; border-bottom: 1px solid var(--border-light); font-weight: 600; font-size: 15px; background: #fafafa; }
@@ -274,33 +271,37 @@ tr:hover td { background: var(--bg-light); }
     </div>
   </header>
 
+  <div id="c-noDataBanner" class="c-no-data" style="display:none;">
+    ⚠️ Database mein koi data available nahi hai. Kripya Admin Panel se knowledge/books add karein.
+  </div>
+
   <div class="c-chat-area" id="chatArea">
     <div class="c-welcome" id="welcomeBlock">
       <div class="c-welcome-logo">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
       </div>
       <h2>Hello, Main VX hoon.</h2>
-      <p>Aapka Hybrid AI Assistant. Main aapke <b>Firebase Data</b> aur <b>Internet</b> dono ka use karke aapko smart aur natural answers dunga!</p>
+      <p>Aapka 100% Offline AI Assistant. Main sirf ushi data par aadharit jawaab dunga jo aapne <b>Admin Panel</b> se daala hai. Koi external API use nahi ho rahi hai!</p>
       <div class="c-suggestion-grid">
-        <button class="c-suggestion" onclick="window.quickAsk('Chutti lene ke kya niyam hain?')"><strong>Company Policy</strong>Leave Policy (From Database)</button>
-        <button class="c-suggestion" onclick="window.quickAsk('Google ka CEO kaun hai?')"><strong>General Knowledge</strong>Latest Tech News (From Internet)</button>
-        <button class="c-suggestion" onclick="window.quickAsk('Company ki security rules summarize karo')"><strong>Summarize</strong>IT Rules Summary</button>
-        <button class="c-suggestion" onclick="window.quickAsk('Aaj ka mausam kaisa hai Delhi me?')"><strong>Real-time Info</strong>Weather updates (From Internet)</button>
+        <button class="c-suggestion" onclick="window.quickAsk('Company ka CEO kaun hai?')"><strong>Company Info</strong>CEO & History</button>
+        <button class="c-suggestion" onclick="window.quickAsk('Advance salary ya loan ke kya niyam hain?')"><strong>Loan Policy</strong>Advance Salary</button>
+        <button class="c-suggestion" onclick="window.quickAsk('Kya company laptop deti hai?')"><strong>IT & Device</strong>BYOD / Laptop Policy</button>
+        <button class="c-suggestion" onclick="window.quickAsk('Social media par kya rules hain?')"><strong>Social Media</strong>Posting Guidelines</button>
       </div>
     </div>
   </div>
 
   <div class="c-input-bar">
     <div class="c-input-wrapper">
-      <textarea class="c-chat-input" id="chatInput" placeholder="Sawal puchiye... (Database ya Internet kisi se bhi)" rows="1"></textarea>
+      <textarea class="c-chat-input" id="chatInput" placeholder="Sawal puchiye... (Hindi ya English mein)" rows="1"></textarea>
       <button class="c-send-btn" id="sendBtn" onclick="window.sendMsg()">
         <svg class="svg-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
       </button>
     </div>
     <div class="c-footer-text">
       Powered by Firebase <span style="margin:0 4px;">•</span> 
-      <span class="c-internet-badge">🌍 LIVE INTERNET ACCESS</span> <span style="margin:0 4px;">•</span> 
-      Generative AI Logic
+      <span style="color:var(--primary);font-weight:700;">100% FREE NO API</span> <span style="margin:0 4px;">•</span> 
+      Offline Generative Logic
     </div>
   </div>
 </div>
@@ -325,6 +326,7 @@ tr:hover td { background: var(--bg-light); }
     <button class="a-tab active" onclick="window.openTab('dash')">Overview</button>
     <button class="a-tab" onclick="window.openTab('add')">✏️ Type Data</button>
     <button class="a-tab" onclick="window.openTab('upload')">📄 Upload PDF</button>
+    <button class="a-tab" onclick="window.openTab('drive')">☁️ Google Docs</button>
     <button class="a-tab" onclick="window.openTab('manage')">Manage DB</button>
   </div>
 
@@ -340,26 +342,32 @@ tr:hover td { background: var(--bg-light); }
 
       <!-- Quick Add Buttons on Dashboard -->
       <div class="a-quick-actions">
-        <!-- New Load Sample Data Button -->
         <div class="a-action-btn" onclick="window.loadSampleData()" id="btnLoadSample" style="border-color: #10b981; color: #10b981;">
           <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
           <div>
             <h3>Load Sample Data</h3>
-            <p>1-Click mein testing ke liye Dummy Data add karein</p>
+            <p>1-Click mein 27+ Documents add karein</p>
           </div>
         </div>
-        <div class="a-action-btn" onclick="window.openTab('add')">
-          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        <div class="a-action-btn" onclick="window.openTab('drive')">
+          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
           <div>
-            <h3>Type Manually</h3>
-            <p>Kuch bhi copy/paste karein ya khud type karein</p>
+            <h3>Google Docs</h3>
+            <p>Link se direct data import karein</p>
           </div>
         </div>
         <div class="a-action-btn" onclick="window.openTab('upload')">
           <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m14-7l-5-5-5 5m5-5v12"></path></svg>
           <div>
             <h3>Upload PDF</h3>
-            <p>Files upload karein, AI text extract kar lega</p>
+            <p>Files upload karein, AI text nikalega</p>
+          </div>
+        </div>
+        <div class="a-action-btn" onclick="window.openTab('add')">
+          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          <div>
+            <h3>Type Manually</h3>
+            <p>Copy/paste ya type karein</p>
           </div>
         </div>
       </div>
@@ -388,19 +396,55 @@ tr:hover td { background: var(--bg-light); }
     <!-- Upload -->
     <div class="a-panel" id="p-upload">
       <div class="a-sec-head">
-        <div><h2>Upload PDF or Text Files</h2><p>Badi files, PDFs ya Text files upload karein.</p></div>
+        <div><h2>Upload Files & Folders</h2><p>Poora ka poora folder ya multiple PDFs/Text files ek saath upload karein.</p></div>
       </div>
       <div class="a-card">
-        <div class="a-card-head">Secure File Drop</div>
+        <div class="a-card-head">Bulk Upload Zone</div>
         <div class="a-card-body">
           <div class="a-upload-zone" onclick="document.getElementById('fileInput').click()">
-            <input type="file" id="fileInput" accept=".txt,.pdf" multiple onchange="window.handleFiles(this.files)">
+            <input type="file" id="fileInput" accept=".txt,.pdf" multiple onchange="window.handleFiles(this.files)" style="display:none;">
+            <!-- NEW: Folder Selection Input -->
+            <input type="file" id="folderInput" webkitdirectory directory multiple onchange="window.handleFiles(this.files)" style="display:none;">
+            
             <svg class="svg-icon a-upload-icon" style="width:48px;height:48px;margin:auto;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m14-7l-5-5-5 5m5-5v12"></path></svg>
             <h3 style="font-size:16px;font-weight:600;margin-bottom:8px;color:var(--text-light)">Click yahan karein ya files drop karein</h3>
             <p style="font-size:13px;color:var(--muted-light)">Supported formats: PDF, TXT</p>
+            
+            <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: center;">
+              <button class="a-btn a-btn-sec" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">📄 Select Files</button>
+              <button class="a-btn a-btn-pri" style="background: #8e44ad;" onclick="event.stopPropagation(); document.getElementById('folderInput').click()">📁 Select Entire Folder</button>
+            </div>
           </div>
-          <div id="fileList" style="margin-top:16px; font-size:13px; color:var(--text-light); line-height:1.6;"></div>
-          <button class="a-btn a-btn-pri" id="btnProcessFiles" style="display:none;margin-top:16px;" onclick="window.processFiles()">Extract & Save Data</button>
+          
+          <div id="fileList" style="margin-top:16px; font-size:13px; color:var(--text-light); line-height:1.6; max-height: 200px; overflow-y: auto; padding: 10px; background: #f8fafc; border-radius: 8px; display: none;"></div>
+          
+          <button class="a-btn a-btn-pri" id="btnProcessFiles" style="display:none;margin-top:16px;width:100%;justify-content:center;" onclick="window.processFiles()">⚡ Extract & Save All Data</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Drive Import -->
+    <div class="a-panel" id="p-drive">
+      <div class="a-sec-head">
+        <div><h2>☁️ Import from Google Docs</h2><p>Google Drive se direct file select karein aur data nikaalein (No API required).</p></div>
+      </div>
+      <div class="a-card">
+        <div class="a-card-head">Drive Link Importer</div>
+        <div class="a-card-body" style="text-align: center;">
+          <button class="a-btn a-btn-pri" style="background: #0f9d58; margin-bottom: 20px; font-size: 15px; padding: 12px 24px;" onclick="window.openDrivePopup()">
+            <svg class="svg-icon" style="width:20px;height:20px;margin-right:8px;" viewBox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+            1. Open My Google Drive
+          </button>
+          
+          <p style="font-size:13px;color:var(--muted-light);margin-bottom:12px;">
+            Drive khulne par apni file ka <b>"Anyone with the link"</b> wala share link copy karein aur yahan paste karein:
+          </p>
+          
+          <div class="a-field full">
+            <input type="text" id="driveLink" placeholder="2. Yahan link paste karein (Auto-Import hoga)..." oninput="window.autoImportDrive(this.value)" style="text-align: center; border: 2px dashed #cbd5e1; padding: 16px; font-size: 14px; background: #f8fafc;">
+          </div>
+          
+          <div id="driveImportStatus" style="margin-top: 16px; font-size: 14px; font-weight: 600; display: none;"></div>
         </div>
       </div>
     </div>
@@ -444,16 +488,10 @@ tr:hover td { background: var(--bg-light); }
 
   function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   
-  // Format markdown from Gemini
   function formatMarkdown(text) {
     let formatted = esc(text);
-    // Bold
     formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    // Bullet points
     formatted = formatted.replace(/^\* (.*?)$/gm, '• $1');
-    // Links (from Google Search Grounding)
-    formatted = formatted.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-    // Line breaks
     formatted = formatted.replace(/\n/g, '<br>');
     return formatted;
   }
@@ -556,21 +594,32 @@ tr:hover td { background: var(--bg-light); }
   window.removeTyping = (id) => { const el = document.getElementById(id); if(el) el.remove(); };
   window.scrollBottom = () => { const a = document.getElementById('chatArea'); a.scrollTop = a.scrollHeight; };
 
+  // UPGRADED: Handle Bulk Files & Folders
   window.handleFiles = (files) => {
-    window.pendingFiles = Array.from(files);
-    document.getElementById('fileList').innerHTML = window.pendingFiles.map(f => `📄 <strong>${esc(f.name)}</strong> (${(f.size/1024).toFixed(1)} KB)`).join('<br>');
+    // Filter only supported files from the selected folder/files
+    const supportedFiles = Array.from(files).filter(f => f.name.toLowerCase().endsWith('.pdf') || f.name.toLowerCase().endsWith('.txt'));
+    
+    if (supportedFiles.length === 0) {
+        window.showToast("⚠️ Koi valid PDF ya TXT file nahi mili!", "warn");
+        return;
+    }
+
+    window.pendingFiles = supportedFiles;
+    const fileListEl = document.getElementById('fileList');
+    
+    fileListEl.style.display = "block";
+    fileListEl.innerHTML = `<div style="margin-bottom:8px; font-weight:bold; color:var(--primary);">Total Files: ${supportedFiles.length}</div>` + 
+                           window.pendingFiles.map(f => `📄 <strong>${esc(f.name)}</strong> (${(f.size/1024).toFixed(1)} KB)`).join('<br>');
+    
     document.getElementById('btnProcessFiles').style.display = window.pendingFiles.length ? 'inline-flex' : 'none';
   };
 </script>
 
-<!-- ==================== SCRIPT 2: FIREBASE & GEMINI HYBRID LOGIC ==================== -->
+<!-- ==================== SCRIPT 2: FIREBASE & OFFLINE JAVASCRIPT AI LOGIC ==================== -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
   import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
   import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-  // The environment handles injecting the required Gemini API Key automatically.
-  const geminiApiKey = ""; 
 
   try {
     const firebaseConfig = {
@@ -612,23 +661,41 @@ tr:hover td { background: var(--bg-light); }
       }
     });
 
+    // 🌟 MASSIVE SAMPLE DATA LOAD (27+ Documents) 🌟
     window.loadSampleData = async () => {
       if(!window.currentUser) return window.showToast("Connection Error", "err");
       const btn = document.getElementById('btnLoadSample');
       btn.style.opacity = '0.5'; btn.style.pointerEvents = 'none';
-      window.showToast("Loading Sample Data... Please wait");
+      window.showToast("Loading 27 Sample Documents... Please wait");
 
       const sampleDocs = [
-        {
-          title: "Company Leave Policy 2026",
-          category: "policy",
-          content: "Employees are entitled to 30 days of paid leave per year. This includes 12 casual leaves and 18 earned leaves. If an employee takes sick leave for more than 2 consecutive days, a registered medical certificate is mandatory. Maternity leave is provided for up to 6 months for female employees. Paternity leave is 15 days. Unused earned leaves can be carried forward to the next year, up to a maximum of 45 days. Leave applications must be submitted at least one week in advance through the HR portal."
-        },
-        {
-          title: "Work From Home (WFH) Guidelines",
-          category: "policy",
-          content: "The company offers a hybrid work model. Employees can work from home (WFH) for a maximum of 2 days a week. Tuesdays and Thursdays are mandatory office days for team meetings. While working from home, employees must be online and reachable on Slack or Microsoft Teams during core business hours, which are 10:00 AM to 4:00 PM. A stable internet connection is required. The company will provide a one-time WFH allowance of Rs 10,000 to set up a home office workstation."
-        }
+        { title: "Company Leave Policy 2026", category: "policy", content: "Employees are entitled to 30 days of paid leave per year. This includes 12 casual leaves and 18 earned leaves. If an employee takes sick leave for more than 2 consecutive days, a registered medical certificate is mandatory. Unused earned leaves can be carried forward to the next year, up to a maximum of 45 days. Leave applications must be submitted at least one week in advance through the HR portal." },
+        { title: "Work From Home (WFH) Guidelines", category: "policy", content: "The company offers a hybrid work model. Employees can work from home (WFH) for a maximum of 2 days a week. Tuesdays and Thursdays are mandatory office days for team meetings. While working from home, employees must be online and reachable on Slack or Microsoft Teams during core business hours, which are 10:00 AM to 4:00 PM. A stable internet connection is required. The company will provide a one-time WFH allowance of Rs 10,000 to set up a home office workstation." },
+        { title: "Maternity and Paternity Leave Rules", category: "policy", content: "Maternity leave is provided for up to 26 weeks (6 months) for female employees as per the Maternity Benefit Act. This is fully paid leave. Paternity leave of 15 days is available for male employees, which can be availed within 6 months of the child's birth. Adoption leave of 12 weeks is also available for employees adopting a child below the age of three months." },
+        { title: "IT Security and Data Protection", category: "rule", content: "All employees must adhere to strict IT security protocols. Account passwords must be at least 12 characters long and changed every 90 days. Never share your OTP, passwords, or access cards with anyone, including the IT team. Always lock your laptop screen (Windows + L or Cmd + Control + Q) when stepping away from your desk. Do not use public Wi-Fi networks for company work without an active VPN connection. Any suspicious emails or phishing attempts must be reported to the IT Helpdesk immediately at it-support@company.com." },
+        { title: "Travel and Expense Reimbursement", category: "policy", content: "For official business travel, employees must book flight tickets at least 14 days in advance. Economy class travel is allowed for domestic flights. Accommodation limit is Rs 5,000 per night for tier-1 cities and Rs 3,000 for tier-2 cities. Daily food allowance during travel is Rs 1,500. All original bills and GST invoices must be uploaded to the expense portal within 7 days of returning from the trip. Reimbursements are processed on the 15th and 30th of every month." },
+        { title: "Office Timings and Holiday List 2026", category: "general", content: "Standard office timings are from 9:30 AM to 6:30 PM, Monday to Friday. There is a flexible window of 1 hour (8:30 AM to 10:30 AM login time). The office remains closed on all Saturdays and Sundays. The official public holidays for 2026 include Republic Day (Jan 26), Holi (Feb 25), Independence Day (Aug 15), Gandhi Jayanti (Oct 2), Diwali (Nov 4), and Christmas (Dec 25). Employees can also avail 2 restricted holidays (RH) of their choice from the approved list." },
+        { title: "Performance Review and Appraisal", category: "general", content: "The company follows an annual performance review cycle. Appraisals are conducted in March every year. The evaluation is based on self-assessment, manager's rating, and 360-degree feedback from peers. Key Performance Indicators (KPIs) and Objective and Key Results (OKRs) defined at the start of the financial year (April) form the basis of the evaluation. Salary increments and promotions are announced in the first week of April and are effective from April 1st." },
+        { title: "Employee Code of Conduct", category: "rule", content: "All employees must maintain professional behavior at the workplace. Harassment, discrimination, or bullying of any kind will lead to immediate termination. The dress code is smart casuals from Monday to Thursday, and casuals on Friday. Wearing ID cards is mandatory at all times inside the office premises." },
+        { title: "Resignation and Notice Period", category: "policy", content: "The standard notice period for all confirmed employees is 90 days. During the notice period, employees are not allowed to take more than 3 days of planned leave. The Full and Final (FnF) settlement will be processed within 45 days of the last working day. All company assets must be returned to the IT department before the exit interview." },
+        { title: "Provident Fund (PF) and Gratuity", category: "policy", content: "As per government regulations, 12% of the basic salary is deducted as Employee Provident Fund (EPF), with an equal contribution from the employer. The UAN (Universal Account Number) is generated within the first month of joining. Employees who complete 5 continuous years of service in the company are eligible for Gratuity payout upon resignation or retirement." },
+        { title: "Health Insurance Benefits", category: "general", content: "The company provides a comprehensive family floater health insurance policy covering the employee, spouse, and up to two children. The maximum sum insured is Rs 5,00,000 per family per year. Cashless claims can be availed at over 5000+ network hospitals. Pre-existing diseases are covered from day one. Dental and vision checkups up to Rs 5,000 are also covered." },
+        { title: "Company History and Vision", category: "general", content: "VX Corporation was founded in the year 2015 by our CEO, Mr. Rahul Sharma. Our mission is to democratize Artificial Intelligence and build software that simplifies human life. We started with a small team of 5 people in a garage and have now grown to over 2000 employees globally. Our core values are Integrity, Innovation, and Inclusivity." },
+        { title: "Hardware and Laptop Policy", category: "rule", content: "Every new employee is assigned a company-owned laptop (MacBook Pro or Dell ThinkPad depending on the role). Hardware upgrades are allowed every 3 years. If a laptop is lost or physically damaged due to gross negligence, the employee will be liable to pay 50% of the repair or replacement cost. IT accessories like mouse, keyboard, and monitors can be requested via the IT ticketing portal." },
+        { title: "Cafeteria and Meal Rules", category: "general", content: "The office cafeteria is located on the 4th floor. Complimentary buffet lunch is served daily from 1:00 PM to 2:30 PM. Free evening snacks and tea/coffee are available from 5:00 PM to 6:00 PM. Employees are requested not to take cafeteria food to their workstations or labs to maintain hygiene. Outside food delivery (like Swiggy/Zomato) must be collected from the ground floor reception." },
+        { title: "Office Parking Guidelines", category: "general", content: "Office parking is allotted on a first-come, first-serve basis. Basement 1 (B1) is strictly reserved for two-wheelers, while Basement 2 (B2) is for four-wheelers. Employees must register their vehicle numbers with the admin desk to get a parking sticker. Overnight parking is not allowed without prior approval from the facilities manager." },
+        { title: "Employee Referral Program", category: "policy", content: "Employees can refer their friends or former colleagues for open positions. If the referred candidate is hired, the referring employee will receive a referral bonus of Rs 50,000. This bonus is paid out only after the new hire successfully completes 3 months of probation in the company. Managers cannot claim referral bonuses for hiring within their own teams." },
+        { title: "Prevention of Sexual Harassment (POSH)", category: "law", content: "The company has a zero-tolerance policy towards sexual harassment. An Internal Complaints Committee (ICC) is established to handle any grievances. Complaints can be filed anonymously through the HR portal or by emailing posh@company.com. All investigations are kept strictly confidential, and malicious false complaints will also face strict disciplinary action." },
+        { title: "Salary Advance and Loan Policy", category: "policy", content: "Confirmed employees completing 1 year of service can request a salary advance or personal loan. The maximum loan amount is up to 2 months of basic salary. The loan will be recovered in 6 equal monthly installments (EMI) deducted from the salary. No interest is charged on salary advances. Approval from the functional head and HR is required." },
+        { title: "Relocation and Transfer Allowance", category: "policy", content: "If an employee is transferred to a different city by the company, a relocation allowance is provided. The company will bear the cost of moving household goods up to Rs 40,000. The employee will also receive up to 15 days of initial hotel accommodation and a one-time settling-in allowance of Rs 20,000. Relocation benefits must be claimed within 60 days of the transfer." },
+        { title: "Bereavement Leave Policy", category: "policy", content: "In the unfortunate event of the death of an immediate family member (spouse, child, parent, or sibling), an employee is entitled to 5 days of paid bereavement leave. This leave is intended to give employees time to mourn and manage family affairs. No medical or death certificate is required to claim this leave." },
+        { title: "Sabbatical Leave Policy", category: "policy", content: "Employees who have completed 5 continuous years of service are eligible to apply for an unpaid sabbatical leave for up to 6 months. This leave can be used for higher education, pursuing a personal passion, or managing a family emergency. During the sabbatical, the employee will not receive a salary but will retain their job title and continuity of service." },
+        { title: "Bring Your Own Device (BYOD)", category: "policy", content: "Employees opting for the BYOD program can use their personal laptops for company work. A monthly allowance of Rs 1,500 is provided to cover wear and tear. All personal devices used for work must have company-approved Antivirus and Mobile Device Management (MDM) software installed to ensure data security. The company holds the right to remotely wipe company data if the device is lost." },
+        { title: "Social Media Guidelines", category: "rule", content: "Employees are encouraged to be brand ambassadors on LinkedIn and Twitter. However, sharing confidential project details, upcoming unannounced features, or negative comments about clients on any social media platform is strictly prohibited. Always use a disclaimer stating that 'the views expressed are personal and do not represent the company' if discussing industry topics." },
+        { title: "Dual Employment and Moonlighting", category: "rule", content: "The company enforces a strict single-employment policy. Employees are not allowed to take up full-time or part-time jobs, freelance gigs, or consultancies that conflict with the company's business interests or overlap with official working hours. Engaging in unauthorized moonlighting will lead to an immediate disciplinary hearing and potential termination." },
+        { title: "Diversity, Equity, and Inclusion", category: "policy", content: "We are committed to building a diverse and inclusive workplace. Hiring, promotions, and compensation are based solely on merit and performance, irrespective of race, gender, religion, sexual orientation, or physical ability. The company actively runs 'Women in Tech' initiatives and provides wheelchair-accessible infrastructure in all office buildings." },
+        { title: "Training and Certification Sponsorship", category: "general", content: "To promote continuous learning, the company sponsors job-related certifications (like AWS, Azure, PMP). Employees can claim up to Rs 25,000 per year for course fees and exam costs. The employee must pass the certification exam to be eligible for reimbursement. If the employee resigns within 6 months of the certification payout, the amount will be recovered in the final settlement." },
+        { title: "Internet and Network Usage", category: "rule", content: "The office internet network is strictly for official work. Streaming movies on Netflix/Prime, downloading pirated software, or visiting adult and gambling websites on the office network is heavily restricted and monitored. The IT department logs all web traffic to protect against malware and cyber threats." }
       ];
 
       try {
@@ -644,6 +711,87 @@ tr:hover td { background: var(--bg-light); }
         console.error(e); window.showToast("Error adding sample data", "err");
       } finally {
         btn.style.opacity = '1'; btn.style.pointerEvents = 'auto';
+      }
+    };
+
+    // 🌟 GOOGLE DOCS IMPORT ENGINE (NO GOOGLE API REQUIRED) 🌟
+    window.openDrivePopup = () => {
+      // Opens a mini window for Google Drive
+      window.open('https://drive.google.com/drive/my-drive', 'DrivePicker', 'width=900,height=600,left=200,top=100');
+    };
+
+    window.autoImportDrive = (link) => {
+      if(!link || (!link.includes('docs.google.com') && !link.includes('drive.google.com'))) return;
+      
+      // Smart Check: Agar user ne Folder ka link daal diya
+      if(link.includes('/folders/')) {
+        const statusEl = document.getElementById('driveImportStatus');
+        statusEl.style.display = "block";
+        statusEl.style.color = "var(--danger)";
+        statusEl.innerHTML = "❌ Error: Google Drive Folder direct import nahi ho sakta.<br><br><b>Solution:</b> Folder ko Drive se download (Zip) karein, extract karein, aur <b>'Upload PDF'</b> tab me jakar <b>'Select Entire Folder'</b> button ka use karein.";
+        return;
+      }
+      
+      window.importFromDrive(link);
+    };
+
+    window.importFromDrive = async (directLink = null) => {
+      const link = directLink || document.getElementById('driveLink').value.trim();
+      if(!link) { window.showToast('⚠️ Google Doc ka link paste karein', 'warn'); return; }
+
+      const statusEl = document.getElementById('driveImportStatus');
+      const inputEl = document.getElementById('driveLink');
+      
+      // Smart Check for manual button click
+      if(link.includes('/folders/')) {
+          statusEl.style.display = "block";
+          statusEl.style.color = "var(--danger)";
+          statusEl.innerHTML = "❌ Error: Google Drive Folder direct import nahi ho sakta.<br><br><b>Solution:</b> Folder ko Drive se download (Zip) karein, extract karein, aur <b>'Upload PDF'</b> tab me jakar <b>'Select Entire Folder'</b> button ka use karein.";
+          return;
+      }
+      
+      statusEl.style.display = "block";
+      statusEl.style.color = "var(--primary)";
+      statusEl.textContent = "⏳ Fetching Data from Google Drive...";
+      inputEl.disabled = true;
+
+      try {
+          // Extract ID from the Google Doc URL
+          let fileId = "";
+          const match = link.match(/\/d\/(.*?)\//) || link.match(/id=(.*?)(&|$)/);
+          if(match && match[1]) fileId = match[1];
+          else throw new Error("Link mein Document ID nahi mili.");
+
+          // Export as text URL
+          const exportUrl = `https://docs.google.com/document/d/${fileId}/export?format=txt`;
+          
+          // Use free AllOrigins proxy to bypass browser CORS rules
+          const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(exportUrl)}`;
+
+          const response = await fetch(proxyUrl);
+          const data = await response.json();
+
+          if(data.contents && !data.contents.includes('ServiceLogin') && data.contents.trim() !== '') {
+              if(data.contents.includes('<!DOCTYPE html>')) throw new Error("File public nahi hai.");
+
+              document.getElementById('aContent').value = data.contents;
+              document.getElementById('aTitle').value = "Imported from Google Docs";
+              document.getElementById('aCat').value = "policy";
+              
+              window.openTab('add'); 
+              window.showToast("✅ Data Google Docs se aa gaya! Ab review karke Save karein.");
+              
+              inputEl.value = ''; // clear input
+              statusEl.style.display = "none";
+          } else {
+              throw new Error("Data fetch nahi ho paya. Permissions check karein.");
+          }
+      } catch(err) {
+          console.error(err);
+          statusEl.style.color = "var(--danger)";
+          statusEl.textContent = "❌ Error: Link 'Anyone with the link can view' par set karein.";
+      } finally {
+          inputEl.disabled = false;
       }
     };
 
@@ -677,10 +825,15 @@ tr:hover td { background: var(--bg-light); }
     window.processFiles = async () => {
       if(!window.pendingFiles.length || !window.currentUser) return;
       const btn = document.getElementById('btnProcessFiles');
-      btn.disabled = true; btn.textContent = "Processing...";
+      btn.disabled = true; 
 
       let added = 0;
-      for(let file of window.pendingFiles) {
+      let totalFiles = window.pendingFiles.length;
+
+      for(let i = 0; i < totalFiles; i++) {
+        let file = window.pendingFiles[i];
+        btn.textContent = `⏳ Processing: ${i + 1} / ${totalFiles} (${file.name})`; // Live Progress Tracker
+
         try {
           let content = '';
           if(file.name.endsWith('.pdf')) {
@@ -689,7 +842,7 @@ tr:hover td { background: var(--bg-light); }
             for(let p=1; p<=pdf.numPages; p++) {
               const page = await pdf.getPage(p);
               const tc = await page.getTextContent();
-              content += tc.items.map(i => i.str).join(' ') + '\n';
+              content += tc.items.map(item => item.str).join(' ') + '\n';
             }
           } else {
             content = await new Promise((res,rej) => {
@@ -704,118 +857,178 @@ tr:hover td { background: var(--bg-light); }
             });
             added++;
           }
-        } catch (e) { console.error("File parsing error", e); }
-      }
-      window.showToast(`${added} Document(s) Indexed Successfully!`);
-      window.pendingFiles = []; document.getElementById('fileList').innerHTML = '';
-      btn.style.display = 'none'; btn.disabled = false; btn.textContent = "Extract & Save Data";
-    };
-
-    // --- 🌟 MAGIC: HYBRID AI ENGINE (FIREBASE + GEMINI API + INTERNET) 🌟 ---
-    
-    // Step 1: Extract relevant text from Firebase Database (if any)
-    function getDatabaseContext(query) {
-      if (!window.kbData.length) return "";
-      
-      const rawWords = query.toLowerCase().replace(/[?।,!।\.]/g,'').split(/\s+/);
-      const stopWords = new Set(['kya','hai','hain','mein','ka','ki','ke','ko','se','aur','par','bhi','to','jo','ye','yeh','woh','ek','do','main','tum','aap','hum','koi','kuch','ab','tha','thi','the','ho','hun','is', 'are', 'the', 'what', 'how', 'to', 'a', 'an', 'of', 'in', 'on', 'for', 'with']);
-      let qWords = rawWords.filter(w => w.length > 2 && !stopWords.has(w));
-      
-      if(qWords.length === 0) return ""; // Summary request, let Gemini handle it fully
-
-      let bestContext = [];
-      window.kbData.forEach(doc => {
-          const paras = doc.content.split(/(?<=\.)\s+/).filter(p => p.trim().length > 30);
-          paras.forEach(p => {
-              let score = 0;
-              const pLower = p.toLowerCase();
-              qWords.forEach(w => {
-                  if(pLower.includes(w)) score += 10;
-              });
-              if(score > 0) bestContext.push({ text: `[${doc.title}]: ${p.trim()}`, score });
-          });
-      });
-
-      bestContext.sort((a,b) => b.score - a.score);
-      return bestContext.slice(0, 3).map(c => c.text).join('\n\n'); // Send top 3 paras to Gemini
-    }
-
-    // Step 2: Fetch with Retry Logic (Exponential Backoff)
-    async function fetchGeminiWithRetry(promptText, retries = 5) {
-      const delays = [1000, 2000, 4000, 8000, 16000];
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiApiKey}`;
-      
-      const payload = {
-        contents: [{ parts: [{ text: promptText }] }],
-        tools: [{ "google_search": {} }] // Enable Internet Browsing!
-      };
-
-      for (let i = 0; i < retries; i++) {
-        try {
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          
-          if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-          
-          const result = await response.json();
-          return result.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't generate an answer.";
-        } catch (err) {
-          if (i === retries - 1) throw err;
-          await new Promise(r => setTimeout(r, delays[i]));
+        } catch (e) { 
+            console.error(`Error parsing file ${file.name}:`, e); 
         }
       }
+      
+      window.showToast(`✅ ${added} Document(s) Indexed Successfully!`);
+      window.pendingFiles = []; 
+      const fileListEl = document.getElementById('fileList');
+      fileListEl.innerHTML = '';
+      fileListEl.style.display = 'none';
+      btn.style.display = 'none'; 
+      btn.disabled = false; 
+      btn.textContent = "⚡ Extract & Save All Data";
+    };
+
+    // --- 🌟 100% OFFLINE ADVANCED JAVASCRIPT AI ENGINE (NO API) 🌟 ---
+    
+    function detectLanguage(words) {
+      const enKeywords = ['what', 'why', 'how', 'when', 'who', 'is', 'are', 'the', 'this', 'that', 'explain', 'tell', 'about', 'summarize', 'can', 'details', 'give'];
+      let enCount = words.filter(w => enKeywords.includes(w)).length;
+      return enCount > 0 ? 'en' : 'hi';
     }
+
+    const engToHinPhrase = [
+      [/strictly prohibited/gi, 'sakt mana hai'], [/is mandatory/gi, 'zaroori hai'],
+      [/are mandatory/gi, 'zaroori hain'], [/will be provided/gi, 'diya jayega'],
+      [/can apply/gi, 'apply kar sakte hain'], [/has been/gi, 'kiya gaya hai'],
+      [/will be/gi, 'hoga'], [/should be/gi, 'hona chahiye'],
+      [/must be/gi, 'zaroori hona chahiye'], [/are entitled to/gi, 'ko milenge'],
+      [/per year/gi, 'har saal']
+    ];
+
+    const engToHinWord = {
+      'is': 'hai', 'are': 'hain', 'was': 'tha', 'were': 'the', 'am': 'hoon',
+      'and': 'aur', 'but': 'lekin', 'or': 'ya', 'if': 'agar', 'then': 'toh',
+      'this': 'yeh', 'that': 'woh', 'what': 'kya', 'why': 'kyun', 'how': 'kaise', 
+      'when': 'kab', 'you': 'aap', 'we': 'hum', 'he': 'woh', 'she': 'woh', 'i': 'main',
+      'policy': 'niyam', 'rules': 'niyam', 'rule': 'niyam',
+      'leave': 'chutti', 'leaves': 'chuttiyan', 'holiday': 'chutti',
+      'salary': 'vetan', 'pay': 'paisa', 'allowance': 'allowance/paisa',
+      'loan': 'udhaar/loan', 'advance': 'advance paisa',
+      'work': 'kaam', 'job': 'kaam',
+      'employee': 'karmchari', 'employees': 'karmchariyon',
+      'all': 'sabhi', 'some': 'kuch', 'any': 'koi bhi',
+      'can': 'sakte hain', 'will': 'hoga', 'should': 'chahiye',
+      'not': 'nahi', 'no': 'nahi', 'yes': 'haan',
+      'for': 'ke liye', 'with': 'ke saath', 'from': 'se', 'to': 'ko', 'in': 'mein', 'on': 'par',
+      'document': 'dastavez', 'information': 'jankari',
+      'days': 'din', 'months': 'mahine', 'year': 'saal',
+      'required': 'zaroori', 'important': 'zaroori', 'maximum': 'zyada se zyada',
+      'training': 'training', 'learning': 'seekhna', 'device': 'device/laptop'
+    };
+
+    function translateText(text) {
+      let translated = text;
+      engToHinPhrase.forEach(([regex, replacement]) => { translated = translated.replace(regex, replacement); });
+      translated = translated.replace(/\b([a-zA-Z]+)\b/g, (match) => {
+        const lower = match.toLowerCase();
+        if (engToHinWord[lower]) return match[0] === match[0].toUpperCase() ? engToHinWord[lower].charAt(0).toUpperCase() + engToHinWord[lower].slice(1) : engToHinWord[lower];
+        return match;
+      });
+      return translated;
+    }
+
+    const crossLangDict = {
+      'niyam': ['rule', 'policy', 'guideline'],
+      'chutti': ['leave', 'holiday', 'vacation', 'casual', 'sick', 'maternity', 'sabbatical', 'bereavement'],
+      'paisa': ['money', 'salary', 'allowance', 'rs', 'bonus', 'gratuity', 'pf', 'loan', 'advance'],
+      'loan': ['advance', 'paisa'],
+      'kaam': ['work', 'job', 'wfh', 'moonlighting', 'employment'],
+      'samay': ['time', 'hours', 'schedule'],
+      'bima': ['insurance', 'health', 'mediclaim', 'cover'],
+      'khana': ['food', 'lunch', 'cafeteria', 'meal', 'snacks'],
+      'chhodna': ['resign', 'resignation', 'leaving', 'notice'],
+      'parking': ['park', 'vehicle', 'car', 'bike', 'scooter'],
+      'founder': ['ceo', 'history', 'founded', 'vision'],
+      'social': ['media', 'linkedin', 'twitter', 'facebook'],
+      'laptop': ['device', 'byod', 'hardware', 'macbook'],
+      'course': ['training', 'certification', 'learning']
+    };
 
     window.sendMsg = async () => {
       const input = document.getElementById('chatInput');
       const q = input.value.trim();
       if(!q) return;
-      
-      document.getElementById('sendBtn').disabled = true;
-      input.value = '';
-      
-      const wb = document.getElementById('welcomeBlock');
-      if(wb) wb.remove();
-      
+      document.getElementById('sendBtn').disabled = true; input.value = '';
+      const wb = document.getElementById('welcomeBlock'); if(wb) wb.remove();
       window.addChatMsg('user', q);
       const tid = window.addTyping();
       
-      try {
-        const dbContext = getDatabaseContext(q);
-        
-        // Dynamic Prompt for Gemini
-        const systemPrompt = `You are 'VX', a highly intelligent and helpful AI assistant.
-        
-        Here is some private data from the user's database:
-        ---
-        ${dbContext ? dbContext : "(No relevant data found in private database)"}
-        ---
+      // Simulate reading speed
+      await new Promise(r => setTimeout(r, 900)); 
+      
+      const answer = getSmartAnswerOffline(q);
+      window.removeTyping(tid);
+      window.addChatAI(answer);
+      document.getElementById('sendBtn').disabled = false; window.scrollBottom();
+    };
 
-        User's Query: "${q}"
+    function getSmartAnswerOffline(query) {
+      const qLower = query.toLowerCase().trim();
+      const rawWords = qLower.replace(/[?।,!।\.]/g,'').split(/\s+/);
+      const lang = detectLanguage(rawWords);
 
-        INSTRUCTIONS:
-        1. If the answer is present in the private data provided above, answer strictly based on that data.
-        2. If the private data does not contain the answer (or is empty), YOU MUST USE YOUR INTERNET/GENERAL KNOWLEDGE via Google Search to answer the user's query perfectly. Do not say "I don't know" if it's a general question (like weather, news, facts).
-        3. Provide the answer in a natural, conversational tone. Do NOT say "Based on the private data" or "According to the database". Just give the answer directly.
-        4. ALWAYS reply in the language the user used. If the user asks in Hindi/Hinglish (e.g., "kya hai?", "kaise karein?"), you MUST reply in conversational Hinglish (Hindi written in English alphabet). If they ask in English, reply in English.
-        5. Keep the formatting clean using bold (**) and bullet points where necessary.`;
+      if (/^(hi|hello|hey|namaste|hello vx|hi vx)$/i.test(qLower)) {
+          return lang === 'en' ? "Hello! I am VX, your offline AI assistant. I'm ready to answer questions based strictly on your uploaded documents." : "Namaste! Main VX AI hoon. Main 100% offline kaam karta hoon. Bataiye, main aapke documents me se kya dhundh kar laun?";
+      }
 
-        const aiResponse = await fetchGeminiWithRetry(systemPrompt);
-        
-        window.removeTyping(tid);
-        window.addChatAI(aiResponse);
-      } catch (error) {
-        console.error("Gemini API Error:", error);
-        window.removeTyping(tid);
-        window.addChatAI("Maaf kijiye, mujhe network se judne mein dikkat ho rahi hai. Kripya thodi der baad try karein.");
+      if(!window.kbData.length) {
+        return lang === 'en' ? "I'm sorry, but my database is empty. Please load sample data from the Admin Panel or upload your own files." : "Abhi mere database mein koi jaankari nahi hai. Kripya pehle Admin panel se data add karein.";
       }
       
-      document.getElementById('sendBtn').disabled = false;
-      window.scrollBottom();
-    };
+      const isSummaryRequest = rawWords.some(w => ['summary', 'summarize', 'overview', 'saar', 'sankshep'].includes(w)) || rawWords.length === 0;
+
+      if (isSummaryRequest && rawWords.length <= 3) {
+        let summaryAns = lang === 'en' ? "Here is a quick overview of what I know based on the documents:\n\n" : "Mere database mein ye main documents uplabdh hain:\n\n";
+        window.kbData.slice(0, 3).forEach((doc) => {
+          let firstPara = doc.content.split(/\n/)[0].substring(0, 150);
+          if(lang === 'hi') firstPara = translateText(firstPara);
+          summaryAns += `• **${doc.title.replace(/\.[^/.]+$/, "")}**: ${firstPara}...\n\n`;
+        });
+        summaryAns += lang === 'en' ? "Let me know if you want detailed information about any of these!" : "Aap inme se kisi bhi vishay par sawal puch sakte hain.";
+        return summaryAns;
+      }
+
+      const stopWords = new Set(['kya','hai','hain','mein','ka','ki','ke','ko','se','aur','par','bhi','to','jo','ye','yeh','woh','ek','do','main','tum','aap','hum','koi','kuch','ab','tha','thi','the','ho','hun','mere','meri','mera', 'is', 'are', 'the', 'what', 'how', 'to', 'a', 'an', 'of', 'in', 'on', 'for', 'with']);
+      let qWords = rawWords.filter(w => w.length > 2 && !stopWords.has(w));
+
+      let expandedWords = [...qWords];
+      qWords.forEach(w => { if(crossLangDict[w]) expandedWords.push(...crossLangDict[w]); });
+      qWords = [...new Set(expandedWords)];
+
+      let bestPara = "";
+      let highestScore = 0;
+
+      window.kbData.forEach(doc => {
+          const paras = doc.content.split(/(?<=\.)\s+/).filter(p => p.trim().length > 30); 
+          paras.forEach(p => {
+              let score = 0;
+              const pLower = p.toLowerCase();
+              qWords.forEach(w => {
+                  if(pLower.includes(w)) {
+                      score += 10;
+                      if(new RegExp(`\\b${w}\\b`).test(pLower)) score += 15;
+                  }
+              });
+              if(score > highestScore) {
+                  highestScore = score; bestPara = p.trim();
+              }
+          });
+      });
+
+      if(highestScore === 0 || !bestPara) {
+          const topics = window.kbData.slice(0, 3).map(k => "• " + k.title.replace(/\.[^/.]+$/, "")).join('\n');
+          return lang === 'en'
+            ? `I couldn't find an exact match for your question in the database. However, I have information on the following topics:\n\n${topics}\n\nCan you try asking about one of these?`
+            : `Maaf kijiye, mujhe aapke sawal ka seedha jawab nahi mila. Lekin mere paas in vishayon par data hai:\n\n${topics}\n\nKya aap inme se kuch janna chahte hain?`;
+      }
+
+      let finalPara = lang === 'hi' ? translateText(bestPara) : bestPara;
+      let finalAnswer = "";
+      
+      if (lang === 'en') {
+          const intros = ["Based on the documents, here is what I found:", "I checked the database. According to the records:", "Here is the relevant information:"];
+          finalAnswer = `**${intros[Math.floor(Math.random() * intros.length)]}**\n\n${finalPara}`;
+      } else {
+          const intros = ["Maine check kiya hai. Jo jankari mujhe mili hai, uske mutabik:", "Aapke sawal ke aadhar par mujhe yeh details mili hain:", "Database ke anusaar:"];
+          finalAnswer = `**${intros[Math.floor(Math.random() * intros.length)]}**\n\n${finalPara}`;
+      }
+      
+      return finalAnswer;
+    }
 
   } catch(error) {
     console.error("Initialization Error:", error);
