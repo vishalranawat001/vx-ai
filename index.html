@@ -245,7 +245,7 @@ tr:hover td { background: var(--bg-light); }
 
   <div class="a-tabs">
     <button class="a-tab active" onclick="window.openTab('dash')">Overview</button>
-    <!-- NAYA TAB: BOOK ENGINE -->
+    <!-- TAB: BOOK ENGINE -->
     <button class="a-tab" onclick="window.openTab('books')" style="color: #8e44ad; font-weight: 700;">📚 Books Engine</button>
     <button class="a-tab" onclick="window.openTab('web')">🌐 Web Scraper</button>
     <button class="a-tab" onclick="window.openTab('drive')">☁️ Google Docs</button>
@@ -293,15 +293,15 @@ tr:hover td { background: var(--bg-light); }
       </div>
     </div>
 
-    <!-- 🌟 NAYA: BOOK ENGINE (GOD MODE) 🌟 -->
+    <!-- 🌟 NAYA: BOOK ENGINE (GOD MODE BURST) 🌟 -->
     <div class="a-panel" id="p-books">
       <div class="a-sec-head"><div><h2>📚 Ultimate Books & Notes Engine (GOD MODE)</h2><p>Ek click mein poori duniya ki open-source Textbooks, Notes, aur Literature books seedha database mein utar lein!</p></div></div>
       
       <div class="a-card" style="border: 2px solid #8e44ad; box-shadow: 0 4px 15px rgba(142, 68, 173, 0.15);">
-        <div class="a-card-head" style="background: #fdf5ff; color: #8e44ad;">🛸 Global Library Downloader</div>
+        <div class="a-card-head" style="background: #fdf5ff; color: #8e44ad;">🛸 Global Library Downloader (Zero-Wait Burst Fire)</div>
         <div class="a-card-body" style="text-align: center;">
           <p style="font-size:13px;color:var(--muted-light);margin-bottom:16px;">
-            <strong>KAISE KAAM KARTA HAI:</strong> Topic daalte hi ye engine <b style="color:#0f172a;">Wikibooks (Textbooks/Notes)</b> aur <b style="color:#0f172a;">Wikisource (Original Books)</b> par jayega aur saari massive kitabein ek hi jhatke mein download karke AI ko sikha dega.
+            <strong>KAISE KAAM KARTA HAI:</strong> Ab engine hang nahi hoga! Topic daalte hi ye engine <b style="color:#0f172a;">Wikibooks</b> aur <b style="color:#0f172a;">Wikisource</b> par jayega aur "Single URL Burst" technique use karke saari massive kitabein/notes ek sath (puri ki puri file) download karke AI ko sikha dega.
           </p>
           
           <div class="a-field-row" style="margin-bottom: 16px;">
@@ -611,7 +611,7 @@ tr:hover td { background: var(--bg-light); }
     });
 
     const fetchWithTimeout = async (resource, options = {}) => {
-      const { timeout = 8000 } = options;
+      const { timeout = 12000 } = options;
       const controller = new AbortController();
       const id = setTimeout(() => controller.abort(), timeout);
       const response = await fetch(resource, { ...options, signal: controller.signal });
@@ -619,8 +619,7 @@ tr:hover td { background: var(--bg-light); }
       return response;
     };
 
-    // 🌟 NAYA: THE GOD MODE BOOK ENGINE (WIKIBOOKS & WIKISOURCE) 🌟
-    // Ye function poori duniya ke textbooks aur original documents download karega
+    // 🌟 NAYA: THE GOD MODE BOOK ENGINE (BURST DOWNLOADER) 🌟
     window.autoScrapeBooks = async () => {
       const topic = document.getElementById('bookTopic').value.trim();
       const count = parseInt(document.getElementById('bookCount').value); // Default is 20
@@ -635,12 +634,11 @@ tr:hover td { background: var(--bg-light); }
       btn.textContent = "🚀 God Mode Engine Running...";
       logEl.style.display = "block";
       statusEl.style.display = "block";
-      logEl.innerHTML = '<div style="color:#8e44ad; margin-bottom:4px; font-weight:600;">⚡ Connecting to Global Open-Source Libraries (Wikibooks & Wikisource)...</div>';
+      logEl.innerHTML = '<div style="color:#8e44ad; margin-bottom:4px; font-weight:600;">⚡ Global Library Hyper-Fetch Initiated...</div>';
       statusEl.style.color = "#8e44ad";
-      statusEl.textContent = `🚀 Finding massive Books & Notes for "${topic}"...`;
+      statusEl.textContent = `🚀 Searching for "${topic}" in massive libraries...`;
 
       try {
-          // Hum dono libraries (Textbooks + Original Documents) ek sath search karenge
           const halfCount = Math.ceil(count / 2);
           
           const wikibooksSearch = `https://en.wikibooks.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(topic)}&srlimit=${halfCount}&format=json&origin=*`;
@@ -654,37 +652,44 @@ tr:hover td { background: var(--bg-light); }
           const booksData = await booksRes.json();
           const sourceData = await sourceRes.json();
           
-          const bookTitles = booksData.query.search.map(s => ({ title: s.title, domain: 'en.wikibooks.org', type: 'Textbook' }));
-          const sourceTitles = sourceData.query.search.map(s => ({ title: s.title, domain: 'en.wikisource.org', type: 'Document/Book' }));
+          const bookTitles = booksData.query.search ? booksData.query.search.map(s => s.title) : [];
+          const sourceTitles = sourceData.query.search ? sourceData.query.search.map(s => s.title) : [];
           
-          const allItems = [...bookTitles, ...sourceTitles];
+          if(bookTitles.length === 0 && sourceTitles.length === 0) throw new Error("In libraries mein is topic ki koi book ya notes nahi mile.");
 
-          if(allItems.length === 0) throw new Error("In libraries mein is topic ki koi book ya notes nahi mile.");
-
-          statusEl.textContent = `⚡ Found ${allItems.length} Books/Notes. Downloading entire content in massive parallel bursts...`;
+          statusEl.textContent = `⚡ Found ${bookTitles.length + sourceTitles.length} items. Downloading in massive network bursts...`;
 
           let successCount = 0;
           let batch = writeBatch(db);
           let batchHasData = false;
 
-          // Fetch Full Texts from respective domains
-          const promises = allItems.map((item, index) => {
-              const logId = `book-log-${index}`;
-              logEl.innerHTML += `<div id="${logId}" style="color:#64748b; margin-bottom:4px; font-family:monospace;">⏳ <b>Downloading [${item.type}]:</b> ${item.title}...</div>`;
-
-              const apiUrl = `https://${item.domain}/w/api.php?action=query&format=json&prop=extracts&titles=${encodeURIComponent(item.title)}&explaintext=1&origin=*`;
-
-              return fetchWithTimeout(apiUrl)
-                  .then(r => r.json())
-                  .then(d => {
-                      const pages = d.query.pages;
-                      const pageId = Object.keys(pages)[0];
-                      if(pageId !== "-1" && pages[pageId].extract) {
-                          const text = pages[pageId].extract.replace(/\s+/g, ' ').trim();
-                          if(text.length > 500) { // Kitab mein kam se kam 500 words hone chahiye
+          // Ek sath multiple titles download karega burst fire ke zariye
+          const fetchBurst = async (domain, titles, type) => {
+              if (titles.length === 0) return;
+              
+              // Max 20 titles per burst to avoid URL length issues
+              for (let i = 0; i < titles.length; i += 20) {
+                  const chunk = titles.slice(i, i + 20);
+                  const titlesJoined = chunk.map(t => encodeURIComponent(t)).join('|');
+                  const apiUrl = `https://${domain}/w/api.php?action=query&format=json&prop=extracts&titles=${titlesJoined}&explaintext=1&origin=*`;
+                  
+                  logEl.innerHTML += `<div style="color:#0f172a; margin-bottom:4px; font-size: 11px;">⏳ Pulling Burst of ${chunk.length} books from ${domain}...</div>`;
+                  
+                  const res = await fetch(apiUrl);
+                  const data = await res.json();
+                  const pages = data.query.pages;
+                  
+                  Object.keys(pages).forEach((pageId) => {
+                      const page = pages[pageId];
+                      if (pageId !== "-1" && page.extract) {
+                          const text = page.extract.replace(/\s+/g, ' ').trim();
+                          
+                          // No arbitrary limit! Accept whatever content is there.
+                          // If it's 50 words, it's an index. If it's 50,000 words, it's a full book.
+                          if(text.length > 0) { 
                               const newDocRef = doc(kbCollection);
                               batch.set(newDocRef, {
-                                  title: `[${item.type}] ${pages[pageId].title}`,
+                                  title: `[${type}] ${page.title}`,
                                   category: 'book',
                                   content: text,
                                   words: text.split(/\s+/).length,
@@ -692,20 +697,20 @@ tr:hover td { background: var(--bg-light); }
                               });
                               batchHasData = true;
                               successCount++;
-                              document.getElementById(logId).innerHTML = `✅ <b style="color:var(--green);">Downloaded:</b> ${item.title} (${text.split(/\s+/).length} words)`;
-                          } else {
-                              document.getElementById(logId).innerHTML = `❌ <b style="color:var(--danger);">Skipped:</b> ${item.title} (Only ${text.split(/\s+/).length} words - Too small to be a book)`;
+                              logEl.innerHTML += `<div style="color:var(--green); margin-bottom:4px; font-size:11px;">✅ <b>Saved Full File:</b> ${page.title} (${text.split(/\s+/).length} words)</div>`;
                           }
                       }
-                  }).catch(err => {
-                      document.getElementById(logId).innerHTML = `❌ <b style="color:var(--danger);">Failed:</b> ${item.title} - Network Error`;
                   });
-          });
+              }
+          };
 
-          await Promise.allSettled(promises);
+          await Promise.all([
+              fetchBurst('en.wikibooks.org', bookTitles, 'Textbook/Notes'),
+              fetchBurst('en.wikisource.org', sourceTitles, 'Original Document')
+          ]);
 
           if(batchHasData) {
-              statusEl.textContent = `🚀 Saving massive book library to Database...`;
+              statusEl.textContent = `🚀 Injecting Massive Library into AI Database...`;
               await batch.commit();
           }
 
