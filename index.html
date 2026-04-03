@@ -619,7 +619,8 @@ tr:hover td { background: var(--bg-light); }
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
   import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-  import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+  // YAHAN NAYA 'writeBatch' IMPORT ADD HUA HAI 👇
+  import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
   try {
     const firebaseConfig = {
@@ -822,6 +823,7 @@ tr:hover td { background: var(--bg-light); }
       } catch(e) { console.error(e); alert("Error: "+e.message); }
     };
 
+    // 🌟 ULTRA FAST BULK PROCESSING ENGINE 🌟
     window.processFiles = async () => {
       if(!window.pendingFiles.length || !window.currentUser) return;
       const btn = document.getElementById('btnProcessFiles');
@@ -829,40 +831,64 @@ tr:hover td { background: var(--bg-light); }
 
       let added = 0;
       let totalFiles = window.pendingFiles.length;
+      
+      // Firebase Batch Writing - Ek saath 500 files tak bhejenge (Super Fast Network)
+      let batch = writeBatch(db);
+      let batchCount = 0;
 
-      for(let i = 0; i < totalFiles; i++) {
-        let file = window.pendingFiles[i];
-        btn.textContent = `⏳ Processing: ${i + 1} / ${totalFiles} (${file.name})`; // Live Progress Tracker
+      // Parallel Processing Chunks - Ek saath 5 file CPU se read karega
+      const chunkSize = 5; 
 
-        try {
-          let content = '';
-          if(file.name.endsWith('.pdf')) {
-            const ab = await file.arrayBuffer();
-            const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
-            for(let p=1; p<=pdf.numPages; p++) {
-              const page = await pdf.getPage(p);
-              const tc = await page.getTextContent();
-              content += tc.items.map(item => item.str).join(' ') + '\n';
+      for(let i = 0; i < totalFiles; i += chunkSize) {
+        const chunk = window.pendingFiles.slice(i, i + chunkSize);
+        btn.textContent = `⚡ Fast Extraction: ${Math.min(i + chunkSize, totalFiles)} / ${totalFiles}`; 
+
+        await Promise.all(chunk.map(async (file) => {
+          try {
+            let content = '';
+            if(file.name.endsWith('.pdf')) {
+              const ab = await file.arrayBuffer();
+              const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+              for(let p=1; p<=pdf.numPages; p++) {
+                const page = await pdf.getPage(p);
+                const tc = await page.getTextContent();
+                content += tc.items.map(item => item.str).join(' ') + '\n';
+              }
+            } else {
+              content = await new Promise((res,rej) => {
+                const r = new FileReader(); r.onload = e => res(e.target.result); r.onerror = rej; r.readAsText(file);
+              });
             }
-          } else {
-            content = await new Promise((res,rej) => {
-              const r = new FileReader(); r.onload = e => res(e.target.result); r.onerror = rej; r.readAsText(file);
-            });
+            
+            content = content.replace(/\s+/g, ' ').trim();
+            if(content.length > 10) {
+              const newDocRef = doc(kbCollection); // Naya auto-ID reference
+              batch.set(newDocRef, {
+                title: file.name, category: 'book', content: content, words: content.split(/\s+/).length, addedAt: Date.now()
+              });
+              added++;
+              batchCount++;
+
+              // Firestore ki ek batch limit maximum 500 hoti hai, 450 par push kar denge
+              if(batchCount >= 450) {
+                await batch.commit();
+                batch = writeBatch(db); // Naya batch chalu
+                batchCount = 0;
+              }
+            }
+          } catch (e) { 
+              console.error(`Error parsing file ${file.name}:`, e); 
           }
-          
-          content = content.replace(/\s+/g, ' ').trim();
-          if(content.length > 10) {
-            await addDoc(kbCollection, {
-              title: file.name, category: 'book', content: content, words: content.split(/\s+/).length, addedAt: Date.now()
-            });
-            added++;
-          }
-        } catch (e) { 
-            console.error(`Error parsing file ${file.name}:`, e); 
-        }
+        }));
       }
       
-      window.showToast(`✅ ${added} Document(s) Indexed Successfully!`);
+      // Bache hue aakhiri documents ko ek jhatke mein save karna
+      if(batchCount > 0) {
+        btn.textContent = "🚀 Saving to Database...";
+        await batch.commit();
+      }
+      
+      window.showToast(`✅ ${added} Document(s) Indexed Super Fast!`);
       window.pendingFiles = []; 
       const fileListEl = document.getElementById('fileList');
       fileListEl.innerHTML = '';
