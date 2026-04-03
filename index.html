@@ -202,27 +202,27 @@ tr:hover td { background: var(--bg-light); }
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
       </div>
       <h2>Hello, Main VX hoon.</h2>
-      <p>Aapka 100% Offline AI Assistant. Main sirf ushi data par aadharit jawaab dunga jo aapne <b>Admin Panel</b> se daala hai. Koi external API use nahi ho rahi hai!</p>
+      <p>Aapka God-Mode AI. Main ab real-time internet search aur natural conversation dono kar sakta hoon, bina kisi paid API ke!</p>
       <div class="c-suggestion-grid">
-        <button class="c-suggestion" onclick="window.quickAsk('Company ka CEO kaun hai?')"><strong>Company Info</strong>CEO & History</button>
-        <button class="c-suggestion" onclick="window.quickAsk('Advance salary ya loan ke kya niyam hain?')"><strong>Loan Policy</strong>Advance Salary</button>
-        <button class="c-suggestion" onclick="window.quickAsk('Kya company laptop deti hai?')"><strong>IT & Device</strong>BYOD / Laptop Policy</button>
-        <button class="c-suggestion" onclick="window.quickAsk('Artificial intelligence kya hai summarize karo')"><strong>General Knowledge</strong>Web Scraped Info</button>
+        <button class="c-suggestion" onclick="window.quickAsk('OpenAI ka CEO kaun hai?')"><strong>Real-time Search</strong>OpenAI CEO (Internet)</button>
+        <button class="c-suggestion" onclick="window.quickAsk('Advance salary ya loan ke kya niyam hain?')"><strong>Company Policy</strong>Advance Salary (Database)</button>
+        <button class="c-suggestion" onclick="window.quickAsk('Bharat ka sabse lamba pull kaunsa hai?')"><strong>General Knowledge</strong>India's longest bridge</button>
+        <button class="c-suggestion" onclick="window.quickAsk('Kya company laptop deti hai?')"><strong>IT Rules</strong>Laptop Policy (Database)</button>
       </div>
     </div>
   </div>
 
   <div class="c-input-bar">
     <div class="c-input-wrapper">
-      <textarea class="c-chat-input" id="chatInput" placeholder="Sawal puchiye... (Hindi ya English mein)" rows="1"></textarea>
+      <textarea class="c-chat-input" id="chatInput" placeholder="Kuchh bhi puchiye... (Real-time Internet + Database)" rows="1"></textarea>
       <button class="c-send-btn" id="sendBtn" onclick="window.sendMsg()">
         <svg class="svg-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
       </button>
     </div>
     <div class="c-footer-text">
       Powered by Firebase <span style="margin:0 4px;">•</span> 
-      <span style="color:var(--primary);font-weight:700;">100% FREE NO API</span> <span style="margin:0 4px;">•</span> 
-      Offline Generative Logic
+      <span style="color:var(--primary);font-weight:700;">NO API KEY REQUIRED</span> <span style="margin:0 4px;">•</span> 
+      Keyless Neural Node (Free AI)
     </div>
   </div>
 </div>
@@ -245,7 +245,6 @@ tr:hover td { background: var(--bg-light); }
 
   <div class="a-tabs">
     <button class="a-tab active" onclick="window.openTab('dash')">Overview</button>
-    <!-- TAB: BOOK ENGINE -->
     <button class="a-tab" onclick="window.openTab('books')" style="color: #8e44ad; font-weight: 700;">📚 Books Engine</button>
     <button class="a-tab" onclick="window.openTab('web')">🌐 Web Scraper</button>
     <button class="a-tab" onclick="window.openTab('drive')">☁️ Google Docs</button>
@@ -265,7 +264,6 @@ tr:hover td { background: var(--bg-light); }
       </div>
 
       <div class="a-quick-actions">
-        <!-- BOOK ENGINE LINK -->
         <div class="a-action-btn" onclick="window.openTab('books')" style="border-color: #8e44ad; color: #8e44ad;">
           <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
           <div><h3>📚 Book/Notes Engine</h3><p>Global Library se download</p></div>
@@ -293,7 +291,7 @@ tr:hover td { background: var(--bg-light); }
       </div>
     </div>
 
-    <!-- 🌟 NAYA: BOOK ENGINE (GOD MODE BURST) 🌟 -->
+    <!-- BOOK ENGINE -->
     <div class="a-panel" id="p-books">
       <div class="a-sec-head"><div><h2>📚 Ultimate Books & Notes Engine (GOD MODE)</h2><p>Ek click mein poori duniya ki open-source Textbooks, Notes, aur Literature books seedha database mein utar lein!</p></div></div>
       
@@ -484,8 +482,19 @@ tr:hover td { background: var(--bg-light); }
   
   function formatMarkdown(text) {
     let formatted = esc(text);
+    // Remove markdown code blocks
+    formatted = formatted.replace(/```.*?```/gs, '');
+    formatted = formatted.replace(/```/g, '');
+    // Bullet points
+    formatted = formatted.replace(/^\s*\*\s+(.*?)$/gm, '<li>$1</li>');
+    formatted = formatted.replace(/^\s*-\s+(.*?)$/gm, '<li>$1</li>');
+    formatted = formatted.replace(/(<li>.*?<\/li>)/gs, '<ul>$1</ul>');
+    formatted = formatted.replace(/<\/ul>\s*<ul>/g, ''); // merge lists
+    // Bold
     formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    formatted = formatted.replace(/^\* (.*?)$/gm, '• $1');
+    // Italic
+    formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    // Line breaks
     formatted = formatted.replace(/\n/g, '<br>');
     return formatted;
   }
@@ -574,7 +583,7 @@ tr:hover td { background: var(--bg-light); }
   };
 </script>
 
-<!-- ==================== SCRIPT 2: FIREBASE & OFFLINE JAVASCRIPT AI LOGIC ==================== -->
+<!-- ==================== SCRIPT 2: FIREBASE & KEYLESS NEURAL NODE AI ==================== -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
   import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -619,12 +628,12 @@ tr:hover td { background: var(--bg-light); }
       return response;
     };
 
-    // 🌟 NAYA: THE GOD MODE BOOK ENGINE (BURST DOWNLOADER) 🌟
+    // 🌟 THE GOD MODE BOOK ENGINE (BURST DOWNLOADER) 🌟
     window.autoScrapeBooks = async () => {
       const topic = document.getElementById('bookTopic').value.trim();
-      const count = parseInt(document.getElementById('bookCount').value); // Default is 20
+      const count = parseInt(document.getElementById('bookCount').value);
       
-      if(!topic) return window.showToast('⚠️ Koi topic type karein (Jaise: Physics, History, AI)', 'warn');
+      if(!topic) return window.showToast('⚠️ Koi topic type karein', 'warn');
 
       const btn = document.getElementById('btnBookScrape');
       const logEl = document.getElementById('bookImportLog');
@@ -652,28 +661,27 @@ tr:hover td { background: var(--bg-light); }
           const booksData = await booksRes.json();
           const sourceData = await sourceRes.json();
           
-          const bookTitles = booksData.query.search ? booksData.query.search.map(s => s.title) : [];
-          const sourceTitles = sourceData.query.search ? sourceData.query.search.map(s => s.title) : [];
+          const bookTitles = booksData.query.search ? booksData.query.search.map(s => ({ title: s.title, domain: 'en.wikibooks.org', type: 'Textbook' })) : [];
+          const sourceTitles = sourceData.query.search ? sourceData.query.search.map(s => ({ title: s.title, domain: 'en.wikisource.org', type: 'Document' })) : [];
           
-          if(bookTitles.length === 0 && sourceTitles.length === 0) throw new Error("In libraries mein is topic ki koi book ya notes nahi mile.");
+          const allItems = [...bookTitles, ...sourceTitles];
 
-          statusEl.textContent = `⚡ Found ${bookTitles.length + sourceTitles.length} items. Downloading in massive network bursts...`;
+          if(allItems.length === 0) throw new Error("In libraries mein is topic ki koi book ya notes nahi mile.");
+
+          statusEl.textContent = `⚡ Found ${allItems.length} items. Downloading in massive network bursts...`;
 
           let successCount = 0;
           let batch = writeBatch(db);
           let batchHasData = false;
 
-          // Ek sath multiple titles download karega burst fire ke zariye
           const fetchBurst = async (domain, titles, type) => {
               if (titles.length === 0) return;
-              
-              // Max 20 titles per burst to avoid URL length issues
               for (let i = 0; i < titles.length; i += 20) {
                   const chunk = titles.slice(i, i + 20);
-                  const titlesJoined = chunk.map(t => encodeURIComponent(t)).join('|');
+                  const titlesJoined = chunk.map(t => encodeURIComponent(t.title)).join('|');
                   const apiUrl = `https://${domain}/w/api.php?action=query&format=json&prop=extracts&titles=${titlesJoined}&explaintext=1&origin=*`;
                   
-                  logEl.innerHTML += `<div style="color:#0f172a; margin-bottom:4px; font-size: 11px;">⏳ Pulling Burst of ${chunk.length} books from ${domain}...</div>`;
+                  logEl.innerHTML += `<div style="color:#0f172a; margin-bottom:4px; font-size: 11px;">⏳ Pulling Burst of ${chunk.length} items from ${domain}...</div>`;
                   
                   const res = await fetch(apiUrl);
                   const data = await res.json();
@@ -683,9 +691,6 @@ tr:hover td { background: var(--bg-light); }
                       const page = pages[pageId];
                       if (pageId !== "-1" && page.extract) {
                           const text = page.extract.replace(/\s+/g, ' ').trim();
-                          
-                          // No arbitrary limit! Accept whatever content is there.
-                          // If it's 50 words, it's an index. If it's 50,000 words, it's a full book.
                           if(text.length > 0) { 
                               const newDocRef = doc(kbCollection);
                               batch.set(newDocRef, {
@@ -730,8 +735,7 @@ tr:hover td { background: var(--bg-light); }
       }
     };
 
-
-    // EXISTING: WEB ARTICLE SCRAPER
+    // WEB ARTICLE SCRAPER
     window.autoScrapeTopic = async () => {
       const topic = document.getElementById('autoTopic').value.trim();
       const count = parseInt(document.getElementById('autoCount').value);
@@ -812,7 +816,7 @@ tr:hover td { background: var(--bg-light); }
     };
 
 
-    // EXISTING: MANUAL BULK URL IMPORTER
+    // MANUAL BULK URL IMPORTER
     window.importFromWeb = async () => {
       const rawUrls = document.getElementById('webLink').value.trim();
       if(!rawUrls) { window.showToast('⚠️ Kam se kam ek Website ka link paste karein', 'warn'); return; }
@@ -956,7 +960,9 @@ tr:hover td { background: var(--bg-light); }
 
       const sampleDocs = [
         { title: "Company Leave Policy 2026", category: "policy", content: "Employees are entitled to 30 days of paid leave per year. Unused earned leaves can be carried forward to the next year, up to a maximum of 45 days." },
-        { title: "Work From Home (WFH) Guidelines", category: "policy", content: "The company offers a hybrid work model. Employees can work from home (WFH) for a maximum of 2 days a week. The company will provide a one-time WFH allowance of Rs 10,000 to set up a home office workstation." }
+        { title: "Work From Home (WFH) Guidelines", category: "policy", content: "The company offers a hybrid work model. Employees can work from home (WFH) for a maximum of 2 days a week. The company will provide a one-time WFH allowance of Rs 10,000 to set up a home office workstation." },
+        { title: "Maternity and Paternity Leave Rules", category: "policy", content: "Maternity leave is provided for up to 26 weeks (6 months) for female employees as per the Maternity Benefit Act. This is fully paid leave. Paternity leave of 15 days is available for male employees." },
+        { title: "Company History and Vision", category: "general", content: "VX Corporation was founded in the year 2015 by our CEO, Mr. Rahul Sharma. Our mission is to democratize Artificial Intelligence. The current CEO is Mr. Rahul Sharma." }
       ];
 
       try {
@@ -1054,58 +1060,105 @@ tr:hover td { background: var(--bg-light); }
       window.pendingFiles = []; document.getElementById('fileList').style.display = 'none'; btn.style.display = 'none'; btn.disabled = false; btn.textContent = "⚡ Extract & Save All Data";
     };
 
-    function translateText(text) { return text; }
+    // ============================================================================
+    // 🌟 OMNISCIENT NEURAL NODE (INTERNET-FIRST / OFFLINE FALLBACK AI) 🌟
+    // ============================================================================
 
     window.sendMsg = async () => {
-      const input = document.getElementById('chatInput'); const q = input.value.trim(); if(!q) return;
-      document.getElementById('sendBtn').disabled = true; input.value = '';
-      const wb = document.getElementById('welcomeBlock'); if(wb) wb.remove();
-      window.addChatMsg('user', q); const tid = window.addTyping();
-      await new Promise(r => setTimeout(r, 100)); 
-      const answer = getSmartAnswerOffline(q);
-      window.removeTyping(tid); window.addChatAI(answer);
-      document.getElementById('sendBtn').disabled = false; window.scrollBottom();
+      const input = document.getElementById('chatInput'); 
+      const q = input.value.trim(); 
+      if(!q) return;
+
+      document.getElementById('sendBtn').disabled = true; 
+      input.value = '';
+      const wb = document.getElementById('welcomeBlock'); 
+      if(wb) wb.remove();
+      
+      window.addChatMsg('user', q); 
+      const tid = window.addTyping();
+      
+      try {
+          let finalAnswer = "";
+
+          // 🌐 STEP 1: INTERNET-FIRST LOGIC (Agar user online hai)
+          if (navigator.onLine) {
+              let internetContext = "";
+              try {
+                  // Live Wikipedia Search (Fast Bypass)
+                  const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q)}&srlimit=1&format=json&origin=*`;
+                  const res = await fetch(searchUrl);
+                  const data = await res.json();
+                  if(data.query.search.length > 0) {
+                      const title = data.query.search[0].title;
+                      const wikiApi = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles=${encodeURIComponent(title)}&exsentences=3&explaintext=1&origin=*`;
+                      const pageRes = await fetch(wikiApi);
+                      const pageData = await pageRes.json();
+                      const pageId = Object.keys(pageData.query.pages)[0];
+                      internetContext = pageData.query.pages[pageId].extract || "";
+                  }
+              } catch(e) { console.log("Live wiki search skipped"); }
+
+              // Free AI Model Call (No API Key)
+              const systemPrompt = `You are VX, the world's most powerful and intelligent AI assistant.
+CRITICAL RULES:
+1. Reply in Hinglish if asked in Hindi/Hinglish. Reply in English if asked in English.
+2. Give a direct, accurate, and concise answer (1-3 lines).
+3. Use your vast global internet knowledge. If helpful, use this live context: "${internetContext.substring(0, 300)}"
+4. NEVER say "I don't have information". Act like a highly confident, omniscient AI.
+
+User Question: "${q}"`;
+
+              try {
+                  const aiUrl = 'https://text.pollinations.ai/' + encodeURIComponent(systemPrompt);
+                  const aiRes = await fetch(aiUrl);
+                  if(aiRes.ok) {
+                      finalAnswer = await aiRes.text();
+                  } else {
+                      throw new Error("Node Busy");
+                  }
+              } catch(e) {
+                  finalAnswer = internetContext ? `🌐 Live Internet se jankari: ${internetContext}` : "Maaf kijiye, AI server busy hai.";
+              }
+          } 
+          // 📴 STEP 2: OFFLINE FALLBACK (Agar internet nahi hai ya band hai)
+          else {
+              let dbContext = "";
+              let bestScore = 0;
+              const stopWords = new Set(['kya','hai','hain','mein','ka','ki','ke','ko','se','aur','par','bhi','to','jo','ye','yeh','woh','ek','do','main','tum','aap','hum']);
+              const qWords = q.toLowerCase().replace(/[?।,!।\.]/g,'').split(/\s+/).filter(w => w.length > 2 && !stopWords.has(w));
+              
+              if(window.kbData && window.kbData.length > 0 && qWords.length > 0) {
+                  window.kbData.forEach(doc => {
+                      const sentences = doc.content.match(/[^.!?]+[.!?]+/g) || [doc.content];
+                      sentences.forEach(sentence => {
+                          let score = 0;
+                          qWords.forEach(w => { if(sentence.toLowerCase().includes(w)) score += 10; });
+                          if(score > bestScore) {
+                              bestScore = score;
+                              dbContext = sentence.trim(); 
+                          }
+                      });
+                  });
+              }
+
+              if (dbContext) {
+                  finalAnswer = `📴 **[Offline Mode]** Mujhe hamare local database se ye jankari mili hai:\n\n• ${dbContext}`;
+              } else {
+                  finalAnswer = `📴 **[Offline Mode]** Aap abhi offline hain aur mere local database mein iska jawab nahi hai. Internet connect hone par dobara puchein.`;
+              }
+          }
+
+          window.removeTyping(tid); 
+          window.addChatAI(finalAnswer);
+
+      } catch(err) {
+          window.removeTyping(tid);
+          window.addChatAI("Maaf kijiye, system mein technical error aagaya.");
+      }
+
+      document.getElementById('sendBtn').disabled = false; 
+      window.scrollBottom();
     };
-
-    function getSmartAnswerOffline(query) {
-      if(!window.kbData.length) return "Mera database abhi khali hai. Kripya pehle Admin panel se data add karein.";
-      const rawWords = query.toLowerCase().replace(/[?।,!।\.]/g,'').split(/\s+/);
-      
-      const enKeywords = ['what', 'why', 'how', 'when', 'who', 'is', 'are', 'the', 'this', 'that', 'explain', 'tell', 'about', 'summarize', 'can', 'details', 'give'];
-      const lang = rawWords.filter(w => enKeywords.includes(w)).length > 0 ? 'en' : 'hi';
-
-      if (/^(hi|hello|hey|namaste|hello vx|hi vx)$/i.test(query.toLowerCase())) {
-          return lang === 'en' ? "Hello! I am VX, your offline AI assistant. I'm ready to answer questions based strictly on your uploaded documents." : "Namaste! Main VX AI hoon. Main 100% offline kaam karta hoon. Bataiye, main aapke documents me se kya dhundh kar laun?";
-      }
-      
-      const isSummaryRequest = rawWords.some(w => ['summary', 'summarize', 'overview', 'saar', 'sankshep'].includes(w)) || rawWords.length === 0;
-
-      if (isSummaryRequest && rawWords.length <= 3) {
-        let summaryAns = lang === 'en' ? "Here is a quick overview of what I know based on the documents:\n\n" : "Mere database mein ye main documents uplabdh hain:\n\n";
-        window.kbData.slice(0, 3).forEach((doc) => {
-          let firstPara = doc.content.split(/\n/)[0].substring(0, 150);
-          summaryAns += `• **${doc.title.replace(/\.[^/.]+$/, "")}**: ${firstPara}...\n\n`;
-        });
-        summaryAns += lang === 'en' ? "Let me know if you want detailed information about any of these!" : "Aap inme se kisi bhi vishay par sawal puch sakte hain.";
-        return summaryAns;
-      }
-
-      const stopWords = new Set(['kya','hai','hain','mein','ka','ki','ke','ko','se','aur','par','bhi','to','jo','ye','yeh','woh','ek','do','main','tum','aap','hum','koi','kuch','ab','tha','thi','the','ho','hun','mere','meri','mera', 'is', 'are', 'the', 'what', 'how', 'to', 'a', 'an', 'of', 'in', 'on', 'for', 'with']);
-      let qWords = rawWords.filter(w => w.length > 2 && !stopWords.has(w));
-      
-      let bestPara = "", highestScore = 0;
-      window.kbData.forEach(doc => {
-          const paras = doc.content.split(/(?<=\.)\s+/).filter(p => p.trim().length > 30); 
-          paras.forEach(p => {
-              let score = 0; const pLower = p.toLowerCase();
-              qWords.forEach(w => { if(pLower.includes(w)) { score += 10; if(new RegExp(`\\b${w}\\b`).test(pLower)) score += 15; } });
-              if(score > highestScore) { highestScore = score; bestPara = p.trim(); }
-          });
-      });
-
-      if(!bestPara) return `Maaf kijiye, mujhe aapke sawal ka seedha jawab nahi mila.`;
-      return `**Database ke anusaar:**\n\n${bestPara}`;
-    }
 
   } catch(error) {
     console.error("Initialization Error:", error);
