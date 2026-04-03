@@ -344,24 +344,61 @@ tr:hover td { background: var(--bg-light); }
       </div>
     </div>
 
-    <!-- Web Scraper Import -->
+    <!-- Web Scraper Import (NOW WITH AUTO-PILOT) -->
     <div class="a-panel" id="p-web">
-      <div class="a-sec-head"><div><h2>🌐 Ultra-Fast Bulk Web Scraper</h2><p>Duniya ka sabse fast offline scrapper. Ek saath multiple websites padhein!</p></div></div>
-      <div class="a-card">
-        <div class="a-card-head">🚀 Bulk URL Importer (Parallel Engine)</div>
+      <div class="a-sec-head"><div><h2>🌐 Ultimate Web Scraper</h2><p>Internet ki jankari apne AI mein feed karein bina mehnat kiye!</p></div></div>
+      
+      <!-- NAYA: AUTO-PILOT TOPIC SCRAPER -->
+      <div class="a-card" style="border: 2px solid #8e44ad;">
+        <div class="a-card-head" style="background: #fdf5ff; color: #8e44ad;">🛸 Auto-Pilot Topic Scraper (No Links Needed)</div>
         <div class="a-card-body" style="text-align: center;">
-          <div class="a-field full">
-            <textarea id="webLink" placeholder="Ek ya ek se zyada links yahan paste karein (Nayi line ke liye Enter dabayein)...&#10;https://en.wikipedia.org/wiki/Artificial_intelligence&#10;https://en.wikipedia.org/wiki/Machine_learning" style="text-align: left; border: 2px dashed #cbd5e1; padding: 16px; font-size: 14px; background: #f8fafc; min-height: 150px; resize: vertical;"></textarea>
-            <p style="font-size:11px;color:var(--muted-light);margin-top:6px;"><strong>⚡ SPEED BOOST:</strong> Ab aap ek saath 10-20 links paste kar sakte hain. Hamara naya Parallel Engine sabko ek jhatke mein padh lega!</p>
+          <p style="font-size:12px;color:var(--muted-light);margin-bottom:16px;"><strong>MAGIC MODE:</strong> Aap bas ek topic ka naam type karein. Hamara AI khud internet par us topic ko search karega aur top websites ka lamba data extract karke database me daal dega!</p>
+          
+          <div class="a-field-row" style="margin-bottom: 16px;">
+            <div class="a-field">
+              <input type="text" id="autoTopic" placeholder="Type Topic (e.g. Artificial Intelligence, History of India)" style="padding: 14px; font-size: 14px; border-color: #8e44ad;">
+            </div>
+            <div class="a-field" style="max-width: 200px;">
+              <select id="autoCount" style="padding: 14px;">
+                <option value="3">Top 3 Pages (Fast)</option>
+                <option value="5" selected>Top 5 Pages</option>
+                <option value="10">Top 10 Pages (Deep)</option>
+              </select>
+            </div>
           </div>
-          <div id="webImportStatus" style="margin-top: 16px; font-size: 14px; font-weight: 600; display: none;"></div>
-          <div id="webImportLog" style="margin-top: 8px; font-size: 12px; color: var(--text-light); text-align: left; max-height: 150px; overflow-y: auto; background: #f1f5f9; padding: 10px; border-radius: 6px; display: none; border: 1px solid var(--border-light);"></div>
-          <div style="margin-top: 20px;">
-            <button class="a-btn a-btn-pri" id="btnWebImport" onclick="window.importFromWeb()" style="background: #e67e22; font-size: 15px; padding: 12px 24px; width: 100%; justify-content: center; cursor:pointer;">
-              ⚡ Launch Ultra-Fast Scraper
+          
+          <div id="autoImportStatus" style="margin-top: 8px; font-size: 14px; font-weight: 600; display: none;"></div>
+          
+          <div>
+            <button class="a-btn a-btn-pri" id="btnAutoScrape" onclick="window.autoScrapeTopic()" style="background: #8e44ad; font-size: 15px; padding: 12px 24px; width: 100%; justify-content: center; cursor:pointer;">
+              🚀 Search & Auto-Scrape
             </button>
           </div>
         </div>
+      </div>
+
+      <!-- EXISTING: MANUAL BULK URL IMPORTER -->
+      <div class="a-card">
+        <div class="a-card-head">🔗 Manual Bulk URL Importer</div>
+        <div class="a-card-body" style="text-align: center;">
+          <div class="a-field full">
+            <textarea id="webLink" placeholder="Ek ya ek se zyada links yahan paste karein (Nayi line ke liye Enter dabayein)...&#10;https://en.wikipedia.org/wiki/Artificial_intelligence&#10;https://en.wikipedia.org/wiki/Machine_learning" style="text-align: left; border: 2px dashed #cbd5e1; padding: 16px; font-size: 14px; background: #f8fafc; min-height: 120px; resize: vertical;"></textarea>
+          </div>
+          <div id="webImportStatus" style="margin-top: 16px; font-size: 14px; font-weight: 600; display: none;"></div>
+          
+          <div style="margin-top: 12px;">
+            <button class="a-btn a-btn-pri" id="btnWebImport" onclick="window.importFromWeb()" style="background: #e67e22; font-size: 15px; padding: 12px 24px; width: 100%; justify-content: center; cursor:pointer;">
+              ⚡ Scrape Links
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- COMMON LOG BOX FOR BOTH SCRAPERS -->
+      <div class="a-card">
+         <div class="a-card-body" style="padding: 16px;">
+            <div id="webImportLog" style="font-size: 12px; color: var(--text-light); text-align: left; max-height: 150px; overflow-y: auto; background: #f1f5f9; padding: 10px; border-radius: 6px; display: none; border: 1px solid var(--border-light);"></div>
+         </div>
       </div>
     </div>
 
@@ -526,8 +563,109 @@ tr:hover td { background: var(--bg-light); }
       }
     });
 
-    // 🌟 NAYA: ULTRA-FAST BULK WEBSITE SCRAPER ENGINE (PARALLEL PROCESSING) 🌟
-    // THIS IS ATTACHED DIRECTLY TO WINDOW SO THE BUTTON ALWAYS FINDS IT
+    // Timeout logic for fetching
+    const fetchWithTimeout = async (resource, options = {}) => {
+      const { timeout = 10000 } = options;
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+      const response = await fetch(resource, { ...options, signal: controller.signal });
+      clearTimeout(id);
+      return response;
+    };
+
+    // 🌟 NAYA: AUTO-PILOT TOPIC SCRAPER (NO LINKS NEEDED) 🌟
+    window.autoScrapeTopic = async () => {
+      const topic = document.getElementById('autoTopic').value.trim();
+      const count = parseInt(document.getElementById('autoCount').value);
+      if(!topic) return window.showToast('⚠️ Koi topic type karein (Jaise: Space, History)', 'warn');
+
+      const btn = document.getElementById('btnAutoScrape');
+      const logEl = document.getElementById('webImportLog');
+      const statusEl = document.getElementById('autoImportStatus');
+
+      btn.disabled = true;
+      btn.textContent = "🔍 Searching Internet...";
+      logEl.style.display = "block";
+      statusEl.style.display = "block";
+      logEl.innerHTML = '';
+      statusEl.style.color = "var(--primary)";
+      statusEl.textContent = `🚀 Finding top ${count} pages for "${topic}"...`;
+
+      try {
+          // 1. Use Wikipedia Search API to find related articles
+          const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(topic)}&srlimit=${count}&format=json&origin=*`;
+          const res = await fetch(searchUrl);
+          const data = await res.json();
+          const titles = data.query.search.map(s => s.title);
+
+          if(titles.length === 0) throw new Error("Is topic par internet pe kuch nahi mila.");
+
+          statusEl.textContent = `⚡ Found ${titles.length} pages. Reading them all instantly...`;
+
+          let successCount = 0;
+          let batch = writeBatch(db);
+          let batchHasData = false;
+
+          // 2. Fetch full text for all those articles in parallel
+          const promises = titles.map((title, index) => {
+              const logId = `auto-log-${index}`;
+              logEl.innerHTML += `<div id="${logId}" style="color:#64748b; margin-bottom:4px; font-family:monospace;">⏳ <b>Reading:</b> ${title}...</div>`;
+
+              const wikiApi = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles=${encodeURIComponent(title)}&explaintext=1&origin=*`;
+
+              return fetchWithTimeout(wikiApi)
+                  .then(r => r.json())
+                  .then(d => {
+                      const pages = d.query.pages;
+                      const pageId = Object.keys(pages)[0];
+                      if(pageId !== "-1" && pages[pageId].extract) {
+                          const text = pages[pageId].extract.replace(/\s+/g, ' ').trim();
+                          if(text.length > 200) {
+                              const newDocRef = doc(kbCollection);
+                              batch.set(newDocRef, {
+                                  title: "Auto-Wiki: " + pages[pageId].title,
+                                  category: 'general',
+                                  content: text,
+                                  words: text.split(/\s+/).length,
+                                  addedAt: Date.now()
+                              });
+                              batchHasData = true;
+                              successCount++;
+                              document.getElementById(logId).innerHTML = `✅ <b style="color:var(--green);">Success:</b> ${title} (${text.split(/\s+/).length} words)`;
+                          } else {
+                              document.getElementById(logId).innerHTML = `❌ <b style="color:var(--danger);">Skipped:</b> ${title} (Content too short)`;
+                          }
+                      }
+                  }).catch(err => {
+                      document.getElementById(logId).innerHTML = `❌ <b style="color:var(--danger);">Failed:</b> ${title} - Network Error`;
+                  });
+          });
+
+          await Promise.allSettled(promises);
+
+          if(batchHasData) {
+              statusEl.textContent = `🚀 Saving massive data to Database...`;
+              await batch.commit();
+          }
+
+          statusEl.style.color = successCount > 0 ? "var(--green)" : "var(--danger)";
+          statusEl.textContent = `🏁 Auto-Pilot Complete! Saved ${successCount} deep articles on "${topic}".`;
+          if(successCount > 0) {
+             window.showToast(`🚀 ${successCount} articles auto-scraped & saved!`);
+             document.getElementById('autoTopic').value = '';
+          }
+
+      } catch(e) {
+          statusEl.style.color = "var(--danger)";
+          statusEl.textContent = `❌ Error: ${e.message}`;
+      } finally {
+          btn.disabled = false;
+          btn.innerHTML = "🚀 Search & Auto-Scrape";
+      }
+    };
+
+
+    // EXISTING: MANUAL BULK WEBSITE SCRAPER
     window.importFromWeb = async () => {
       const rawUrls = document.getElementById('webLink').value.trim();
       if(!rawUrls) { window.showToast('⚠️ Kam se kam ek Website ka link paste karein', 'warn'); return; }
@@ -543,7 +681,7 @@ tr:hover td { background: var(--bg-light); }
       logEl.style.display = "block";
       logEl.innerHTML = '';
       statusEl.style.color = "var(--primary)";
-      statusEl.textContent = `🚀 Processing ${urls.length} website(s) in Parallel... (Speed Mode On)`;
+      statusEl.textContent = `🚀 Processing ${urls.length} website(s) in Parallel...`;
       btn.disabled = true;
       btn.textContent = "⏳ Engine Running...";
 
@@ -552,28 +690,16 @@ tr:hover td { background: var(--bg-light); }
       let batch = writeBatch(db);
       let batchHasData = false;
 
-      // Timeout badha diya taaki Wikipedia jaisi badi sites load ho sakein
-      const fetchWithTimeout = async (resource, options = {}) => {
-        const { timeout = 10000 } = options;
-        const controller = new AbortController();
-        const id = setTimeout(() => controller.abort(), timeout);
-        const response = await fetch(resource, { ...options, signal: controller.signal });
-        clearTimeout(id);
-        return response;
-      };
-
       const fetchUrl = async (url) => {
           let text = "";
           let pageTitle = url.split('/')[2];
 
-          // 🌟 NAYA: DIRECT WIKIPEDIA API BYPASS (Lightning Fast & No Proxy Block) 🌟
+          // DIRECT WIKIPEDIA API BYPASS
           if(url.includes('wikipedia.org/wiki/')) {
               try {
                   const urlObj = new URL(url);
-                  const domain = urlObj.hostname; // e.g. en.wikipedia.org or hi.wikipedia.org
+                  const domain = urlObj.hostname; 
                   const topic = url.split('/wiki/')[1].split('#')[0].split('?')[0];
-                  
-                  // Wikipedia ki Official API ka use (100% bypass and safe)
                   const wikiApi = `https://${domain}/w/api.php?action=query&format=json&prop=extracts&titles=${topic}&explaintext=1&origin=*`;
                   
                   const res = await fetchWithTimeout(wikiApi);
@@ -591,7 +717,7 @@ tr:hover td { background: var(--bg-light); }
               }
           }
 
-          // Agar Wikipedia nahi hai, ya Wiki API fail ho gayi, toh General Proxy use karein
+          // Proxy Fallback
           if(!text || text.trim() === "") {
               let htmlContent = null;
               const proxies = [
@@ -677,7 +803,7 @@ tr:hover td { background: var(--bg-light); }
       }
       
       btn.disabled = false;
-      btn.innerHTML = "⚡ Launch Ultra-Fast Scraper";
+      btn.innerHTML = "⚡ Scrape Links";
     };
 
     // Other Utility Functions
@@ -803,6 +929,26 @@ tr:hover td { background: var(--bg-light); }
     function getSmartAnswerOffline(query) {
       if(!window.kbData.length) return "Mera database abhi khali hai. Kripya pehle Admin panel se data add karein.";
       const rawWords = query.toLowerCase().replace(/[?।,!।\.]/g,'').split(/\s+/);
+      
+      const enKeywords = ['what', 'why', 'how', 'when', 'who', 'is', 'are', 'the', 'this', 'that', 'explain', 'tell', 'about', 'summarize', 'can', 'details', 'give'];
+      const lang = rawWords.filter(w => enKeywords.includes(w)).length > 0 ? 'en' : 'hi';
+
+      if (/^(hi|hello|hey|namaste|hello vx|hi vx)$/i.test(query.toLowerCase())) {
+          return lang === 'en' ? "Hello! I am VX, your offline AI assistant. I'm ready to answer questions based strictly on your uploaded documents." : "Namaste! Main VX AI hoon. Main 100% offline kaam karta hoon. Bataiye, main aapke documents me se kya dhundh kar laun?";
+      }
+      
+      const isSummaryRequest = rawWords.some(w => ['summary', 'summarize', 'overview', 'saar', 'sankshep'].includes(w)) || rawWords.length === 0;
+
+      if (isSummaryRequest && rawWords.length <= 3) {
+        let summaryAns = lang === 'en' ? "Here is a quick overview of what I know based on the documents:\n\n" : "Mere database mein ye main documents uplabdh hain:\n\n";
+        window.kbData.slice(0, 3).forEach((doc) => {
+          let firstPara = doc.content.split(/\n/)[0].substring(0, 150);
+          summaryAns += `• **${doc.title.replace(/\.[^/.]+$/, "")}**: ${firstPara}...\n\n`;
+        });
+        summaryAns += lang === 'en' ? "Let me know if you want detailed information about any of these!" : "Aap inme se kisi bhi vishay par sawal puch sakte hain.";
+        return summaryAns;
+      }
+
       const stopWords = new Set(['kya','hai','hain','mein','ka','ki','ke','ko','se','aur','par','bhi','to','jo','ye','yeh','woh','ek','do','main','tum','aap','hum','koi','kuch','ab','tha','thi','the','ho','hun','mere','meri','mera', 'is', 'are', 'the', 'what', 'how', 'to', 'a', 'an', 'of', 'in', 'on', 'for', 'with']);
       let qWords = rawWords.filter(w => w.length > 2 && !stopWords.has(w));
       
