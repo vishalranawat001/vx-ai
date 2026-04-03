@@ -120,7 +120,7 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .a-stat-card .num { font-size: 32px; font-weight: 700; color: var(--text-light); line-height: 1; }
 .a-stat-card .label { font-size: 12px; font-weight: 600; color: var(--muted-light); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-.a-quick-actions { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 32px; }
+.a-quick-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
 .a-action-btn { background: var(--surface-light); border: 2px dashed var(--primary); border-radius: 12px; padding: 24px 16px; text-align: center; cursor: pointer; transition: all 0.2s; color: var(--primary); display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .a-action-btn:hover { background: var(--primary-light); transform: translateY(-2px); }
 .a-action-btn h3 { font-size: 14px; font-weight: 700; color: var(--text-light); }
@@ -245,10 +245,12 @@ tr:hover td { background: var(--bg-light); }
 
   <div class="a-tabs">
     <button class="a-tab active" onclick="window.openTab('dash')">Overview</button>
-    <button class="a-tab" onclick="window.openTab('add')">✏️ Type Data</button>
-    <button class="a-tab" onclick="window.openTab('upload')">📄 Upload PDF/Dir</button>
-    <button class="a-tab" onclick="window.openTab('drive')">☁️ Google Docs</button>
+    <!-- NAYA TAB: BOOK ENGINE -->
+    <button class="a-tab" onclick="window.openTab('books')" style="color: #8e44ad; font-weight: 700;">📚 Books Engine</button>
     <button class="a-tab" onclick="window.openTab('web')">🌐 Web Scraper</button>
+    <button class="a-tab" onclick="window.openTab('drive')">☁️ Google Docs</button>
+    <button class="a-tab" onclick="window.openTab('upload')">📄 Upload PDF</button>
+    <button class="a-tab" onclick="window.openTab('add')">✏️ Type Data</button>
     <button class="a-tab" onclick="window.openTab('manage')">Manage DB</button>
   </div>
 
@@ -263,84 +265,72 @@ tr:hover td { background: var(--bg-light); }
       </div>
 
       <div class="a-quick-actions">
+        <!-- BOOK ENGINE LINK -->
+        <div class="a-action-btn" onclick="window.openTab('books')" style="border-color: #8e44ad; color: #8e44ad;">
+          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          <div><h3>📚 Book/Notes Engine</h3><p>Global Library se download</p></div>
+        </div>
+        <div class="a-action-btn" onclick="window.openTab('web')">
+          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+          <div><h3>🌐 Web Scraper</h3><p>Bulk Website Text nikaalein</p></div>
+        </div>
+        <div class="a-action-btn" onclick="window.openTab('drive')">
+          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+          <div><h3>☁️ Google Docs</h3><p>Drive se data import karein</p></div>
+        </div>
+        <div class="a-action-btn" onclick="window.openTab('upload')">
+          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m14-7l-5-5-5 5m5-5v12"></path></svg>
+          <div><h3>📄 Upload Bulk</h3><p>Files/Folders extract karein</p></div>
+        </div>
+        <div class="a-action-btn" onclick="window.openTab('add')">
+          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          <div><h3>✏️ Type Manually</h3><p>Copy/paste ya type karein</p></div>
+        </div>
         <div class="a-action-btn" onclick="window.loadSampleData()" id="btnLoadSample" style="border-color: #10b981; color: #10b981;">
           <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
           <div><h3>Load Sample Data</h3><p>1-Click mein 27+ Docs add karein</p></div>
         </div>
-        <div class="a-action-btn" onclick="window.openTab('web')">
-          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
-          <div><h3>Web Scraper</h3><p>Bulk Website Text nikaalein</p></div>
-        </div>
-        <div class="a-action-btn" onclick="window.openTab('drive')">
-          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
-          <div><h3>Google Docs</h3><p>Drive se data import karein</p></div>
-        </div>
-        <div class="a-action-btn" onclick="window.openTab('upload')">
-          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m14-7l-5-5-5 5m5-5v12"></path></svg>
-          <div><h3>Upload Bulk</h3><p>Files/Folders extract karein</p></div>
-        </div>
-        <div class="a-action-btn" onclick="window.openTab('add')">
-          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-          <div><h3>Type Manually</h3><p>Copy/paste ya type karein</p></div>
-        </div>
       </div>
     </div>
 
-    <!-- Add Entry -->
-    <div class="a-panel" id="p-add">
-      <div class="a-sec-head"><div><h2>Add Knowledge Manually</h2><p>Yahan apni koi bhi jankari, rules ya book ka text copy/paste karein.</p></div></div>
-      <div class="a-card">
-        <div class="a-card-head">Entry Details</div>
-        <div class="a-card-body">
-          <div class="a-field-row">
-            <div class="a-field"><label>Document Title</label><input type="text" id="aTitle" placeholder="E.g., Hamari company rules"></div>
-            <div class="a-field"><label>Category</label><select id="aCat"><option value="book">Kitab / Book</option><option value="policy">Rules / Policy</option><option value="general">General Info</option></select></div>
-          </div>
-          <div class="a-field full"><label>Knowledge Content / Text</label><textarea id="aContent" placeholder="Poora text yahan paste karein..."></textarea></div>
-          <div><button class="a-btn a-btn-pri" id="btnSaveEntry" onclick="window.saveEntry()">Push to Database (Save)</button></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Upload -->
-    <div class="a-panel" id="p-upload">
-      <div class="a-sec-head"><div><h2>Upload Files & Folders</h2><p>Poora ka poora folder ya multiple PDFs/Text files ek saath upload karein.</p></div></div>
-      <div class="a-card">
-        <div class="a-card-head">Bulk Upload Zone</div>
-        <div class="a-card-body">
-          <div class="a-upload-zone" onclick="document.getElementById('fileInput').click()">
-            <input type="file" id="fileInput" accept=".txt,.pdf" multiple onchange="window.handleFiles(this.files)" style="display:none;">
-            <input type="file" id="folderInput" webkitdirectory directory multiple onchange="window.handleFiles(this.files)" style="display:none;">
-            <svg class="svg-icon a-upload-icon" style="width:48px;height:48px;margin:auto;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m14-7l-5-5-5 5m5-5v12"></path></svg>
-            <h3 style="font-size:16px;font-weight:600;margin-bottom:8px;color:var(--text-light)">Click yahan karein ya files drop karein</h3>
-            <p style="font-size:13px;color:var(--muted-light)">Supported formats: PDF, TXT</p>
-            <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: center;">
-              <button class="a-btn a-btn-sec" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">📄 Select Files</button>
-              <button class="a-btn a-btn-pri" style="background: #8e44ad;" onclick="event.stopPropagation(); document.getElementById('folderInput').click()">📁 Select Entire Folder</button>
+    <!-- 🌟 NAYA: BOOK ENGINE (GOD MODE) 🌟 -->
+    <div class="a-panel" id="p-books">
+      <div class="a-sec-head"><div><h2>📚 Ultimate Books & Notes Engine (GOD MODE)</h2><p>Ek click mein poori duniya ki open-source Textbooks, Notes, aur Literature books seedha database mein utar lein!</p></div></div>
+      
+      <div class="a-card" style="border: 2px solid #8e44ad; box-shadow: 0 4px 15px rgba(142, 68, 173, 0.15);">
+        <div class="a-card-head" style="background: #fdf5ff; color: #8e44ad;">🛸 Global Library Downloader</div>
+        <div class="a-card-body" style="text-align: center;">
+          <p style="font-size:13px;color:var(--muted-light);margin-bottom:16px;">
+            <strong>KAISE KAAM KARTA HAI:</strong> Topic daalte hi ye engine <b style="color:#0f172a;">Wikibooks (Textbooks/Notes)</b> aur <b style="color:#0f172a;">Wikisource (Original Books)</b> par jayega aur saari massive kitabein ek hi jhatke mein download karke AI ko sikha dega.
+          </p>
+          
+          <div class="a-field-row" style="margin-bottom: 16px;">
+            <div class="a-field">
+              <input type="text" id="bookTopic" placeholder="Topic Type Karein (e.g. Quantum Mechanics, Machine Learning, World War)" style="padding: 14px; font-size: 14px; border-color: #8e44ad; box-shadow: 0 0 0 2px rgba(142, 68, 173, 0.1);">
+            </div>
+            <div class="a-field" style="max-width: 250px;">
+              <select id="bookCount" style="padding: 14px;">
+                <option value="10">Download 10 Books</option>
+                <option value="20" selected>Download 20 Books (Recommended)</option>
+                <option value="40">Download 40 Books (Ultra Deep)</option>
+              </select>
             </div>
           </div>
-          <div id="fileList" style="margin-top:16px; font-size:13px; color:var(--text-light); line-height:1.6; max-height: 200px; overflow-y: auto; padding: 10px; background: #f8fafc; border-radius: 8px; display: none;"></div>
-          <button class="a-btn a-btn-pri" id="btnProcessFiles" style="display:none;margin-top:16px;width:100%;justify-content:center;" onclick="window.processFiles()">⚡ Extract & Save All Data</button>
+          
+          <div id="bookImportStatus" style="margin-top: 8px; font-size: 14px; font-weight: 600; display: none;"></div>
+          
+          <div>
+            <button class="a-btn a-btn-pri" id="btnBookScrape" onclick="window.autoScrapeBooks()" style="background: #8e44ad; font-size: 15px; padding: 12px 24px; width: 100%; justify-content: center; cursor:pointer;">
+              📚 Launch God Mode (Download Library)
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Google Drive Import -->
-    <div class="a-panel" id="p-drive">
-      <div class="a-sec-head"><div><h2>☁️ Import from Google Docs</h2><p>Google Drive se direct file select karein aur data nikaalein.</p></div></div>
       <div class="a-card">
-        <div class="a-card-head">Drive Link Importer</div>
-        <div class="a-card-body" style="text-align: center;">
-          <button class="a-btn a-btn-pri" style="background: #0f9d58; margin-bottom: 20px; font-size: 15px; padding: 12px 24px;" onclick="window.openDrivePopup()">
-            <svg class="svg-icon" style="width:20px;height:20px;margin-right:8px;" viewBox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
-            1. Open My Google Drive
-          </button>
-          <p style="font-size:13px;color:var(--muted-light);margin-bottom:12px;">Drive khulne par apni file ka <b>"Anyone with the link"</b> wala share link copy karein aur yahan paste karein:</p>
-          <div class="a-field full">
-            <input type="text" id="driveLink" placeholder="2. Yahan link paste karein (Auto-Import hoga)..." oninput="window.autoImportDrive(this.value)" style="text-align: center; border: 2px dashed #cbd5e1; padding: 16px; font-size: 14px; background: #f8fafc;">
-          </div>
-          <div id="driveImportStatus" style="margin-top: 16px; font-size: 14px; font-weight: 600; display: none;"></div>
-        </div>
+         <div class="a-card-body" style="padding: 16px;">
+            <div id="bookImportLog" style="font-size: 12px; color: var(--text-light); text-align: left; max-height: 250px; overflow-y: auto; background: #f1f5f9; padding: 10px; border-radius: 6px; display: none; border: 1px solid var(--border-light);"></div>
+         </div>
       </div>
     </div>
 
@@ -349,19 +339,19 @@ tr:hover td { background: var(--bg-light); }
       <div class="a-sec-head"><div><h2>🌐 Ultimate Web Scraper</h2><p>Internet ki jankari apne AI mein feed karein bina mehnat kiye!</p></div></div>
       
       <!-- AUTO-PILOT TOPIC SCRAPER -->
-      <div class="a-card" style="border: 2px solid #8e44ad; box-shadow: 0 4px 15px rgba(142, 68, 173, 0.15);">
-        <div class="a-card-head" style="background: #fdf5ff; color: #8e44ad;">🛸 Hyper-Speed Auto-Pilot Scraper</div>
+      <div class="a-card" style="border: 2px solid #2563eb;">
+        <div class="a-card-head" style="background: #f0fdfa; color: #2563eb;">🛸 Web Article Scraper</div>
         <div class="a-card-body" style="text-align: center;">
-          <p style="font-size:12px;color:var(--muted-light);margin-bottom:16px;"><strong>⚡ GOD MODE:</strong> Aap bas ek topic ka naam type karein. Hamara AI ek hi single network request mein 10 websites ko parallel download karke database me thop dega!</p>
+          <p style="font-size:12px;color:var(--muted-light);margin-bottom:16px;">Aap bas ek topic ka naam type karein. Hamara AI ek hi single network request mein 10 websites ko parallel download karke database me thop dega!</p>
           
           <div class="a-field-row" style="margin-bottom: 16px;">
             <div class="a-field">
-              <input type="text" id="autoTopic" placeholder="Type Topic (e.g. Artificial Intelligence, Indian History)" style="padding: 14px; font-size: 14px; border-color: #8e44ad; box-shadow: 0 0 0 2px rgba(142, 68, 173, 0.1);">
+              <input type="text" id="autoTopic" placeholder="Type Topic (e.g. Artificial Intelligence, Indian History)" style="padding: 14px; font-size: 14px; border-color: #2563eb;">
             </div>
             <div class="a-field" style="max-width: 200px;">
               <select id="autoCount" style="padding: 14px;">
-                <option value="5">Top 5 Pages (Insta-Fast)</option>
-                <option value="10" selected>Top 10 Pages (Ultra)</option>
+                <option value="5">Top 5 Pages</option>
+                <option value="10" selected>Top 10 Pages</option>
               </select>
             </div>
           </div>
@@ -369,8 +359,8 @@ tr:hover td { background: var(--bg-light); }
           <div id="autoImportStatus" style="margin-top: 8px; font-size: 14px; font-weight: 600; display: none;"></div>
           
           <div>
-            <button class="a-btn a-btn-pri" id="btnAutoScrape" onclick="window.autoScrapeTopic()" style="background: #8e44ad; font-size: 15px; padding: 12px 24px; width: 100%; justify-content: center; cursor:pointer;">
-              🚀 Search & Auto-Scrape (Hyper-Speed)
+            <button class="a-btn a-btn-pri" id="btnAutoScrape" onclick="window.autoScrapeTopic()" style="font-size: 15px; padding: 12px 24px; width: 100%; justify-content: center; cursor:pointer;">
+              🚀 Search & Auto-Scrape
             </button>
           </div>
         </div>
@@ -398,6 +388,64 @@ tr:hover td { background: var(--bg-light); }
          <div class="a-card-body" style="padding: 16px;">
             <div id="webImportLog" style="font-size: 12px; color: var(--text-light); text-align: left; max-height: 150px; overflow-y: auto; background: #f1f5f9; padding: 10px; border-radius: 6px; display: none; border: 1px solid var(--border-light);"></div>
          </div>
+      </div>
+    </div>
+
+    <!-- Google Drive Import -->
+    <div class="a-panel" id="p-drive">
+      <div class="a-sec-head"><div><h2>☁️ Import from Google Docs</h2><p>Google Drive se direct file select karein aur data nikaalein.</p></div></div>
+      <div class="a-card">
+        <div class="a-card-head">Drive Link Importer</div>
+        <div class="a-card-body" style="text-align: center;">
+          <button class="a-btn a-btn-pri" style="background: #0f9d58; margin-bottom: 20px; font-size: 15px; padding: 12px 24px;" onclick="window.openDrivePopup()">
+            <svg class="svg-icon" style="width:20px;height:20px;margin-right:8px;" viewBox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+            1. Open My Google Drive
+          </button>
+          <p style="font-size:13px;color:var(--muted-light);margin-bottom:12px;">Drive khulne par apni file ka <b>"Anyone with the link"</b> wala share link copy karein aur yahan paste karein:</p>
+          <div class="a-field full">
+            <input type="text" id="driveLink" placeholder="2. Yahan link paste karein (Auto-Import hoga)..." oninput="window.autoImportDrive(this.value)" style="text-align: center; border: 2px dashed #cbd5e1; padding: 16px; font-size: 14px; background: #f8fafc;">
+          </div>
+          <div id="driveImportStatus" style="margin-top: 16px; font-size: 14px; font-weight: 600; display: none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload -->
+    <div class="a-panel" id="p-upload">
+      <div class="a-sec-head"><div><h2>Upload Files & Folders</h2><p>Poora ka poora folder ya multiple PDFs/Text files ek saath upload karein.</p></div></div>
+      <div class="a-card">
+        <div class="a-card-head">Bulk Upload Zone</div>
+        <div class="a-card-body">
+          <div class="a-upload-zone" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" accept=".txt,.pdf" multiple onchange="window.handleFiles(this.files)" style="display:none;">
+            <input type="file" id="folderInput" webkitdirectory directory multiple onchange="window.handleFiles(this.files)" style="display:none;">
+            <svg class="svg-icon a-upload-icon" style="width:48px;height:48px;margin:auto;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m14-7l-5-5-5 5m5-5v12"></path></svg>
+            <h3 style="font-size:16px;font-weight:600;margin-bottom:8px;color:var(--text-light)">Click yahan karein ya files drop karein</h3>
+            <p style="font-size:13px;color:var(--muted-light)">Supported formats: PDF, TXT</p>
+            <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: center;">
+              <button class="a-btn a-btn-sec" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">📄 Select Files</button>
+              <button class="a-btn a-btn-pri" style="background: #8e44ad;" onclick="event.stopPropagation(); document.getElementById('folderInput').click()">📁 Select Entire Folder</button>
+            </div>
+          </div>
+          <div id="fileList" style="margin-top:16px; font-size:13px; color:var(--text-light); line-height:1.6; max-height: 200px; overflow-y: auto; padding: 10px; background: #f8fafc; border-radius: 8px; display: none;"></div>
+          <button class="a-btn a-btn-pri" id="btnProcessFiles" style="display:none;margin-top:16px;width:100%;justify-content:center;" onclick="window.processFiles()">⚡ Extract & Save All Data</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Entry -->
+    <div class="a-panel" id="p-add">
+      <div class="a-sec-head"><div><h2>Add Knowledge Manually</h2><p>Yahan apni koi bhi jankari, rules ya book ka text copy/paste karein.</p></div></div>
+      <div class="a-card">
+        <div class="a-card-head">Entry Details</div>
+        <div class="a-card-body">
+          <div class="a-field-row">
+            <div class="a-field"><label>Document Title</label><input type="text" id="aTitle" placeholder="E.g., Hamari company rules"></div>
+            <div class="a-field"><label>Category</label><select id="aCat"><option value="book">Kitab / Book</option><option value="policy">Rules / Policy</option><option value="general">General Info</option></select></div>
+          </div>
+          <div class="a-field full"><label>Knowledge Content / Text</label><textarea id="aContent" placeholder="Poora text yahan paste karein..."></textarea></div>
+          <div><button class="a-btn a-btn-pri" id="btnSaveEntry" onclick="window.saveEntry()">Push to Database (Save)</button></div>
+        </div>
       </div>
     </div>
 
@@ -571,11 +619,118 @@ tr:hover td { background: var(--bg-light); }
       return response;
     };
 
-    // 🌟 NAYA: HYPER-SPEED AUTO-PILOT SCRAPER (SINGLE API SHOT) 🌟
+    // 🌟 NAYA: THE GOD MODE BOOK ENGINE (WIKIBOOKS & WIKISOURCE) 🌟
+    // Ye function poori duniya ke textbooks aur original documents download karega
+    window.autoScrapeBooks = async () => {
+      const topic = document.getElementById('bookTopic').value.trim();
+      const count = parseInt(document.getElementById('bookCount').value); // Default is 20
+      
+      if(!topic) return window.showToast('⚠️ Koi topic type karein (Jaise: Physics, History, AI)', 'warn');
+
+      const btn = document.getElementById('btnBookScrape');
+      const logEl = document.getElementById('bookImportLog');
+      const statusEl = document.getElementById('bookImportStatus');
+
+      btn.disabled = true;
+      btn.textContent = "🚀 God Mode Engine Running...";
+      logEl.style.display = "block";
+      statusEl.style.display = "block";
+      logEl.innerHTML = '<div style="color:#8e44ad; margin-bottom:4px; font-weight:600;">⚡ Connecting to Global Open-Source Libraries (Wikibooks & Wikisource)...</div>';
+      statusEl.style.color = "#8e44ad";
+      statusEl.textContent = `🚀 Finding massive Books & Notes for "${topic}"...`;
+
+      try {
+          // Hum dono libraries (Textbooks + Original Documents) ek sath search karenge
+          const halfCount = Math.ceil(count / 2);
+          
+          const wikibooksSearch = `https://en.wikibooks.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(topic)}&srlimit=${halfCount}&format=json&origin=*`;
+          const wikisourceSearch = `https://en.wikisource.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(topic)}&srlimit=${halfCount}&format=json&origin=*`;
+          
+          const [booksRes, sourceRes] = await Promise.all([
+              fetch(wikibooksSearch),
+              fetch(wikisourceSearch)
+          ]);
+          
+          const booksData = await booksRes.json();
+          const sourceData = await sourceRes.json();
+          
+          const bookTitles = booksData.query.search.map(s => ({ title: s.title, domain: 'en.wikibooks.org', type: 'Textbook' }));
+          const sourceTitles = sourceData.query.search.map(s => ({ title: s.title, domain: 'en.wikisource.org', type: 'Document/Book' }));
+          
+          const allItems = [...bookTitles, ...sourceTitles];
+
+          if(allItems.length === 0) throw new Error("In libraries mein is topic ki koi book ya notes nahi mile.");
+
+          statusEl.textContent = `⚡ Found ${allItems.length} Books/Notes. Downloading entire content in massive parallel bursts...`;
+
+          let successCount = 0;
+          let batch = writeBatch(db);
+          let batchHasData = false;
+
+          // Fetch Full Texts from respective domains
+          const promises = allItems.map((item, index) => {
+              const logId = `book-log-${index}`;
+              logEl.innerHTML += `<div id="${logId}" style="color:#64748b; margin-bottom:4px; font-family:monospace;">⏳ <b>Downloading [${item.type}]:</b> ${item.title}...</div>`;
+
+              const apiUrl = `https://${item.domain}/w/api.php?action=query&format=json&prop=extracts&titles=${encodeURIComponent(item.title)}&explaintext=1&origin=*`;
+
+              return fetchWithTimeout(apiUrl)
+                  .then(r => r.json())
+                  .then(d => {
+                      const pages = d.query.pages;
+                      const pageId = Object.keys(pages)[0];
+                      if(pageId !== "-1" && pages[pageId].extract) {
+                          const text = pages[pageId].extract.replace(/\s+/g, ' ').trim();
+                          if(text.length > 500) { // Kitab mein kam se kam 500 words hone chahiye
+                              const newDocRef = doc(kbCollection);
+                              batch.set(newDocRef, {
+                                  title: `[${item.type}] ${pages[pageId].title}`,
+                                  category: 'book',
+                                  content: text,
+                                  words: text.split(/\s+/).length,
+                                  addedAt: Date.now()
+                              });
+                              batchHasData = true;
+                              successCount++;
+                              document.getElementById(logId).innerHTML = `✅ <b style="color:var(--green);">Downloaded:</b> ${item.title} (${text.split(/\s+/).length} words)`;
+                          } else {
+                              document.getElementById(logId).innerHTML = `❌ <b style="color:var(--danger);">Skipped:</b> ${item.title} (Only ${text.split(/\s+/).length} words - Too small to be a book)`;
+                          }
+                      }
+                  }).catch(err => {
+                      document.getElementById(logId).innerHTML = `❌ <b style="color:var(--danger);">Failed:</b> ${item.title} - Network Error`;
+                  });
+          });
+
+          await Promise.allSettled(promises);
+
+          if(batchHasData) {
+              statusEl.textContent = `🚀 Saving massive book library to Database...`;
+              await batch.commit();
+          }
+
+          statusEl.style.color = successCount > 0 ? "var(--green)" : "var(--danger)";
+          statusEl.textContent = `🏁 God Mode Complete! Downloaded ${successCount} entire Books/Notes on "${topic}".`;
+          if(successCount > 0) {
+             window.showToast(`🚀 ${successCount} Massive Books saved directly to AI!`);
+             document.getElementById('bookTopic').value = '';
+          }
+
+      } catch(e) {
+          statusEl.style.color = "var(--danger)";
+          statusEl.textContent = `❌ Error: ${e.message}`;
+      } finally {
+          btn.disabled = false;
+          btn.innerHTML = "📚 Launch God Mode (Download Library)";
+      }
+    };
+
+
+    // EXISTING: WEB ARTICLE SCRAPER
     window.autoScrapeTopic = async () => {
       const topic = document.getElementById('autoTopic').value.trim();
       const count = parseInt(document.getElementById('autoCount').value);
-      if(!topic) return window.showToast('⚠️ Koi topic type karein (Jaise: Space, History)', 'warn');
+      if(!topic) return window.showToast('⚠️ Koi topic type karein', 'warn');
 
       const btn = document.getElementById('btnAutoScrape');
       const logEl = document.getElementById('webImportLog');
@@ -647,13 +802,12 @@ tr:hover td { background: var(--bg-light); }
           statusEl.textContent = `❌ Error: ${e.message}`;
       } finally {
           btn.disabled = false;
-          btn.innerHTML = "🚀 Search & Auto-Scrape (Hyper-Speed)";
+          btn.innerHTML = "🚀 Search & Auto-Scrape";
       }
     };
 
 
-    // 🌟 GOD MODE: PROXY RACING FOR MANUAL SCRAPER 🌟
-    // Ab scraper sequential proxy ki jagah saari proxies ek saath daudayega (Promise.any)
+    // EXISTING: MANUAL BULK URL IMPORTER
     window.importFromWeb = async () => {
       const rawUrls = document.getElementById('webLink').value.trim();
       if(!rawUrls) { window.showToast('⚠️ Kam se kam ek Website ka link paste karein', 'warn'); return; }
@@ -682,7 +836,6 @@ tr:hover td { background: var(--bg-light); }
           let text = "";
           let pageTitle = url.split('/')[2];
 
-          // Direct Wiki Bypass (No Proxy Needed)
           if(url.includes('wikipedia.org/wiki/')) {
               try {
                   const urlObj = new URL(url);
@@ -698,11 +851,9 @@ tr:hover td { background: var(--bg-light); }
                           pageTitle = pages[pageId].title;
                       }
                   }
-              } catch(e) { /* Ignore and fallback */ }
+              } catch(e) { }
           }
 
-          // THE MAGIC: PROXY RACING
-          // Teen proxies ek sath race lagayengi. Jo sabse pehle jitegi, uska data uthayenge!
           if(!text || text.trim() === "") {
               const proxies = [
                   `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
@@ -792,7 +943,6 @@ tr:hover td { background: var(--bg-light); }
       btn.innerHTML = "⚡ Scrape Links (Proxy Race Mode)";
     };
 
-    // Other Utility Functions
     window.loadSampleData = async () => {
       if(!window.currentUser) return;
       const btn = document.getElementById('btnLoadSample');
@@ -869,12 +1019,10 @@ tr:hover td { background: var(--bg-light); }
       try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'knowledge', id)); window.showToast("Document Removed"); } catch(e) {}
     };
 
-    // 🌟 MASSIVE SPEED UP FOR LOCAL FILE UPLOADS (25 CHUNKS) 🌟
     window.processFiles = async () => {
       if(!window.pendingFiles.length) return;
       const btn = document.getElementById('btnProcessFiles'); btn.disabled = true; 
       let added = 0, totalFiles = window.pendingFiles.length, batch = writeBatch(db), batchCount = 0;
-      // Yahan 5 ki jagah 25 files ek sath process hongi
       for(let i = 0; i < totalFiles; i += 25) {
         const chunk = window.pendingFiles.slice(i, i + 25);
         btn.textContent = `⚡ Hyper Extraction: ${Math.min(i + 25, totalFiles)} / ${totalFiles}`; 
@@ -903,13 +1051,11 @@ tr:hover td { background: var(--bg-light); }
 
     function translateText(text) { return text; }
 
-    // 🌟 INSTANT CHAT SPEED (NO ARTIFICIAL DELAY) 🌟
     window.sendMsg = async () => {
       const input = document.getElementById('chatInput'); const q = input.value.trim(); if(!q) return;
       document.getElementById('sendBtn').disabled = true; input.value = '';
       const wb = document.getElementById('welcomeBlock'); if(wb) wb.remove();
       window.addChatMsg('user', q); const tid = window.addTyping();
-      // Pehle 900ms tha, ab 100ms kar diya hai! Ekdum jhatke mein reply aayega.
       await new Promise(r => setTimeout(r, 100)); 
       const answer = getSmartAnswerOffline(q);
       window.removeTyping(tid); window.addChatAI(answer);
