@@ -552,8 +552,9 @@ tr:hover td { background: var(--bg-light); }
       let batch = writeBatch(db);
       let batchHasData = false;
 
+      // Timeout badha diya taaki Wikipedia jaisi badi sites load ho sakein
       const fetchWithTimeout = async (resource, options = {}) => {
-        const { timeout = 8000 } = options;
+        const { timeout = 10000 } = options;
         const controller = new AbortController();
         const id = setTimeout(() => controller.abort(), timeout);
         const response = await fetch(resource, { ...options, signal: controller.signal });
@@ -562,46 +563,76 @@ tr:hover td { background: var(--bg-light); }
       };
 
       const fetchUrl = async (url) => {
-          let htmlContent = null;
-          const proxies = [
-              `https://corsproxy.io/?${encodeURIComponent(url)}`,
-              `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
-              `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
-          ];
+          let text = "";
+          let pageTitle = url.split('/')[2];
 
-          for (let proxy of proxies) {
+          // 🌟 NAYA: DIRECT WIKIPEDIA API BYPASS (Lightning Fast & No Proxy Block) 🌟
+          if(url.includes('wikipedia.org/wiki/')) {
               try {
-                  const res = await fetchWithTimeout(proxy);
-                  if (res.ok) {
-                      if (proxy.includes('allorigins')) {
-                          const data = await res.json();
-                          if (data.contents) { htmlContent = data.contents; break; }
-                      } else {
-                          htmlContent = await res.text(); break;
+                  const urlObj = new URL(url);
+                  const domain = urlObj.hostname; // e.g. en.wikipedia.org or hi.wikipedia.org
+                  const topic = url.split('/wiki/')[1].split('#')[0].split('?')[0];
+                  
+                  // Wikipedia ki Official API ka use (100% bypass and safe)
+                  const wikiApi = `https://${domain}/w/api.php?action=query&format=json&prop=extracts&titles=${topic}&explaintext=1&origin=*`;
+                  
+                  const res = await fetchWithTimeout(wikiApi);
+                  if(res.ok) {
+                      const data = await res.json();
+                      const pages = data.query.pages;
+                      const pageId = Object.keys(pages)[0];
+                      if(pageId !== "-1" && pages[pageId].extract) {
+                          text = pages[pageId].extract;
+                          pageTitle = pages[pageId].title;
                       }
                   }
-              } catch (e) { continue; }
+              } catch(e) {
+                  console.log("Wiki API fail, falling back to proxy...", e);
+              }
           }
 
-          if(!htmlContent || htmlContent.trim() === '') throw new Error("Connection Timeout / Anti-Bot Security");
+          // Agar Wikipedia nahi hai, ya Wiki API fail ho gayi, toh General Proxy use karein
+          if(!text || text.trim() === "") {
+              let htmlContent = null;
+              const proxies = [
+                  `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+                  `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+                  `https://corsproxy.io/?${encodeURIComponent(url)}`
+              ];
 
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(htmlContent, 'text/html');
+              for (let proxy of proxies) {
+                  try {
+                      const res = await fetchWithTimeout(proxy);
+                      if (res.ok) {
+                          htmlContent = await res.text();
+                          if (htmlContent && htmlContent.length > 500) break; 
+                      }
+                  } catch (e) { continue; }
+              }
 
-          const textCheck = htmlDoc.body.innerText.toLowerCase();
-          if(textCheck.includes('verify you are human') || textCheck.includes('cloudflare') || textCheck.includes('access denied')) {
-              throw new Error("Blocked by Security Firewall");
+              if(!htmlContent || htmlContent.trim() === '') throw new Error("Connection Timeout / Proxy Blocked");
+
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(htmlContent, 'text/html');
+              
+              if (!htmlDoc.body) throw new Error("Website loaded empty");
+
+              const textCheck = (htmlDoc.body.textContent || "").toLowerCase();
+              if(textCheck.includes('verify you are human') || textCheck.includes('cloudflare') || textCheck.includes('access denied')) {
+                  throw new Error("Blocked by Security Firewall");
+              }
+
+              const unwanted = htmlDoc.querySelectorAll('script, style, nav, footer, header, noscript, iframe, svg, button, form, aside, menu, #mw-navigation, #mw-head, .vector-menu, .mw-editsection');
+              unwanted.forEach(el => el.remove());
+
+              let mainNode = htmlDoc.querySelector('#mw-content-text, article, main, .post-content, #content') || htmlDoc.body;
+
+              text = mainNode.textContent || "";
           }
 
-          const unwanted = htmlDoc.querySelectorAll('script, style, nav, footer, header, noscript, iframe, svg, button, form, aside, menu');
-          unwanted.forEach(el => el.remove());
-
-          let text = htmlDoc.body.innerText || "";
           text = text.replace(/\s+/g, ' ').trim();
 
-          if(text.length < 150) throw new Error("Padhne layak zyada text nahi mila.");
-
-          let pageTitle = htmlDoc.title || url.split('/')[2];
+          if(text.length < 100) throw new Error("Padhne layak zyada text nahi mila. (Security ne content hide kar diya)");
 
           const newDocRef = doc(kbCollection);
           batch.set(newDocRef, {
