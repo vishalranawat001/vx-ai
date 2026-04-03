@@ -15,7 +15,6 @@
 <style>
 /* ==================== GLOBAL VARIABLES & MODERN THEME ==================== */
 :root {
-  /* VX Dark Theme (Chat Interface) */
   --bg-dark: #09090b;
   --surface-dark: #18181b;
   --surface-dark-hover: #27272a;
@@ -23,12 +22,10 @@
   --text-dark: #f4f4f5;
   --muted-dark: #a1a1aa;
   
-  /* VX Primary Brand Color */
   --primary: #2563eb; 
   --primary-hover: #1d4ed8;
   --primary-light: rgba(37, 99, 235, 0.15);
 
-  /* VX Light Theme (Admin Interface) */
   --bg-light: #f8fafc;
   --surface-light: #ffffff;
   --border-light: #e2e8f0;
@@ -41,60 +38,32 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-
 .view-hidden { display: none !important; }
-
-/* SVG Icons Styles */
 .svg-icon { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
-/* ==================== CHAT VIEW (DARK - PROFESSIONAL) ==================== */
-#chat-view {
-  background: var(--bg-dark); color: var(--text-dark); 
-  height: 100vh; display: flex; flex-direction: column; overflow: hidden;
-}
-
-.c-header {
-  background: rgba(24, 24, 27, 0.8); backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-dark); padding: 16px 32px; 
-  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; z-index: 10;
-}
+/* ==================== CHAT VIEW ==================== */
+#chat-view { background: var(--bg-dark); color: var(--text-dark); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+.c-header { background: rgba(24, 24, 27, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-dark); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; z-index: 10; }
 .c-logo { display: flex; align-items: center; gap: 12px; }
-.c-logo-icon { 
-  width: 36px; height: 36px; background: var(--primary); 
-  border-radius: 8px; display: flex; align-items: center; justify-content: center; 
-  font-weight: 700; font-size: 18px; color: white; letter-spacing: 1px;
-}
+.c-logo-icon { width: 36px; height: 36px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; color: white; letter-spacing: 1px; }
 .c-logo h1 { font-size: 18px; font-weight: 700; color: var(--text-dark); letter-spacing: -0.5px; }
 .c-logo p { font-size: 12px; color: var(--muted-dark); }
-
 .c-header-right { display: flex; gap: 16px; align-items: center; }
 .c-kb-chip { background: var(--surface-dark-hover); border: 1px solid var(--border-dark); border-radius: 6px; padding: 6px 12px; font-size: 12px; color: var(--muted-dark); font-weight: 500;}
 .c-kb-chip span { color: var(--text-dark); font-weight: 600; }
-.c-admin-link { 
-  display: flex; align-items: center; gap: 8px; background: transparent; 
-  border: 1px solid var(--border-dark); color: var(--text-dark); 
-  font-family: inherit; font-size: 12px; font-weight: 500; padding: 8px 16px; 
-  border-radius: 6px; cursor: pointer; transition: all 0.2s; 
-}
+.c-admin-link { display: flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--border-dark); color: var(--text-dark); font-family: inherit; font-size: 12px; font-weight: 500; padding: 8px 16px; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
 .c-admin-link:hover { background: var(--surface-dark-hover); border-color: var(--muted-dark); }
-
 .c-no-data { background: rgba(239, 68, 68, 0.1); border-bottom: 1px solid rgba(239, 68, 68, 0.2); padding: 12px 32px; font-size: 13px; color: #fca5a5; display: flex; justify-content: center;}
 
 .c-chat-area { flex: 1; overflow-y: auto; padding: 40px 10%; display: flex; flex-direction: column; gap: 24px; scroll-behavior: smooth; }
 .c-chat-area::-webkit-scrollbar { width: 6px; }
 .c-chat-area::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 4px; }
-
 .c-welcome { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 60px 20px; gap: 16px; margin: auto; }
 .c-welcome-logo { width: 64px; height: 64px; background: var(--primary-light); color: var(--primary); border-radius: 16px; display: flex; justify-content: center; align-items: center; margin-bottom: 8px;}
 .c-welcome h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
 .c-welcome p { font-size: 15px; color: var(--muted-dark); max-width: 550px; line-height: 1.6; }
-
 .c-suggestion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; width: 100%; max-width: 550px; }
-.c-suggestion { 
-  background: var(--surface-dark); border: 1px solid var(--border-dark); 
-  border-radius: 8px; padding: 16px; text-align: left; cursor: pointer; 
-  font-family: inherit; font-size: 13px; color: var(--muted-dark); transition: all 0.2s; 
-}
+.c-suggestion { background: var(--surface-dark); border: 1px solid var(--border-dark); border-radius: 8px; padding: 16px; text-align: left; cursor: pointer; font-family: inherit; font-size: 13px; color: var(--muted-dark); transition: all 0.2s; }
 .c-suggestion:hover { border-color: var(--primary); background: var(--surface-dark-hover); }
 .c-suggestion strong { display: block; color: var(--text-dark); font-size: 14px; font-weight: 600; margin-bottom: 4px; }
 
@@ -102,11 +71,9 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .c-msg.user { align-self: flex-end; flex-direction: row-reverse; }
 .c-msg.ai { align-self: flex-start; }
-
 .c-avatar { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; flex-shrink: 0; }
 .c-msg.user .c-avatar { background: var(--surface-dark-hover); color: var(--text-dark); border: 1px solid var(--border-dark); }
 .c-msg.ai .c-avatar { background: var(--primary); color: white; }
-
 .c-bubble { padding: 16px 20px; border-radius: 12px; font-size: 15px; line-height: 1.7; color: var(--text-dark); }
 .c-msg.user .c-bubble { background: var(--surface-dark-hover); border-top-right-radius: 4px; }
 .c-msg.ai .c-bubble { background: var(--surface-dark); border: 1px solid var(--border-dark); border-top-left-radius: 4px; }
@@ -118,55 +85,32 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
 .c-input-bar { background: var(--bg-dark); padding: 20px 10%; border-top: 1px solid var(--border-dark); }
-.c-input-wrapper { 
-  position: relative; background: var(--surface-dark); border: 1px solid var(--border-dark); 
-  border-radius: 12px; display: flex; align-items: flex-end; padding: 8px 12px; transition: border-color 0.2s;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-}
+.c-input-wrapper { position: relative; background: var(--surface-dark); border: 1px solid var(--border-dark); border-radius: 12px; display: flex; align-items: flex-end; padding: 8px 12px; transition: border-color 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
 .c-input-wrapper:focus-within { border-color: var(--primary); }
-.c-chat-input { 
-  flex: 1; background: transparent; border: none; color: var(--text-dark); 
-  font-family: inherit; font-size: 15px; outline: none; resize: none; 
-  max-height: 150px; min-height: 24px; padding: 8px; line-height: 1.5;
-}
-.c-send-btn { 
-  width: 40px; height: 40px; border-radius: 8px; border: none; 
-  background: var(--primary); color: white; cursor: pointer; 
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s;
-}
+.c-chat-input { flex: 1; background: transparent; border: none; color: var(--text-dark); font-family: inherit; font-size: 15px; outline: none; resize: none; max-height: 150px; min-height: 24px; padding: 8px; line-height: 1.5; }
+.c-send-btn { width: 40px; height: 40px; border-radius: 8px; border: none; background: var(--primary); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; }
 .c-send-btn:hover { background: var(--primary-hover); }
 .c-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
 .c-footer-text { text-align: center; font-size: 11px; color: var(--muted-dark); margin-top: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px;}
 
-/* ==================== ADMIN VIEW (LIGHT - CORPORATE) ==================== */
+/* ==================== ADMIN VIEW ==================== */
 #admin-view { background: var(--bg-light); color: var(--text-light); min-height: 100vh; }
-
-.a-header {
-  background: var(--surface-light); border-bottom: 1px solid var(--border-light);
-  padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px;
-}
+.a-header { background: var(--surface-light); border-bottom: 1px solid var(--border-light); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
 .a-logo { display: flex; align-items: center; gap: 12px; }
 .a-logo-badge { background: #000; color: #fff; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; letter-spacing: 1px; }
 .a-logo h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
-
 .a-header-right { display: flex; align-items: center; gap: 20px; }
 .a-header-stat { font-size: 13px; color: var(--muted-light); font-weight: 500;}
 .a-header-stat strong { color: var(--text-light); font-weight: 700;}
 
 .a-tabs { background: var(--surface-light); border-bottom: 1px solid var(--border-light); padding: 0 32px; display: flex; gap: 8px; overflow-x: auto;}
-.a-tab { 
-  padding: 16px 20px; font-family: inherit; font-size: 14px; font-weight: 500; 
-  color: var(--muted-light); cursor: pointer; background: none; border: none; 
-  border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
-}
+.a-tab { padding: 16px 20px; font-family: inherit; font-size: 14px; font-weight: 500; color: var(--muted-light); cursor: pointer; background: none; border: none; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
 .a-tab:hover { color: var(--text-light); }
 .a-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
 
 .a-main { max-width: 1200px; margin: 0 auto; padding: 40px 32px; }
 .a-panel { display: none; animation: fadeIn 0.3s ease; }
 .a-panel.active { display: block; }
-
 .a-sec-head { margin-bottom: 32px; display: flex; justify-content: space-between; align-items: flex-end; }
 .a-sec-head h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-light); }
 .a-sec-head p { font-size: 14px; color: var(--muted-light); margin-top: 4px; }
@@ -176,13 +120,8 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .a-stat-card .num { font-size: 32px; font-weight: 700; color: var(--text-light); line-height: 1; }
 .a-stat-card .label { font-size: 12px; font-weight: 600; color: var(--muted-light); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-/* Dashboard Quick Actions */
-.a-quick-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
-.a-action-btn {
-  background: var(--surface-light); border: 2px dashed var(--primary); border-radius: 12px;
-  padding: 24px 16px; text-align: center; cursor: pointer; transition: all 0.2s;
-  color: var(--primary); display: flex; flex-direction: column; align-items: center; gap: 12px;
-}
+.a-quick-actions { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 32px; }
+.a-action-btn { background: var(--surface-light); border: 2px dashed var(--primary); border-radius: 12px; padding: 24px 16px; text-align: center; cursor: pointer; transition: all 0.2s; color: var(--primary); display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .a-action-btn:hover { background: var(--primary-light); transform: translateY(-2px); }
 .a-action-btn h3 { font-size: 14px; font-weight: 700; color: var(--text-light); }
 .a-action-btn p { font-size: 12px; color: var(--muted-light); }
@@ -190,24 +129,15 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .a-card { background: var(--surface-light); border: 1px solid var(--border-light); border-radius: 12px; overflow: hidden; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
 .a-card-head { padding: 20px 24px; border-bottom: 1px solid var(--border-light); font-weight: 600; font-size: 15px; background: #fafafa; }
 .a-card-body { padding: 32px 24px; display: flex; flex-direction: column; gap: 24px; }
-
 .a-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .a-field { display: flex; flex-direction: column; gap: 8px; }
 .a-field.full { grid-column: 1/-1; }
 .a-field label { font-size: 12px; font-weight: 600; color: var(--text-light); }
-.a-field input, .a-field select, .a-field textarea { 
-  width: 100%; background: var(--surface-light); border: 1px solid var(--border-light); 
-  border-radius: 8px; padding: 12px 16px; color: var(--text-light); 
-  font-family: inherit; font-size: 14px; outline: none; transition: all 0.2s; 
-}
+.a-field input, .a-field select, .a-field textarea { width: 100%; background: var(--surface-light); border: 1px solid var(--border-light); border-radius: 8px; padding: 12px 16px; color: var(--text-light); font-family: inherit; font-size: 14px; outline: none; transition: all 0.2s; }
 .a-field input:focus, .a-field select:focus, .a-field textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
 .a-field textarea { min-height: 200px; resize: vertical; line-height: 1.6; }
 
-.a-btn { 
-  padding: 10px 20px; border-radius: 8px; font-family: inherit; font-size: 13px; 
-  font-weight: 600; cursor: pointer; border: 1px solid transparent; 
-  display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; 
-}
+.a-btn { padding: 10px 20px; border-radius: 8px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
 .a-btn-pri { background: var(--primary); color: #fff; }
 .a-btn-pri:hover { background: var(--primary-hover); }
 .a-btn-sec { background: var(--surface-light); color: var(--text-light); border-color: var(--border-light); }
@@ -215,10 +145,7 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .a-btn-danger { background: transparent; color: var(--danger); border-color: rgba(239, 68, 68, 0.3); padding: 6px 12px; font-size: 12px; }
 .a-btn-danger:hover { background: rgba(239, 68, 68, 0.1); }
 
-.a-upload-zone { 
-  border: 2px dashed #cbd5e1; border-radius: 12px; padding: 48px 32px; 
-  text-align: center; cursor: pointer; background: var(--bg-light); transition: 0.2s; 
-}
+.a-upload-zone { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 48px 32px; text-align: center; cursor: pointer; background: var(--bg-light); transition: 0.2s; }
 .a-upload-zone:hover { border-color: var(--primary); background: var(--primary-light); }
 .a-upload-zone input[type=file] { display: none; }
 .a-upload-icon { color: var(--primary); margin-bottom: 12px; }
@@ -227,14 +154,13 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .a-table-tools { padding: 16px 24px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; }
 .a-table-tools input { padding: 10px 16px; font-size: 13px; border-radius: 6px; border: 1px solid var(--border-light); outline: none; width: 300px; }
 .a-table-tools input:focus { border-color: var(--primary); }
-
 table { width: 100%; border-collapse: collapse; text-align: left; }
 th { padding: 16px 24px; font-size: 12px; font-weight: 600; color: var(--muted-light); border-bottom: 1px solid var(--border-light); text-transform: uppercase; letter-spacing: 0.5px; }
 td { padding: 16px 24px; font-size: 14px; border-bottom: 1px solid var(--border-light); color: var(--text-light); vertical-align: middle; }
 tr:hover td { background: var(--bg-light); }
 .cat-pill { padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #e2e8f0; color: var(--text-light); text-transform: uppercase; }
 
-/* ==================== MODALS & TOASTS ==================== */
+/* MODALS & TOASTS */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; display: none; align-items: center; justify-content: center; }
 .login-box { background: var(--surface-light); padding: 40px; border-radius: 16px; width: 400px; text-align: center; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
 .login-box h2 { margin-bottom: 8px; color: var(--text-light); font-size: 24px; letter-spacing: -0.5px; }
@@ -245,17 +171,12 @@ tr:hover td { background: var(--bg-light); }
 .login-box button.btn-login:hover { background: var(--primary-hover); }
 .login-box button.btn-close { background: transparent; color: var(--muted-light); border: none; font-size: 13px; cursor: pointer; font-weight: 500;}
 
-#toast { 
-  position: fixed; bottom: 24px; right: 24px; padding: 14px 24px; 
-  background: var(--text-light); color: #fff; border-radius: 8px; 
-  z-index: 10000; display: none; font-size: 14px; font-weight: 500;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
+#toast { position: fixed; bottom: 24px; right: 24px; padding: 14px 24px; background: var(--text-light); color: #fff; border-radius: 8px; z-index: 10000; display: none; font-size: 14px; font-weight: 500; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
 </style>
 </head>
 <body>
 
-<!-- ==================== 1. CHAT VIEW (USER) ==================== -->
+<!-- CHAT VIEW -->
 <div id="chat-view">
   <header class="c-header">
     <div class="c-logo">
@@ -286,7 +207,7 @@ tr:hover td { background: var(--bg-light); }
         <button class="c-suggestion" onclick="window.quickAsk('Company ka CEO kaun hai?')"><strong>Company Info</strong>CEO & History</button>
         <button class="c-suggestion" onclick="window.quickAsk('Advance salary ya loan ke kya niyam hain?')"><strong>Loan Policy</strong>Advance Salary</button>
         <button class="c-suggestion" onclick="window.quickAsk('Kya company laptop deti hai?')"><strong>IT & Device</strong>BYOD / Laptop Policy</button>
-        <button class="c-suggestion" onclick="window.quickAsk('Social media par kya rules hain?')"><strong>Social Media</strong>Posting Guidelines</button>
+        <button class="c-suggestion" onclick="window.quickAsk('Artificial intelligence kya hai summarize karo')"><strong>General Knowledge</strong>Web Scraped Info</button>
       </div>
     </div>
   </div>
@@ -306,7 +227,7 @@ tr:hover td { background: var(--bg-light); }
   </div>
 </div>
 
-<!-- ==================== 2. ADMIN VIEW (LIGHT) ==================== -->
+<!-- ADMIN VIEW -->
 <div id="admin-view" class="view-hidden">
   <header class="a-header">
     <div class="a-logo">
@@ -325,8 +246,9 @@ tr:hover td { background: var(--bg-light); }
   <div class="a-tabs">
     <button class="a-tab active" onclick="window.openTab('dash')">Overview</button>
     <button class="a-tab" onclick="window.openTab('add')">✏️ Type Data</button>
-    <button class="a-tab" onclick="window.openTab('upload')">📄 Upload PDF</button>
+    <button class="a-tab" onclick="window.openTab('upload')">📄 Upload PDF/Dir</button>
     <button class="a-tab" onclick="window.openTab('drive')">☁️ Google Docs</button>
+    <button class="a-tab" onclick="window.openTab('web')">🌐 Web Scraper</button>
     <button class="a-tab" onclick="window.openTab('manage')">Manage DB</button>
   </div>
 
@@ -340,52 +262,39 @@ tr:hover td { background: var(--bg-light); }
         <div class="a-stat-card"><div class="num" id="dBooks">0</div><div class="label">Documents Saved</div></div>
       </div>
 
-      <!-- Quick Add Buttons on Dashboard -->
       <div class="a-quick-actions">
         <div class="a-action-btn" onclick="window.loadSampleData()" id="btnLoadSample" style="border-color: #10b981; color: #10b981;">
           <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-          <div>
-            <h3>Load Sample Data</h3>
-            <p>1-Click mein 27+ Documents add karein</p>
-          </div>
+          <div><h3>Load Sample Data</h3><p>1-Click mein 27+ Docs add karein</p></div>
+        </div>
+        <div class="a-action-btn" onclick="window.openTab('web')">
+          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+          <div><h3>Web Scraper</h3><p>Bulk Website Text nikaalein</p></div>
         </div>
         <div class="a-action-btn" onclick="window.openTab('drive')">
           <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
-          <div>
-            <h3>Google Docs</h3>
-            <p>Link se direct data import karein</p>
-          </div>
+          <div><h3>Google Docs</h3><p>Drive se data import karein</p></div>
         </div>
         <div class="a-action-btn" onclick="window.openTab('upload')">
           <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m14-7l-5-5-5 5m5-5v12"></path></svg>
-          <div>
-            <h3>Upload PDF</h3>
-            <p>Files upload karein, AI text nikalega</p>
-          </div>
+          <div><h3>Upload Bulk</h3><p>Files/Folders extract karein</p></div>
         </div>
         <div class="a-action-btn" onclick="window.openTab('add')">
           <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-          <div>
-            <h3>Type Manually</h3>
-            <p>Copy/paste ya type karein</p>
-          </div>
+          <div><h3>Type Manually</h3><p>Copy/paste ya type karein</p></div>
         </div>
       </div>
     </div>
 
     <!-- Add Entry -->
     <div class="a-panel" id="p-add">
-      <div class="a-sec-head">
-        <div><h2>Add Knowledge Manually</h2><p>Yahan apni koi bhi jankari, rules ya book ka text copy/paste karein.</p></div>
-      </div>
+      <div class="a-sec-head"><div><h2>Add Knowledge Manually</h2><p>Yahan apni koi bhi jankari, rules ya book ka text copy/paste karein.</p></div></div>
       <div class="a-card">
         <div class="a-card-head">Entry Details</div>
         <div class="a-card-body">
           <div class="a-field-row">
             <div class="a-field"><label>Document Title</label><input type="text" id="aTitle" placeholder="E.g., Hamari company rules"></div>
-            <div class="a-field"><label>Category</label>
-              <select id="aCat"><option value="book">Kitab / Book</option><option value="policy">Rules / Policy</option><option value="general">General Info</option></select>
-            </div>
+            <div class="a-field"><label>Category</label><select id="aCat"><option value="book">Kitab / Book</option><option value="policy">Rules / Policy</option><option value="general">General Info</option></select></div>
           </div>
           <div class="a-field full"><label>Knowledge Content / Text</label><textarea id="aContent" placeholder="Poora text yahan paste karein..."></textarea></div>
           <div><button class="a-btn a-btn-pri" id="btnSaveEntry" onclick="window.saveEntry()">Push to Database (Save)</button></div>
@@ -395,29 +304,22 @@ tr:hover td { background: var(--bg-light); }
 
     <!-- Upload -->
     <div class="a-panel" id="p-upload">
-      <div class="a-sec-head">
-        <div><h2>Upload Files & Folders</h2><p>Poora ka poora folder ya multiple PDFs/Text files ek saath upload karein.</p></div>
-      </div>
+      <div class="a-sec-head"><div><h2>Upload Files & Folders</h2><p>Poora ka poora folder ya multiple PDFs/Text files ek saath upload karein.</p></div></div>
       <div class="a-card">
         <div class="a-card-head">Bulk Upload Zone</div>
         <div class="a-card-body">
           <div class="a-upload-zone" onclick="document.getElementById('fileInput').click()">
             <input type="file" id="fileInput" accept=".txt,.pdf" multiple onchange="window.handleFiles(this.files)" style="display:none;">
-            <!-- NEW: Folder Selection Input -->
             <input type="file" id="folderInput" webkitdirectory directory multiple onchange="window.handleFiles(this.files)" style="display:none;">
-            
             <svg class="svg-icon a-upload-icon" style="width:48px;height:48px;margin:auto;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m14-7l-5-5-5 5m5-5v12"></path></svg>
             <h3 style="font-size:16px;font-weight:600;margin-bottom:8px;color:var(--text-light)">Click yahan karein ya files drop karein</h3>
             <p style="font-size:13px;color:var(--muted-light)">Supported formats: PDF, TXT</p>
-            
             <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: center;">
               <button class="a-btn a-btn-sec" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">📄 Select Files</button>
               <button class="a-btn a-btn-pri" style="background: #8e44ad;" onclick="event.stopPropagation(); document.getElementById('folderInput').click()">📁 Select Entire Folder</button>
             </div>
           </div>
-          
           <div id="fileList" style="margin-top:16px; font-size:13px; color:var(--text-light); line-height:1.6; max-height: 200px; overflow-y: auto; padding: 10px; background: #f8fafc; border-radius: 8px; display: none;"></div>
-          
           <button class="a-btn a-btn-pri" id="btnProcessFiles" style="display:none;margin-top:16px;width:100%;justify-content:center;" onclick="window.processFiles()">⚡ Extract & Save All Data</button>
         </div>
       </div>
@@ -425,9 +327,7 @@ tr:hover td { background: var(--bg-light); }
 
     <!-- Google Drive Import -->
     <div class="a-panel" id="p-drive">
-      <div class="a-sec-head">
-        <div><h2>☁️ Import from Google Docs</h2><p>Google Drive se direct file select karein aur data nikaalein (No API required).</p></div>
-      </div>
+      <div class="a-sec-head"><div><h2>☁️ Import from Google Docs</h2><p>Google Drive se direct file select karein aur data nikaalein.</p></div></div>
       <div class="a-card">
         <div class="a-card-head">Drive Link Importer</div>
         <div class="a-card-body" style="text-align: center;">
@@ -435,16 +335,32 @@ tr:hover td { background: var(--bg-light); }
             <svg class="svg-icon" style="width:20px;height:20px;margin-right:8px;" viewBox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
             1. Open My Google Drive
           </button>
-          
-          <p style="font-size:13px;color:var(--muted-light);margin-bottom:12px;">
-            Drive khulne par apni file ka <b>"Anyone with the link"</b> wala share link copy karein aur yahan paste karein:
-          </p>
-          
+          <p style="font-size:13px;color:var(--muted-light);margin-bottom:12px;">Drive khulne par apni file ka <b>"Anyone with the link"</b> wala share link copy karein aur yahan paste karein:</p>
           <div class="a-field full">
             <input type="text" id="driveLink" placeholder="2. Yahan link paste karein (Auto-Import hoga)..." oninput="window.autoImportDrive(this.value)" style="text-align: center; border: 2px dashed #cbd5e1; padding: 16px; font-size: 14px; background: #f8fafc;">
           </div>
-          
           <div id="driveImportStatus" style="margin-top: 16px; font-size: 14px; font-weight: 600; display: none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Web Scraper Import -->
+    <div class="a-panel" id="p-web">
+      <div class="a-sec-head"><div><h2>🌐 Ultra-Fast Bulk Web Scraper</h2><p>Duniya ka sabse fast offline scrapper. Ek saath multiple websites padhein!</p></div></div>
+      <div class="a-card">
+        <div class="a-card-head">🚀 Bulk URL Importer (Parallel Engine)</div>
+        <div class="a-card-body" style="text-align: center;">
+          <div class="a-field full">
+            <textarea id="webLink" placeholder="Ek ya ek se zyada links yahan paste karein (Nayi line ke liye Enter dabayein)...&#10;https://en.wikipedia.org/wiki/Artificial_intelligence&#10;https://en.wikipedia.org/wiki/Machine_learning" style="text-align: left; border: 2px dashed #cbd5e1; padding: 16px; font-size: 14px; background: #f8fafc; min-height: 150px; resize: vertical;"></textarea>
+            <p style="font-size:11px;color:var(--muted-light);margin-top:6px;"><strong>⚡ SPEED BOOST:</strong> Ab aap ek saath 10-20 links paste kar sakte hain. Hamara naya Parallel Engine sabko ek jhatke mein padh lega!</p>
+          </div>
+          <div id="webImportStatus" style="margin-top: 16px; font-size: 14px; font-weight: 600; display: none;"></div>
+          <div id="webImportLog" style="margin-top: 8px; font-size: 12px; color: var(--text-light); text-align: left; max-height: 150px; overflow-y: auto; background: #f1f5f9; padding: 10px; border-radius: 6px; display: none; border: 1px solid var(--border-light);"></div>
+          <div style="margin-top: 20px;">
+            <button class="a-btn a-btn-pri" id="btnWebImport" onclick="window.importFromWeb()" style="background: #e67e22; font-size: 15px; padding: 12px 24px; width: 100%; justify-content: center; cursor:pointer;">
+              ⚡ Launch Ultra-Fast Scraper
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -453,9 +369,7 @@ tr:hover td { background: var(--bg-light); }
     <div class="a-panel" id="p-manage">
       <div class="a-sec-head"><h2>Manage Database</h2><p>View or remove indexed data</p></div>
       <div class="a-card">
-        <div class="a-table-tools">
-          <input type="text" placeholder="Search database..." oninput="window.filterTable(this.value)">
-        </div>
+        <div class="a-table-tools"><input type="text" placeholder="Search database..." oninput="window.filterTable(this.value)"></div>
         <div class="a-table-wrap">
           <table>
             <thead><tr><th>Document Title</th><th>Tag</th><th>Size (Words)</th><th>Action</th></tr></thead>
@@ -467,18 +381,14 @@ tr:hover td { background: var(--bg-light); }
   </main>
 </div>
 
-<!-- ==================== MODALS ==================== -->
+<!-- MODALS & TOASTS -->
 <div id="login-modal" class="modal-overlay">
   <div class="login-box">
-    <h2>Admin Authentication</h2>
-    <p>Enter your credentials to access the dashboard</p>
-    <input type="password" id="loginPass" placeholder="Admin Password...">
-    <button class="btn-login" onclick="window.doLogin()">Authenticate</button>
-    <button class="btn-close" onclick="window.closeLogin()">Cancel</button>
+    <h2>Admin Authentication</h2><p>Enter your credentials to access the dashboard</p>
+    <input type="password" id="loginPass" placeholder="Admin Password..."><button class="btn-login" onclick="window.doLogin()">Authenticate</button><button class="btn-close" onclick="window.closeLogin()">Cancel</button>
     <p style="font-size:11px; margin-top:20px; color:var(--muted-light);">Hint: admin123</p>
   </div>
 </div>
-
 <div id="toast"></div>
 
 <!-- ==================== SCRIPT 1: UI LOGIC ==================== -->
@@ -507,13 +417,14 @@ tr:hover td { background: var(--bg-light); }
   window.openTab = (id) => {
     document.querySelectorAll('.a-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.a-panel').forEach(p => p.classList.remove('active'));
-    document.querySelector(`button[onclick="window.openTab('${id}')"]`).classList.add('active');
-    document.getElementById(`p-${id}`).classList.add('active');
+    const tabBtn = document.querySelector(`button[onclick="window.openTab('${id}')"]`);
+    if(tabBtn) tabBtn.classList.add('active');
+    const panel = document.getElementById(`p-${id}`);
+    if(panel) panel.classList.add('active');
   };
 
   window.openLogin = () => document.getElementById('login-modal').style.display = 'flex';
   window.closeLogin = () => { document.getElementById('login-modal').style.display = 'none'; document.getElementById('loginPass').value = ''; };
-  
   window.doLogin = () => {
     const pass = document.getElementById('loginPass').value;
     if(pass === 'admin123') {
@@ -522,41 +433,23 @@ tr:hover td { background: var(--bg-light); }
       document.getElementById('admin-view').classList.remove('view-hidden');
       window.updateAdminUI();
       window.showToast("Authentication Successful");
-    } else {
-      window.showToast("Invalid Password!", "err");
-    }
+    } else { window.showToast("Invalid Password!", "err"); }
   };
+  window.closeAdmin = () => { document.getElementById('admin-view').classList.add('view-hidden'); document.getElementById('chat-view').classList.remove('view-hidden'); };
 
-  window.closeAdmin = () => {
-    document.getElementById('admin-view').classList.add('view-hidden');
-    document.getElementById('chat-view').classList.remove('view-hidden');
-  };
-
-  window.updateChatUI = () => {
-    document.getElementById('kbCount').textContent = window.kbData.length;
-  };
-
+  window.updateChatUI = () => { document.getElementById('kbCount').textContent = window.kbData.length; };
   window.updateAdminUI = () => {
     document.getElementById('hdrTotal').textContent = window.kbData.length;
     document.getElementById('dTotal').textContent = window.kbData.length;
     document.getElementById('dWords').textContent = window.kbData.reduce((s,k) => s + (k.words||0), 0);
-    document.getElementById('dBooks').textContent = window.kbData.filter(k => k.category === 'policy' || k.category === 'book').length;
+    document.getElementById('dBooks').textContent = window.kbData.filter(k => k.category === 'policy' || k.category === 'book' || k.category === 'general').length;
     window.renderManageTable(window.kbData);
   };
-
   window.renderManageTable = (data) => {
     const tbody = document.getElementById('manageTbody');
     if(!data.length) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--muted-light)">Koi data nahi hai abhi.</td></tr>`; return; }
-    tbody.innerHTML = data.map(k => `
-      <tr>
-        <td style="font-weight:500;">${esc(k.title)}</td>
-        <td><span class="cat-pill">${esc(k.category)}</span></td>
-        <td>${k.words}</td>
-        <td><button class="a-btn a-btn-danger" onclick="window.deleteEntry('${k.id}')">Remove</button></td>
-      </tr>
-    `).join('');
+    tbody.innerHTML = data.map(k => `<tr><td style="font-weight:500;">${esc(k.title)}</td><td><span class="cat-pill">${esc(k.category)}</span></td><td>${k.words}</td><td><button class="a-btn a-btn-danger" onclick="window.deleteEntry('${k.id}')">Remove</button></td></tr>`).join('');
   };
-
   window.filterTable = (term) => {
     const lower = term.toLowerCase();
     const filtered = window.kbData.filter(k => k.title.toLowerCase().includes(lower) || k.content.toLowerCase().includes(lower));
@@ -564,53 +457,35 @@ tr:hover td { background: var(--bg-light); }
   };
 
   window.quickAsk = (q) => { document.getElementById('chatInput').value = q; window.sendMsg(); };
-
-  document.getElementById('chatInput').addEventListener('keydown', (e) => {
-    if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window.sendMsg(); }
-  });
+  document.getElementById('chatInput').addEventListener('keydown', (e) => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window.sendMsg(); } });
 
   window.addChatMsg = (role, text) => {
-    const d = document.createElement('div');
-    d.className = `c-msg ${role}`;
+    const d = document.createElement('div'); d.className = `c-msg ${role}`;
     d.innerHTML = `<div class="c-avatar">${role==='user'?'U':'VX'}</div><div class="c-bubble">${esc(text).replace(/\n/g,'<br>')}</div>`;
     document.getElementById('chatArea').appendChild(d);
   };
-  
   window.addChatAI = (text) => {
     const d = document.createElement('div'); d.className = 'c-msg ai';
     const formattedText = formatMarkdown(text);
     d.innerHTML = `<div class="c-avatar">VX</div><div class="c-bubble">${formattedText}</div>`;
     document.getElementById('chatArea').appendChild(d);
   };
-
   window.addTyping = () => {
     const id = 'typ_' + Date.now();
     const d = document.createElement('div'); d.className = 'c-msg ai'; d.id = id;
     d.innerHTML = `<div class="c-avatar">VX</div><div class="c-typing"><div class="c-dot"></div><div class="c-dot"></div><div class="c-dot"></div></div>`;
-    document.getElementById('chatArea').appendChild(d);
-    return id;
+    document.getElementById('chatArea').appendChild(d); return id;
   };
-  
   window.removeTyping = (id) => { const el = document.getElementById(id); if(el) el.remove(); };
   window.scrollBottom = () => { const a = document.getElementById('chatArea'); a.scrollTop = a.scrollHeight; };
 
-  // UPGRADED: Handle Bulk Files & Folders
   window.handleFiles = (files) => {
-    // Filter only supported files from the selected folder/files
     const supportedFiles = Array.from(files).filter(f => f.name.toLowerCase().endsWith('.pdf') || f.name.toLowerCase().endsWith('.txt'));
-    
-    if (supportedFiles.length === 0) {
-        window.showToast("⚠️ Koi valid PDF ya TXT file nahi mili!", "warn");
-        return;
-    }
-
+    if (supportedFiles.length === 0) { window.showToast("⚠️ Koi valid PDF ya TXT file nahi mili!", "warn"); return; }
     window.pendingFiles = supportedFiles;
     const fileListEl = document.getElementById('fileList');
-    
     fileListEl.style.display = "block";
-    fileListEl.innerHTML = `<div style="margin-bottom:8px; font-weight:bold; color:var(--primary);">Total Files: ${supportedFiles.length}</div>` + 
-                           window.pendingFiles.map(f => `📄 <strong>${esc(f.name)}</strong> (${(f.size/1024).toFixed(1)} KB)`).join('<br>');
-    
+    fileListEl.innerHTML = `<div style="margin-bottom:8px; font-weight:bold; color:var(--primary);">Total Files: ${supportedFiles.length}</div>` + window.pendingFiles.map(f => `📄 <strong>${esc(f.name)}</strong> (${(f.size/1024).toFixed(1)} KB)`).join('<br>');
     document.getElementById('btnProcessFiles').style.display = window.pendingFiles.length ? 'inline-flex' : 'none';
   };
 </script>
@@ -619,7 +494,6 @@ tr:hover td { background: var(--bg-light); }
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
   import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-  // YAHAN NAYA 'writeBatch' IMPORT ADD HUA HAI 👇
   import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
   try {
@@ -635,425 +509,284 @@ tr:hover td { background: var(--bg-light); }
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    
     const appId = 'vx-workspace-v1';
     const kbCollection = collection(db, 'artifacts', appId, 'public', 'data', 'knowledge');
 
-    signInAnonymously(auth).catch(e => {
-      console.error("Auth Error:", e);
-      window.showToast("Database Connection Error", "err");
-    });
+    signInAnonymously(auth).catch(e => { console.error("Auth Error:", e); window.showToast("Database Connection Error", "err"); });
 
     onAuthStateChanged(auth, (user) => {
       window.currentUser = user;
       if (user) {
         onSnapshot(kbCollection, (snapshot) => {
           window.kbData = [];
-          snapshot.forEach(doc => {
-            window.kbData.push({ id: doc.id, ...doc.data() });
-          });
+          snapshot.forEach(docSnap => { window.kbData.push({ id: docSnap.id, ...docSnap.data() }); });
           window.updateChatUI();
-          if(!document.getElementById('admin-view').classList.contains('view-hidden')) {
-            window.updateAdminUI();
-          }
-        }, (error) => {
-          console.error("Snapshot error", error);
-        });
+          if(!document.getElementById('admin-view').classList.contains('view-hidden')) window.updateAdminUI();
+        }, (error) => { console.error("Snapshot error", error); });
       }
     });
 
-    // 🌟 MASSIVE SAMPLE DATA LOAD (27+ Documents) 🌟
+    // 🌟 NAYA: ULTRA-FAST BULK WEBSITE SCRAPER ENGINE (PARALLEL PROCESSING) 🌟
+    // THIS IS ATTACHED DIRECTLY TO WINDOW SO THE BUTTON ALWAYS FINDS IT
+    window.importFromWeb = async () => {
+      const rawUrls = document.getElementById('webLink').value.trim();
+      if(!rawUrls) { window.showToast('⚠️ Kam se kam ek Website ka link paste karein', 'warn'); return; }
+
+      const urls = rawUrls.split('\n').map(u => u.trim()).filter(u => u.startsWith('http'));
+      if(urls.length === 0) { window.showToast('⚠️ Valid URLs nahi mile (http/https se shuru hone chahiye)', 'warn'); return; }
+
+      const statusEl = document.getElementById('webImportStatus');
+      const logEl = document.getElementById('webImportLog');
+      const btn = document.getElementById('btnWebImport');
+      
+      statusEl.style.display = "block";
+      logEl.style.display = "block";
+      logEl.innerHTML = '';
+      statusEl.style.color = "var(--primary)";
+      statusEl.textContent = `🚀 Processing ${urls.length} website(s) in Parallel... (Speed Mode On)`;
+      btn.disabled = true;
+      btn.textContent = "⏳ Engine Running...";
+
+      let successCount = 0;
+      let failCount = 0;
+      let batch = writeBatch(db);
+      let batchHasData = false;
+
+      const fetchWithTimeout = async (resource, options = {}) => {
+        const { timeout = 8000 } = options;
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        const response = await fetch(resource, { ...options, signal: controller.signal });
+        clearTimeout(id);
+        return response;
+      };
+
+      const fetchUrl = async (url) => {
+          let htmlContent = null;
+          const proxies = [
+              `https://corsproxy.io/?${encodeURIComponent(url)}`,
+              `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+              `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+          ];
+
+          for (let proxy of proxies) {
+              try {
+                  const res = await fetchWithTimeout(proxy);
+                  if (res.ok) {
+                      if (proxy.includes('allorigins')) {
+                          const data = await res.json();
+                          if (data.contents) { htmlContent = data.contents; break; }
+                      } else {
+                          htmlContent = await res.text(); break;
+                      }
+                  }
+              } catch (e) { continue; }
+          }
+
+          if(!htmlContent || htmlContent.trim() === '') throw new Error("Connection Timeout / Anti-Bot Security");
+
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(htmlContent, 'text/html');
+
+          const textCheck = htmlDoc.body.innerText.toLowerCase();
+          if(textCheck.includes('verify you are human') || textCheck.includes('cloudflare') || textCheck.includes('access denied')) {
+              throw new Error("Blocked by Security Firewall");
+          }
+
+          const unwanted = htmlDoc.querySelectorAll('script, style, nav, footer, header, noscript, iframe, svg, button, form, aside, menu');
+          unwanted.forEach(el => el.remove());
+
+          let text = htmlDoc.body.innerText || "";
+          text = text.replace(/\s+/g, ' ').trim();
+
+          if(text.length < 150) throw new Error("Padhne layak zyada text nahi mila.");
+
+          let pageTitle = htmlDoc.title || url.split('/')[2];
+
+          const newDocRef = doc(kbCollection);
+          batch.set(newDocRef, {
+            title: "Web: " + pageTitle,
+            category: 'general',
+            content: text,
+            words: text.split(/\s+/).length,
+            addedAt: Date.now()
+          });
+          batchHasData = true;
+          return pageTitle;
+      };
+
+      const promises = urls.map((url, index) => {
+          const logId = `log-${index}`;
+          logEl.innerHTML += `<div id="${logId}" style="color:#64748b; margin-bottom:4px; font-family:monospace;">⏳ <b>Fetching:</b> ${url.substring(0, 40)}...</div>`;
+          
+          return fetchUrl(url)
+              .then(title => {
+                  successCount++;
+                  document.getElementById(logId).innerHTML = `✅ <b style="color:var(--green);">Success:</b> ${title}`;
+              })
+              .catch(err => {
+                  failCount++;
+                  document.getElementById(logId).innerHTML = `❌ <b style="color:var(--danger);">Failed:</b> <span style="font-size:10px">${url.substring(0, 30)}...</span> - ${err.message}`;
+              });
+      });
+
+      await Promise.allSettled(promises);
+
+      if (batchHasData) {
+          statusEl.textContent = `🚀 Saving data to Database...`;
+          await batch.commit();
+      }
+
+      statusEl.style.color = successCount > 0 ? "var(--green)" : "var(--danger)";
+      statusEl.textContent = `🏁 Process Complete! Success: ${successCount}, Failed: ${failCount}`;
+      
+      if(successCount > 0) {
+          window.showToast(`🚀 ${successCount} Websites ka data successfully save ho gaya!`);
+          document.getElementById('webLink').value = '';
+      }
+      
+      btn.disabled = false;
+      btn.innerHTML = "⚡ Launch Ultra-Fast Scraper";
+    };
+
+    // Other Utility Functions
     window.loadSampleData = async () => {
-      if(!window.currentUser) return window.showToast("Connection Error", "err");
+      if(!window.currentUser) return;
       const btn = document.getElementById('btnLoadSample');
       btn.style.opacity = '0.5'; btn.style.pointerEvents = 'none';
-      window.showToast("Loading 27 Sample Documents... Please wait");
+      window.showToast("Loading Sample Documents... Please wait");
 
       const sampleDocs = [
-        { title: "Company Leave Policy 2026", category: "policy", content: "Employees are entitled to 30 days of paid leave per year. This includes 12 casual leaves and 18 earned leaves. If an employee takes sick leave for more than 2 consecutive days, a registered medical certificate is mandatory. Unused earned leaves can be carried forward to the next year, up to a maximum of 45 days. Leave applications must be submitted at least one week in advance through the HR portal." },
-        { title: "Work From Home (WFH) Guidelines", category: "policy", content: "The company offers a hybrid work model. Employees can work from home (WFH) for a maximum of 2 days a week. Tuesdays and Thursdays are mandatory office days for team meetings. While working from home, employees must be online and reachable on Slack or Microsoft Teams during core business hours, which are 10:00 AM to 4:00 PM. A stable internet connection is required. The company will provide a one-time WFH allowance of Rs 10,000 to set up a home office workstation." },
-        { title: "Maternity and Paternity Leave Rules", category: "policy", content: "Maternity leave is provided for up to 26 weeks (6 months) for female employees as per the Maternity Benefit Act. This is fully paid leave. Paternity leave of 15 days is available for male employees, which can be availed within 6 months of the child's birth. Adoption leave of 12 weeks is also available for employees adopting a child below the age of three months." },
-        { title: "IT Security and Data Protection", category: "rule", content: "All employees must adhere to strict IT security protocols. Account passwords must be at least 12 characters long and changed every 90 days. Never share your OTP, passwords, or access cards with anyone, including the IT team. Always lock your laptop screen (Windows + L or Cmd + Control + Q) when stepping away from your desk. Do not use public Wi-Fi networks for company work without an active VPN connection. Any suspicious emails or phishing attempts must be reported to the IT Helpdesk immediately at it-support@company.com." },
-        { title: "Travel and Expense Reimbursement", category: "policy", content: "For official business travel, employees must book flight tickets at least 14 days in advance. Economy class travel is allowed for domestic flights. Accommodation limit is Rs 5,000 per night for tier-1 cities and Rs 3,000 for tier-2 cities. Daily food allowance during travel is Rs 1,500. All original bills and GST invoices must be uploaded to the expense portal within 7 days of returning from the trip. Reimbursements are processed on the 15th and 30th of every month." },
-        { title: "Office Timings and Holiday List 2026", category: "general", content: "Standard office timings are from 9:30 AM to 6:30 PM, Monday to Friday. There is a flexible window of 1 hour (8:30 AM to 10:30 AM login time). The office remains closed on all Saturdays and Sundays. The official public holidays for 2026 include Republic Day (Jan 26), Holi (Feb 25), Independence Day (Aug 15), Gandhi Jayanti (Oct 2), Diwali (Nov 4), and Christmas (Dec 25). Employees can also avail 2 restricted holidays (RH) of their choice from the approved list." },
-        { title: "Performance Review and Appraisal", category: "general", content: "The company follows an annual performance review cycle. Appraisals are conducted in March every year. The evaluation is based on self-assessment, manager's rating, and 360-degree feedback from peers. Key Performance Indicators (KPIs) and Objective and Key Results (OKRs) defined at the start of the financial year (April) form the basis of the evaluation. Salary increments and promotions are announced in the first week of April and are effective from April 1st." },
-        { title: "Employee Code of Conduct", category: "rule", content: "All employees must maintain professional behavior at the workplace. Harassment, discrimination, or bullying of any kind will lead to immediate termination. The dress code is smart casuals from Monday to Thursday, and casuals on Friday. Wearing ID cards is mandatory at all times inside the office premises." },
-        { title: "Resignation and Notice Period", category: "policy", content: "The standard notice period for all confirmed employees is 90 days. During the notice period, employees are not allowed to take more than 3 days of planned leave. The Full and Final (FnF) settlement will be processed within 45 days of the last working day. All company assets must be returned to the IT department before the exit interview." },
-        { title: "Provident Fund (PF) and Gratuity", category: "policy", content: "As per government regulations, 12% of the basic salary is deducted as Employee Provident Fund (EPF), with an equal contribution from the employer. The UAN (Universal Account Number) is generated within the first month of joining. Employees who complete 5 continuous years of service in the company are eligible for Gratuity payout upon resignation or retirement." },
-        { title: "Health Insurance Benefits", category: "general", content: "The company provides a comprehensive family floater health insurance policy covering the employee, spouse, and up to two children. The maximum sum insured is Rs 5,00,000 per family per year. Cashless claims can be availed at over 5000+ network hospitals. Pre-existing diseases are covered from day one. Dental and vision checkups up to Rs 5,000 are also covered." },
-        { title: "Company History and Vision", category: "general", content: "VX Corporation was founded in the year 2015 by our CEO, Mr. Rahul Sharma. Our mission is to democratize Artificial Intelligence and build software that simplifies human life. We started with a small team of 5 people in a garage and have now grown to over 2000 employees globally. Our core values are Integrity, Innovation, and Inclusivity." },
-        { title: "Hardware and Laptop Policy", category: "rule", content: "Every new employee is assigned a company-owned laptop (MacBook Pro or Dell ThinkPad depending on the role). Hardware upgrades are allowed every 3 years. If a laptop is lost or physically damaged due to gross negligence, the employee will be liable to pay 50% of the repair or replacement cost. IT accessories like mouse, keyboard, and monitors can be requested via the IT ticketing portal." },
-        { title: "Cafeteria and Meal Rules", category: "general", content: "The office cafeteria is located on the 4th floor. Complimentary buffet lunch is served daily from 1:00 PM to 2:30 PM. Free evening snacks and tea/coffee are available from 5:00 PM to 6:00 PM. Employees are requested not to take cafeteria food to their workstations or labs to maintain hygiene. Outside food delivery (like Swiggy/Zomato) must be collected from the ground floor reception." },
-        { title: "Office Parking Guidelines", category: "general", content: "Office parking is allotted on a first-come, first-serve basis. Basement 1 (B1) is strictly reserved for two-wheelers, while Basement 2 (B2) is for four-wheelers. Employees must register their vehicle numbers with the admin desk to get a parking sticker. Overnight parking is not allowed without prior approval from the facilities manager." },
-        { title: "Employee Referral Program", category: "policy", content: "Employees can refer their friends or former colleagues for open positions. If the referred candidate is hired, the referring employee will receive a referral bonus of Rs 50,000. This bonus is paid out only after the new hire successfully completes 3 months of probation in the company. Managers cannot claim referral bonuses for hiring within their own teams." },
-        { title: "Prevention of Sexual Harassment (POSH)", category: "law", content: "The company has a zero-tolerance policy towards sexual harassment. An Internal Complaints Committee (ICC) is established to handle any grievances. Complaints can be filed anonymously through the HR portal or by emailing posh@company.com. All investigations are kept strictly confidential, and malicious false complaints will also face strict disciplinary action." },
-        { title: "Salary Advance and Loan Policy", category: "policy", content: "Confirmed employees completing 1 year of service can request a salary advance or personal loan. The maximum loan amount is up to 2 months of basic salary. The loan will be recovered in 6 equal monthly installments (EMI) deducted from the salary. No interest is charged on salary advances. Approval from the functional head and HR is required." },
-        { title: "Relocation and Transfer Allowance", category: "policy", content: "If an employee is transferred to a different city by the company, a relocation allowance is provided. The company will bear the cost of moving household goods up to Rs 40,000. The employee will also receive up to 15 days of initial hotel accommodation and a one-time settling-in allowance of Rs 20,000. Relocation benefits must be claimed within 60 days of the transfer." },
-        { title: "Bereavement Leave Policy", category: "policy", content: "In the unfortunate event of the death of an immediate family member (spouse, child, parent, or sibling), an employee is entitled to 5 days of paid bereavement leave. This leave is intended to give employees time to mourn and manage family affairs. No medical or death certificate is required to claim this leave." },
-        { title: "Sabbatical Leave Policy", category: "policy", content: "Employees who have completed 5 continuous years of service are eligible to apply for an unpaid sabbatical leave for up to 6 months. This leave can be used for higher education, pursuing a personal passion, or managing a family emergency. During the sabbatical, the employee will not receive a salary but will retain their job title and continuity of service." },
-        { title: "Bring Your Own Device (BYOD)", category: "policy", content: "Employees opting for the BYOD program can use their personal laptops for company work. A monthly allowance of Rs 1,500 is provided to cover wear and tear. All personal devices used for work must have company-approved Antivirus and Mobile Device Management (MDM) software installed to ensure data security. The company holds the right to remotely wipe company data if the device is lost." },
-        { title: "Social Media Guidelines", category: "rule", content: "Employees are encouraged to be brand ambassadors on LinkedIn and Twitter. However, sharing confidential project details, upcoming unannounced features, or negative comments about clients on any social media platform is strictly prohibited. Always use a disclaimer stating that 'the views expressed are personal and do not represent the company' if discussing industry topics." },
-        { title: "Dual Employment and Moonlighting", category: "rule", content: "The company enforces a strict single-employment policy. Employees are not allowed to take up full-time or part-time jobs, freelance gigs, or consultancies that conflict with the company's business interests or overlap with official working hours. Engaging in unauthorized moonlighting will lead to an immediate disciplinary hearing and potential termination." },
-        { title: "Diversity, Equity, and Inclusion", category: "policy", content: "We are committed to building a diverse and inclusive workplace. Hiring, promotions, and compensation are based solely on merit and performance, irrespective of race, gender, religion, sexual orientation, or physical ability. The company actively runs 'Women in Tech' initiatives and provides wheelchair-accessible infrastructure in all office buildings." },
-        { title: "Training and Certification Sponsorship", category: "general", content: "To promote continuous learning, the company sponsors job-related certifications (like AWS, Azure, PMP). Employees can claim up to Rs 25,000 per year for course fees and exam costs. The employee must pass the certification exam to be eligible for reimbursement. If the employee resigns within 6 months of the certification payout, the amount will be recovered in the final settlement." },
-        { title: "Internet and Network Usage", category: "rule", content: "The office internet network is strictly for official work. Streaming movies on Netflix/Prime, downloading pirated software, or visiting adult and gambling websites on the office network is heavily restricted and monitored. The IT department logs all web traffic to protect against malware and cyber threats." }
+        { title: "Company Leave Policy 2026", category: "policy", content: "Employees are entitled to 30 days of paid leave per year. Unused earned leaves can be carried forward to the next year, up to a maximum of 45 days." },
+        { title: "Work From Home (WFH) Guidelines", category: "policy", content: "The company offers a hybrid work model. Employees can work from home (WFH) for a maximum of 2 days a week. The company will provide a one-time WFH allowance of Rs 10,000 to set up a home office workstation." }
       ];
 
       try {
-        let addedCount = 0;
-        for(let doc of sampleDocs) {
-          await addDoc(kbCollection, {
-            title: doc.title, category: doc.category, content: doc.content, words: doc.content.split(/\s+/).length, addedAt: Date.now()
-          });
-          addedCount++;
+        let batch = writeBatch(db);
+        for(let docData of sampleDocs) {
+          const newDocRef = doc(kbCollection);
+          batch.set(newDocRef, { title: docData.title, category: docData.category, content: docData.content, words: docData.content.split(/\s+/).length, addedAt: Date.now() });
         }
-        window.showToast(`✅ ${addedCount} Sample Documents Added Successfully!`);
-      } catch (e) {
-        console.error(e); window.showToast("Error adding sample data", "err");
-      } finally {
-        btn.style.opacity = '1'; btn.style.pointerEvents = 'auto';
-      }
+        await batch.commit();
+        window.showToast(`✅ Sample Documents Added!`);
+      } catch (e) { console.error(e); } 
+      finally { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
     };
 
-    // 🌟 GOOGLE DOCS IMPORT ENGINE (NO GOOGLE API REQUIRED) 🌟
-    window.openDrivePopup = () => {
-      // Opens a mini window for Google Drive
-      window.open('https://drive.google.com/drive/my-drive', 'DrivePicker', 'width=900,height=600,left=200,top=100');
-    };
-
+    window.openDrivePopup = () => { window.open('https://drive.google.com/drive/my-drive', 'DrivePicker', 'width=900,height=600,left=200,top=100'); };
     window.autoImportDrive = (link) => {
       if(!link || (!link.includes('docs.google.com') && !link.includes('drive.google.com'))) return;
-      
-      // Smart Check: Agar user ne Folder ka link daal diya
       if(link.includes('/folders/')) {
-        const statusEl = document.getElementById('driveImportStatus');
-        statusEl.style.display = "block";
-        statusEl.style.color = "var(--danger)";
-        statusEl.innerHTML = "❌ Error: Google Drive Folder direct import nahi ho sakta.<br><br><b>Solution:</b> Folder ko Drive se download (Zip) karein, extract karein, aur <b>'Upload PDF'</b> tab me jakar <b>'Select Entire Folder'</b> button ka use karein.";
+        document.getElementById('driveImportStatus').style.display = "block";
+        document.getElementById('driveImportStatus').style.color = "var(--danger)";
+        document.getElementById('driveImportStatus').innerHTML = "❌ Error: Google Drive Folder direct import nahi ho sakta. Zip download karke Upload Tab use karein.";
         return;
       }
-      
       window.importFromDrive(link);
     };
 
     window.importFromDrive = async (directLink = null) => {
       const link = directLink || document.getElementById('driveLink').value.trim();
-      if(!link) { window.showToast('⚠️ Google Doc ka link paste karein', 'warn'); return; }
-
+      if(!link) return;
       const statusEl = document.getElementById('driveImportStatus');
-      const inputEl = document.getElementById('driveLink');
-      
-      // Smart Check for manual button click
-      if(link.includes('/folders/')) {
-          statusEl.style.display = "block";
-          statusEl.style.color = "var(--danger)";
-          statusEl.innerHTML = "❌ Error: Google Drive Folder direct import nahi ho sakta.<br><br><b>Solution:</b> Folder ko Drive se download (Zip) karein, extract karein, aur <b>'Upload PDF'</b> tab me jakar <b>'Select Entire Folder'</b> button ka use karein.";
-          return;
-      }
-      
-      statusEl.style.display = "block";
-      statusEl.style.color = "var(--primary)";
-      statusEl.textContent = "⏳ Fetching Data from Google Drive...";
-      inputEl.disabled = true;
-
+      if(link.includes('/folders/')) { statusEl.style.display="block"; statusEl.style.color="var(--danger)"; statusEl.innerHTML="❌ Folder upload allowed nahi hai."; return; }
+      statusEl.style.display = "block"; statusEl.style.color = "var(--primary)"; statusEl.textContent = "⏳ Fetching Data from Google Drive...";
       try {
-          // Extract ID from the Google Doc URL
           let fileId = "";
           const match = link.match(/\/d\/(.*?)\//) || link.match(/id=(.*?)(&|$)/);
-          if(match && match[1]) fileId = match[1];
-          else throw new Error("Link mein Document ID nahi mili.");
-
-          // Export as text URL
+          if(match && match[1]) fileId = match[1]; else throw new Error("ID not found.");
           const exportUrl = `https://docs.google.com/document/d/${fileId}/export?format=txt`;
-          
-          // Use free AllOrigins proxy to bypass browser CORS rules
           const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(exportUrl)}`;
-
           const response = await fetch(proxyUrl);
           const data = await response.json();
-
-          if(data.contents && !data.contents.includes('ServiceLogin') && data.contents.trim() !== '') {
-              if(data.contents.includes('<!DOCTYPE html>')) throw new Error("File public nahi hai.");
-
+          if(data.contents && !data.contents.includes('ServiceLogin')) {
               document.getElementById('aContent').value = data.contents;
               document.getElementById('aTitle').value = "Imported from Google Docs";
               document.getElementById('aCat').value = "policy";
-              
-              window.openTab('add'); 
-              window.showToast("✅ Data Google Docs se aa gaya! Ab review karke Save karein.");
-              
-              inputEl.value = ''; // clear input
+              window.openTab('add'); window.showToast("✅ Data Google Docs se aa gaya! Review karke Save karein.");
               statusEl.style.display = "none";
-          } else {
-              throw new Error("Data fetch nahi ho paya. Permissions check karein.");
-          }
-      } catch(err) {
-          console.error(err);
-          statusEl.style.color = "var(--danger)";
-          statusEl.textContent = "❌ Error: Link 'Anyone with the link can view' par set karein.";
-      } finally {
-          inputEl.disabled = false;
-      }
+          } else throw new Error("Fetch failed.");
+      } catch(err) { statusEl.style.color = "var(--danger)"; statusEl.textContent = "❌ Error: Link 'Anyone with link' par set nahi hai."; }
     };
 
     window.saveEntry = async () => {
-      if(!window.currentUser) return window.showToast("Connection Error", "err");
       const title = document.getElementById('aTitle').value.trim();
       const category = document.getElementById('aCat').value;
       const content = document.getElementById('aContent').value.trim();
-      
       if(!title || !content) return alert('Title and Content are required!');
-      const btn = document.getElementById('btnSaveEntry');
-      btn.disabled = true; btn.textContent = "Pushing...";
-
       try {
         await addDoc(kbCollection, { title, category, content, words: content.split(/\s+/).length, addedAt: Date.now() });
         window.showToast("Data Saved Successfully!");
         document.getElementById('aTitle').value = ''; document.getElementById('aContent').value = '';
-      } catch (e) { console.error(e); alert("Error saving: " + e.message);
-      } finally { btn.disabled = false; btn.textContent = "Push to Database (Save)"; }
+      } catch (e) { console.error(e); }
     };
 
     window.deleteEntry = async (id) => {
-      if(!window.currentUser) return;
-      if(!confirm("Are you sure you want to permanently delete this document?")) return;
-      try {
-        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'knowledge', id));
-        window.showToast("Document Removed");
-      } catch(e) { console.error(e); alert("Error: "+e.message); }
+      if(!confirm("Delete this document?")) return;
+      try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'knowledge', id)); window.showToast("Document Removed"); } catch(e) {}
     };
 
-    // 🌟 ULTRA FAST BULK PROCESSING ENGINE 🌟
     window.processFiles = async () => {
-      if(!window.pendingFiles.length || !window.currentUser) return;
-      const btn = document.getElementById('btnProcessFiles');
-      btn.disabled = true; 
-
-      let added = 0;
-      let totalFiles = window.pendingFiles.length;
-      
-      // Firebase Batch Writing - Ek saath 500 files tak bhejenge (Super Fast Network)
-      let batch = writeBatch(db);
-      let batchCount = 0;
-
-      // Parallel Processing Chunks - Ek saath 5 file CPU se read karega
-      const chunkSize = 5; 
-
-      for(let i = 0; i < totalFiles; i += chunkSize) {
-        const chunk = window.pendingFiles.slice(i, i + chunkSize);
-        btn.textContent = `⚡ Fast Extraction: ${Math.min(i + chunkSize, totalFiles)} / ${totalFiles}`; 
-
+      if(!window.pendingFiles.length) return;
+      const btn = document.getElementById('btnProcessFiles'); btn.disabled = true; 
+      let added = 0, totalFiles = window.pendingFiles.length, batch = writeBatch(db), batchCount = 0;
+      for(let i = 0; i < totalFiles; i += 5) {
+        const chunk = window.pendingFiles.slice(i, i + 5);
+        btn.textContent = `⚡ Fast Extraction: ${Math.min(i + 5, totalFiles)} / ${totalFiles}`; 
         await Promise.all(chunk.map(async (file) => {
           try {
             let content = '';
             if(file.name.endsWith('.pdf')) {
-              const ab = await file.arrayBuffer();
-              const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
-              for(let p=1; p<=pdf.numPages; p++) {
-                const page = await pdf.getPage(p);
-                const tc = await page.getTextContent();
-                content += tc.items.map(item => item.str).join(' ') + '\n';
-              }
+              const ab = await file.arrayBuffer(); const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+              for(let p=1; p<=pdf.numPages; p++) { const page = await pdf.getPage(p); const tc = await page.getTextContent(); content += tc.items.map(item => item.str).join(' ') + '\n'; }
             } else {
-              content = await new Promise((res,rej) => {
-                const r = new FileReader(); r.onload = e => res(e.target.result); r.onerror = rej; r.readAsText(file);
-              });
+              content = await new Promise((res,rej) => { const r = new FileReader(); r.onload = e => res(e.target.result); r.readAsText(file); });
             }
-            
             content = content.replace(/\s+/g, ' ').trim();
             if(content.length > 10) {
-              const newDocRef = doc(kbCollection); // Naya auto-ID reference
-              batch.set(newDocRef, {
-                title: file.name, category: 'book', content: content, words: content.split(/\s+/).length, addedAt: Date.now()
-              });
-              added++;
-              batchCount++;
-
-              // Firestore ki ek batch limit maximum 500 hoti hai, 450 par push kar denge
-              if(batchCount >= 450) {
-                await batch.commit();
-                batch = writeBatch(db); // Naya batch chalu
-                batchCount = 0;
-              }
+              batch.set(doc(kbCollection), { title: file.name, category: 'book', content: content, words: content.split(/\s+/).length, addedAt: Date.now() });
+              added++; batchCount++;
+              if(batchCount >= 450) { await batch.commit(); batch = writeBatch(db); batchCount = 0; }
             }
-          } catch (e) { 
-              console.error(`Error parsing file ${file.name}:`, e); 
-          }
+          } catch (e) { console.error(e); }
         }));
       }
-      
-      // Bache hue aakhiri documents ko ek jhatke mein save karna
-      if(batchCount > 0) {
-        btn.textContent = "🚀 Saving to Database...";
-        await batch.commit();
-      }
-      
-      window.showToast(`✅ ${added} Document(s) Indexed Super Fast!`);
-      window.pendingFiles = []; 
-      const fileListEl = document.getElementById('fileList');
-      fileListEl.innerHTML = '';
-      fileListEl.style.display = 'none';
-      btn.style.display = 'none'; 
-      btn.disabled = false; 
-      btn.textContent = "⚡ Extract & Save All Data";
+      if(batchCount > 0) await batch.commit();
+      window.showToast(`✅ ${added} Document(s) Indexed!`);
+      window.pendingFiles = []; document.getElementById('fileList').style.display = 'none'; btn.style.display = 'none'; btn.disabled = false; btn.textContent = "⚡ Extract & Save All Data";
     };
 
-    // --- 🌟 100% OFFLINE ADVANCED JAVASCRIPT AI ENGINE (NO API) 🌟 ---
-    
-    function detectLanguage(words) {
-      const enKeywords = ['what', 'why', 'how', 'when', 'who', 'is', 'are', 'the', 'this', 'that', 'explain', 'tell', 'about', 'summarize', 'can', 'details', 'give'];
-      let enCount = words.filter(w => enKeywords.includes(w)).length;
-      return enCount > 0 ? 'en' : 'hi';
-    }
-
-    const engToHinPhrase = [
-      [/strictly prohibited/gi, 'sakt mana hai'], [/is mandatory/gi, 'zaroori hai'],
-      [/are mandatory/gi, 'zaroori hain'], [/will be provided/gi, 'diya jayega'],
-      [/can apply/gi, 'apply kar sakte hain'], [/has been/gi, 'kiya gaya hai'],
-      [/will be/gi, 'hoga'], [/should be/gi, 'hona chahiye'],
-      [/must be/gi, 'zaroori hona chahiye'], [/are entitled to/gi, 'ko milenge'],
-      [/per year/gi, 'har saal']
-    ];
-
-    const engToHinWord = {
-      'is': 'hai', 'are': 'hain', 'was': 'tha', 'were': 'the', 'am': 'hoon',
-      'and': 'aur', 'but': 'lekin', 'or': 'ya', 'if': 'agar', 'then': 'toh',
-      'this': 'yeh', 'that': 'woh', 'what': 'kya', 'why': 'kyun', 'how': 'kaise', 
-      'when': 'kab', 'you': 'aap', 'we': 'hum', 'he': 'woh', 'she': 'woh', 'i': 'main',
-      'policy': 'niyam', 'rules': 'niyam', 'rule': 'niyam',
-      'leave': 'chutti', 'leaves': 'chuttiyan', 'holiday': 'chutti',
-      'salary': 'vetan', 'pay': 'paisa', 'allowance': 'allowance/paisa',
-      'loan': 'udhaar/loan', 'advance': 'advance paisa',
-      'work': 'kaam', 'job': 'kaam',
-      'employee': 'karmchari', 'employees': 'karmchariyon',
-      'all': 'sabhi', 'some': 'kuch', 'any': 'koi bhi',
-      'can': 'sakte hain', 'will': 'hoga', 'should': 'chahiye',
-      'not': 'nahi', 'no': 'nahi', 'yes': 'haan',
-      'for': 'ke liye', 'with': 'ke saath', 'from': 'se', 'to': 'ko', 'in': 'mein', 'on': 'par',
-      'document': 'dastavez', 'information': 'jankari',
-      'days': 'din', 'months': 'mahine', 'year': 'saal',
-      'required': 'zaroori', 'important': 'zaroori', 'maximum': 'zyada se zyada',
-      'training': 'training', 'learning': 'seekhna', 'device': 'device/laptop'
-    };
-
-    function translateText(text) {
-      let translated = text;
-      engToHinPhrase.forEach(([regex, replacement]) => { translated = translated.replace(regex, replacement); });
-      translated = translated.replace(/\b([a-zA-Z]+)\b/g, (match) => {
-        const lower = match.toLowerCase();
-        if (engToHinWord[lower]) return match[0] === match[0].toUpperCase() ? engToHinWord[lower].charAt(0).toUpperCase() + engToHinWord[lower].slice(1) : engToHinWord[lower];
-        return match;
-      });
-      return translated;
-    }
-
-    const crossLangDict = {
-      'niyam': ['rule', 'policy', 'guideline'],
-      'chutti': ['leave', 'holiday', 'vacation', 'casual', 'sick', 'maternity', 'sabbatical', 'bereavement'],
-      'paisa': ['money', 'salary', 'allowance', 'rs', 'bonus', 'gratuity', 'pf', 'loan', 'advance'],
-      'loan': ['advance', 'paisa'],
-      'kaam': ['work', 'job', 'wfh', 'moonlighting', 'employment'],
-      'samay': ['time', 'hours', 'schedule'],
-      'bima': ['insurance', 'health', 'mediclaim', 'cover'],
-      'khana': ['food', 'lunch', 'cafeteria', 'meal', 'snacks'],
-      'chhodna': ['resign', 'resignation', 'leaving', 'notice'],
-      'parking': ['park', 'vehicle', 'car', 'bike', 'scooter'],
-      'founder': ['ceo', 'history', 'founded', 'vision'],
-      'social': ['media', 'linkedin', 'twitter', 'facebook'],
-      'laptop': ['device', 'byod', 'hardware', 'macbook'],
-      'course': ['training', 'certification', 'learning']
-    };
+    function translateText(text) { return text; }
 
     window.sendMsg = async () => {
-      const input = document.getElementById('chatInput');
-      const q = input.value.trim();
-      if(!q) return;
+      const input = document.getElementById('chatInput'); const q = input.value.trim(); if(!q) return;
       document.getElementById('sendBtn').disabled = true; input.value = '';
       const wb = document.getElementById('welcomeBlock'); if(wb) wb.remove();
-      window.addChatMsg('user', q);
-      const tid = window.addTyping();
-      
-      // Simulate reading speed
+      window.addChatMsg('user', q); const tid = window.addTyping();
       await new Promise(r => setTimeout(r, 900)); 
-      
       const answer = getSmartAnswerOffline(q);
-      window.removeTyping(tid);
-      window.addChatAI(answer);
+      window.removeTyping(tid); window.addChatAI(answer);
       document.getElementById('sendBtn').disabled = false; window.scrollBottom();
     };
 
     function getSmartAnswerOffline(query) {
-      const qLower = query.toLowerCase().trim();
-      const rawWords = qLower.replace(/[?।,!।\.]/g,'').split(/\s+/);
-      const lang = detectLanguage(rawWords);
-
-      if (/^(hi|hello|hey|namaste|hello vx|hi vx)$/i.test(qLower)) {
-          return lang === 'en' ? "Hello! I am VX, your offline AI assistant. I'm ready to answer questions based strictly on your uploaded documents." : "Namaste! Main VX AI hoon. Main 100% offline kaam karta hoon. Bataiye, main aapke documents me se kya dhundh kar laun?";
-      }
-
-      if(!window.kbData.length) {
-        return lang === 'en' ? "I'm sorry, but my database is empty. Please load sample data from the Admin Panel or upload your own files." : "Abhi mere database mein koi jaankari nahi hai. Kripya pehle Admin panel se data add karein.";
-      }
-      
-      const isSummaryRequest = rawWords.some(w => ['summary', 'summarize', 'overview', 'saar', 'sankshep'].includes(w)) || rawWords.length === 0;
-
-      if (isSummaryRequest && rawWords.length <= 3) {
-        let summaryAns = lang === 'en' ? "Here is a quick overview of what I know based on the documents:\n\n" : "Mere database mein ye main documents uplabdh hain:\n\n";
-        window.kbData.slice(0, 3).forEach((doc) => {
-          let firstPara = doc.content.split(/\n/)[0].substring(0, 150);
-          if(lang === 'hi') firstPara = translateText(firstPara);
-          summaryAns += `• **${doc.title.replace(/\.[^/.]+$/, "")}**: ${firstPara}...\n\n`;
-        });
-        summaryAns += lang === 'en' ? "Let me know if you want detailed information about any of these!" : "Aap inme se kisi bhi vishay par sawal puch sakte hain.";
-        return summaryAns;
-      }
-
+      if(!window.kbData.length) return "Mera database abhi khali hai. Kripya pehle Admin panel se data add karein.";
+      const rawWords = query.toLowerCase().replace(/[?।,!।\.]/g,'').split(/\s+/);
       const stopWords = new Set(['kya','hai','hain','mein','ka','ki','ke','ko','se','aur','par','bhi','to','jo','ye','yeh','woh','ek','do','main','tum','aap','hum','koi','kuch','ab','tha','thi','the','ho','hun','mere','meri','mera', 'is', 'are', 'the', 'what', 'how', 'to', 'a', 'an', 'of', 'in', 'on', 'for', 'with']);
       let qWords = rawWords.filter(w => w.length > 2 && !stopWords.has(w));
-
-      let expandedWords = [...qWords];
-      qWords.forEach(w => { if(crossLangDict[w]) expandedWords.push(...crossLangDict[w]); });
-      qWords = [...new Set(expandedWords)];
-
-      let bestPara = "";
-      let highestScore = 0;
-
+      
+      let bestPara = "", highestScore = 0;
       window.kbData.forEach(doc => {
           const paras = doc.content.split(/(?<=\.)\s+/).filter(p => p.trim().length > 30); 
           paras.forEach(p => {
-              let score = 0;
-              const pLower = p.toLowerCase();
-              qWords.forEach(w => {
-                  if(pLower.includes(w)) {
-                      score += 10;
-                      if(new RegExp(`\\b${w}\\b`).test(pLower)) score += 15;
-                  }
-              });
-              if(score > highestScore) {
-                  highestScore = score; bestPara = p.trim();
-              }
+              let score = 0; const pLower = p.toLowerCase();
+              qWords.forEach(w => { if(pLower.includes(w)) { score += 10; if(new RegExp(`\\b${w}\\b`).test(pLower)) score += 15; } });
+              if(score > highestScore) { highestScore = score; bestPara = p.trim(); }
           });
       });
 
-      if(highestScore === 0 || !bestPara) {
-          const topics = window.kbData.slice(0, 3).map(k => "• " + k.title.replace(/\.[^/.]+$/, "")).join('\n');
-          return lang === 'en'
-            ? `I couldn't find an exact match for your question in the database. However, I have information on the following topics:\n\n${topics}\n\nCan you try asking about one of these?`
-            : `Maaf kijiye, mujhe aapke sawal ka seedha jawab nahi mila. Lekin mere paas in vishayon par data hai:\n\n${topics}\n\nKya aap inme se kuch janna chahte hain?`;
-      }
-
-      let finalPara = lang === 'hi' ? translateText(bestPara) : bestPara;
-      let finalAnswer = "";
-      
-      if (lang === 'en') {
-          const intros = ["Based on the documents, here is what I found:", "I checked the database. According to the records:", "Here is the relevant information:"];
-          finalAnswer = `**${intros[Math.floor(Math.random() * intros.length)]}**\n\n${finalPara}`;
-      } else {
-          const intros = ["Maine check kiya hai. Jo jankari mujhe mili hai, uske mutabik:", "Aapke sawal ke aadhar par mujhe yeh details mili hain:", "Database ke anusaar:"];
-          finalAnswer = `**${intros[Math.floor(Math.random() * intros.length)]}**\n\n${finalPara}`;
-      }
-      
-      return finalAnswer;
+      if(!bestPara) return `Maaf kijiye, mujhe aapke sawal ka seedha jawab nahi mila.`;
+      return `**Database ke anusaar:**\n\n${bestPara}`;
     }
 
   } catch(error) {
