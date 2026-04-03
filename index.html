@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ज्ञान AI — Knowledge Base & Chat</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- PDF.js for extraction -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+
+<style>
+/* ==================== GLOBAL VARIABLES & THEMES ==================== */
+:root {
+  /* Chat Theme (Dark) */
+  --c-bg: #0d0f14; --c-surface: #161a23; --c-surface2: #1e2433; --c-border: #2a3147;
+  --c-accent: #f5a623; --c-accent2: #e8734a; --c-text: #e8eaf0; --c-muted: #7a8099;
+  --c-green: #4caf84; --c-red: #e05252; --c-glow: rgba(245,166,35,0.12);
+
+  /* Admin Theme (Light) */
+  --a-bg: #f5f0e8; --a-surface: #fffdf7; --a-surface2: #eee8d8; --a-border: #d4c9b0; --a-border2: #c4b898;
+  --a-ink: #1a1410; --a-ink2: #4a3f30; --a-ink3: #8a7a65; --a-accent: #c0392b; --a-accent2: #e67e22;
+  --a-green: #27ae60; --a-blue: #2980b9; --a-purple: #8e44ad;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { overflow-x: hidden; }
+
+.view-hidden { display: none !important; }
+
+/* ==================== CHAT VIEW (DARK) ==================== */
+#chat-view {
+  background: var(--c-bg); color: var(--c-text); font-family: 'Baloo 2', 'Noto Sans Devanagari', sans-serif;
+  height: 100vh; display: flex; flex-direction: column; overflow: hidden; position: relative;
+}
+#chat-view::before {
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+  background: radial-gradient(ellipse 70% 40% at 15% 5%,rgba(245,166,35,0.07) 0%,transparent 60%),
+              radial-gradient(ellipse 50% 30% at 85% 95%,rgba(232,115,74,0.07) 0%,transparent 60%);
+}
+
+.c-header {
+  position:relative; z-index:10; background:rgba(22,26,35,0.95); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--c-border); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
+}
+.c-logo { display:flex; align-items:center; gap:12px; }
+.c-logo-icon { width:40px; height:40px; background:linear-gradient(135deg,var(--c-accent),var(--c-accent2)); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow:0 4px 18px rgba(245,166,35,0.3); }
+.c-logo h1 { font-size:20px; font-weight:800; background:linear-gradient(135deg,var(--c-accent),var(--c-accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.c-logo p { font-size:11px; color:var(--c-muted); }
+.c-header-right { display:flex; gap:12px; align-items:center; }
+.c-kb-chip { background:var(--c-surface2); border:1px solid var(--c-border); border-radius:20px; padding:6px 14px; font-size:12px; color:var(--c-muted); }
+.c-kb-chip span { color:var(--c-accent); font-weight:700; }
+.c-admin-link { display:flex; align-items:center; gap:6px; background:rgba(245,166,35,0.1); border:1px solid rgba(245,166,35,0.3); color:var(--c-accent); text-decoration:none; font-family:inherit; font-size:12px; padding:7px 14px; border-radius:8px; cursor:pointer; transition:all 0.2s; }
+.c-admin-link:hover { background:rgba(245,166,35,0.2); }
+
+.c-no-data { position:relative; z-index:5; background:rgba(224,82,82,0.08); border-bottom:1px solid rgba(224,82,82,0.2); padding:10px 24px; display:flex; align-items:center; gap:12px; font-size:13px; color:#e07575; }
+
+.c-chat-area { flex:1; overflow-y:auto; padding:28px 24px; display:flex; flex-direction:column; gap:22px; position:relative; z-index:1; }
+.c-chat-area::-webkit-scrollbar { width:6px; }
+.c-chat-area::-webkit-scrollbar-thumb { background:var(--c-border); border-radius:4px; }
+
+.c-welcome { display:flex; flex-direction:column; align-items:center; text-align:center; padding:40px 20px; gap:16px; }
+.c-welcome h2 { font-size:26px; font-weight:800; color:var(--c-text); }
+.c-welcome p { font-size:14px; color:var(--c-muted); max-width:400px; line-height:1.7; }
+.c-suggestion-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; width:100%; max-width:460px; }
+.c-suggestion { background:var(--c-surface); border:1px solid var(--c-border); border-radius:10px; padding:12px 14px; text-align:left; cursor:pointer; font-family:inherit; font-size:13px; color:var(--c-muted); transition:all 0.2s; }
+.c-suggestion:hover { border-color:var(--c-accent); color:var(--c-text); background:var(--c-surface2); }
+.c-suggestion strong { display:block; color:var(--c-text); font-size:11px; margin-bottom:3px; }
+
+.c-msg { display:flex; gap:12px; max-width:82%; animation:fadeUp 0.3s ease; }
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.c-msg.user { align-self:flex-end; flex-direction:row-reverse; }
+.c-msg.ai { align-self:flex-start; }
+.c-avatar { width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+.c-msg.user .c-avatar { background:linear-gradient(135deg,#4c6ef5,#7950f2); }
+.c-msg.ai .c-avatar { background:linear-gradient(135deg,var(--c-accent),var(--c-accent2)); }
+.c-bubble { padding:14px 18px; border-radius:18px; font-size:14px; line-height:1.75; }
+.c-msg.user .c-bubble { background:rgba(76,110,245,0.15); border:1px solid rgba(76,110,245,0.25); border-top-right-radius:4px; }
+.c-msg.ai .c-bubble { background:var(--c-surface); border:1px solid var(--c-border); border-top-left-radius:4px; }
+.c-sources { margin-top:12px; padding-top:10px; border-top:1px solid var(--c-border); font-size:11px; color:var(--c-muted); }
+.c-src-chip { display:inline-block; padding:2px 9px; background:var(--c-glow); border:1px solid rgba(245,166,35,0.25); border-radius:12px; color:var(--c-accent); font-size:10px; margin:3px 3px 0 0; }
+.c-no-ans { background:rgba(224,82,82,0.08); border:1px solid rgba(224,82,82,0.25); border-radius:10px; padding:12px 16px; color:#e07575; font-size:13px; line-height:1.6; }
+
+.c-typing { display:flex; gap:5px; align-items:center; padding:14px 18px; background:var(--c-surface); border:1px solid var(--c-border); border-radius:18px; border-top-left-radius:4px; }
+.c-dot { width:7px; height:7px; background:var(--c-accent); border-radius:50%; animation:bounce 1.4s infinite ease-in-out; }
+.c-dot:nth-child(2){animation-delay:.2s;} .c-dot:nth-child(3){animation-delay:.4s;}
+@keyframes bounce{0%,80%,100%{transform:scale(0.5);opacity:0.4;}40%{transform:scale(1);opacity:1;}}
+
+.c-input-bar { flex-shrink:0; position:relative; z-index:10; padding:16px 24px; background:var(--c-surface); border-top:1px solid var(--c-border); }
+.c-input-row { display:flex; gap:10px; align-items:flex-end; }
+.c-chat-input { flex:1; background:var(--c-surface2); border:1.5px solid var(--c-border); border-radius:14px; padding:13px 18px; color:var(--c-text); font-family:inherit; font-size:14px; outline:none; resize:none; max-height:130px; min-height:50px; transition:border-color 0.2s; }
+.c-chat-input:focus { border-color:var(--c-accent); box-shadow:0 0 0 3px var(--c-glow); }
+.c-send-btn { width:50px; height:50px; border-radius:14px; border:none; background:linear-gradient(135deg,var(--c-accent),var(--c-accent2)); color:#0d0f14; font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.c-send-btn:disabled { opacity:0.4; cursor:not-allowed; }
+
+/* ==================== ADMIN VIEW (LIGHT) ==================== */
+#admin-view {
+  background: var(--a-bg); color: var(--a-ink); font-family: 'Space Mono', 'Noto Sans Devanagari', monospace;
+  min-height: 100vh;
+}
+#admin-view::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+.a-header {
+  position:sticky; top:0; z-index:100; background:var(--a-ink); padding:0 32px; display:flex; align-items:center; justify-content:space-between; height:60px; border-bottom:3px solid var(--a-accent);
+}
+.a-logo { display:flex; align-items:center; gap:14px; }
+.a-logo-badge { background:var(--a-accent); color:#fff; font-family:'Syne',sans-serif; font-size:11px; font-weight:800; padding:4px 10px; border-radius:3px; }
+.a-logo h1 { font-family:'Syne',sans-serif; font-size:18px; color:#fff; }
+.a-header-right { display:flex; align-items:center; gap:16px; }
+.a-header-stat { font-size:11px; color:rgba(255,255,255,0.5); }
+.a-header-stat strong { color:var(--a-accent2); }
+
+.a-tabs { position:sticky; top:60px; z-index:90; background:var(--a-surface); border-bottom:2px solid var(--a-border); padding:0 32px; display:flex; }
+.a-tab { padding:14px 22px; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; color:var(--a-ink3); cursor:pointer; background:none; border:none; border-bottom:3px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
+.a-tab:hover { color:var(--a-ink); }
+.a-tab.active { color:var(--a-accent); border-bottom-color:var(--a-accent); }
+
+.a-main { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:32px; }
+.a-panel { display:none; }
+.a-panel.active { display:block; }
+
+.a-sec-head { display:flex; justify-content:space-between; margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid var(--a-border); }
+.a-sec-head h2 { font-family:'Syne',sans-serif; font-size:22px; color:var(--a-ink); }
+.a-sec-head p { font-size:12px; color:var(--a-ink3); margin-top:3px; }
+
+.a-stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:32px; }
+.a-stat-card { background:var(--a-surface); border:1px solid var(--a-border); border-radius:8px; padding:20px; position:relative; overflow:hidden; }
+.a-stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+.a-stat-card.c1::before { background:var(--a-accent); } .a-stat-card.c2::before { background:var(--a-blue); }
+.a-stat-card.c3::before { background:var(--a-green); } .a-stat-card.c4::before { background:var(--a-purple); }
+.a-stat-card .num { font-family:'Syne',sans-serif; font-size:36px; color:var(--a-ink); line-height:1; }
+.a-stat-card .label { font-size:11px; color:var(--a-ink3); margin-top:6px; text-transform:uppercase; }
+
+.a-card { background:var(--a-surface); border:1px solid var(--a-border); border-radius:8px; overflow:hidden; margin-bottom:24px; }
+.a-card-head { background:var(--a-ink); color:#fff; padding:14px 22px; font-family:'Syne',sans-serif; font-size:14px; }
+.a-card-body { padding:24px; display:flex; flex-direction:column; gap:18px; }
+
+.a-field-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.a-field { display:flex; flex-direction:column; gap:6px; }
+.a-field.full { grid-column: 1/-1; }
+.a-field label { font-size:10px; font-weight:700; color:var(--a-ink3); text-transform:uppercase; }
+.a-field input, .a-field select, .a-field textarea { width:100%; background:var(--a-bg); border:1.5px solid var(--a-border); border-radius:6px; padding:11px 14px; color:var(--a-ink); font-family:inherit; font-size:13px; outline:none; }
+.a-field input:focus, .a-field select:focus, .a-field textarea:focus { border-color:var(--a-accent); box-shadow:0 0 0 3px rgba(192,57,43,0.08); }
+.a-field textarea { min-height:160px; resize:vertical; }
+
+.a-btn { padding:12px 22px; border-radius:6px; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; cursor:pointer; border:2px solid transparent; display:inline-flex; align-items:center; gap:8px; }
+.a-btn-pri { background:var(--a-accent); color:#fff; border-color:var(--a-accent); }
+.a-btn-sec { background:transparent; color:var(--a-ink); border-color:var(--a-border2); }
+.a-btn-succ { background:var(--a-green); color:#fff; border-color:var(--a-green); }
+.a-btn-danger { background:transparent; color:var(--a-accent); border-color:var(--a-accent); padding:6px 12px; font-size:11px; }
+.a-btn-edit { background:transparent; color:var(--a-blue); border-color:var(--a-blue); padding:6px 12px; font-size:11px; }
+
+.a-upload-zone { border:2px dashed var(--a-border2); border-radius:8px; padding:32px; text-align:center; cursor:pointer; background:var(--a-bg); transition:0.2s; }
+.a-upload-zone:hover { border-color:var(--a-accent); background:rgba(192,57,43,0.04); }
+.a-upload-zone input[type=file] { display:none; }
+
+.a-table-wrap { background:var(--a-surface); border:1px solid var(--a-border); border-radius:8px; overflow:hidden; }
+.a-table-tools { display:flex; justify-content:space-between; padding:14px 20px; border-bottom:1px solid var(--a-border); background:var(--a-surface2); }
+.a-table-tools input { padding:6px 12px; font-size:12px; border-radius:4px; border:1px solid var(--a-border); outline:none; }
+table { width:100%; border-collapse:collapse; }
+th { text-align:left; padding:12px 16px; font-size:10px; color:var(--a-ink3); background:var(--a-surface2); text-transform:uppercase; }
+td { padding:13px 16px; font-size:12px; border-bottom:1px solid var(--a-border); }
+tr:hover { background:var(--a-surface2); }
+.cat-pill { padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; background:#eee; }
+
+/* Login Modal */
+#login-modal { position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:9999; display:none; align-items:center; justify-content:center; }
+.login-box { background:var(--a-surface); padding:40px; border-radius:12px; width:360px; font-family:'Syne',sans-serif; text-align:center; }
+.login-box h2 { margin-bottom: 20px; color:var(--a-ink); }
+.login-box input { width:100%; padding:12px; margin-bottom:16px; border:1px solid var(--a-border); border-radius:6px; font-family:'Space Mono'; }
+.login-box button { width:100%; padding:12px; background:var(--a-accent); color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
+.login-box .close-btn { background:transparent; color:var(--a-ink3); margin-top:10px; padding:5px; }
+
+/* Global Toast */
+#toast { position:fixed; bottom:20px; right:20px; padding:12px 20px; background:#333; color:#fff; border-radius:6px; z-index:10000; display:none; font-family:'Space Mono'; }
+</style>
+</head>
+<body>
+
+<!-- ==================== CHAT VIEW (USER) ==================== -->
+<div id="chat-view">
+  <header class="c-header">
+    <div class="c-logo">
+      <div class="c-logo-icon">🧠</div>
+      <div><h1>ज्ञान AI</h1><p>Aapka Personal Knowledge Assistant</p></div>
+    </div>
+    <div class="c-header-right">
+      <div class="c-kb-chip">📚 <span id="kbCount">0</span> Entries</div>
+      <button class="c-admin-link" onclick="openLogin()">⚙️ Admin Panel</button>
+    </div>
+  </header>
+
+  <div id="c-noDataBanner" class="c-no-data" style="display:none;">
+    ⚠️ Koi knowledge nahi hai — Admin Panel mein content add karein.
+  </div>
+
+  <div class="c-chat-area" id="chatArea">
+    <div class="c-welcome" id="welcomeBlock">
+      <div style="font-size:64px;">🧠</div>
+      <h2>Namaste! Main ज्ञान AI hoon</h2>
+      <p>Mujhe sirf wahi pata hai jo Admin ne Firebase mein add kiya hai.<br>Apni knowledge base se kuch bhi puchhein!</p>
+      <div class="c-suggestion-grid">
+        <button class="c-suggestion" onclick="quickAsk('Meri knowledge base mein kya kya hai?')"><strong>📋 Overview</strong>Knowledge base mein kya hai?</button>
+        <button class="c-suggestion" onclick="quickAsk('Sabse important topic kaunsa hai?')"><strong>🔍 Important</strong>Important topics kaun se hain?</button>
+        <button class="c-suggestion" onclick="quickAsk('Mujhe ek summary do')"><strong>📚 Summary</strong>Koi ek topic ka summary</button>
+        <button class="c-suggestion" onclick="quickAsk('Mujhe kuch sikhao')"><strong>📖 Sikho</strong>Kuch naya seekhna hai</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="c-input-bar">
+    <div class="c-input-row">
+      <textarea class="c-chat-input" id="chatInput" placeholder="Kuch bhi puchhein apni knowledge base se... (Enter = send)" rows="1"></textarea>
+      <button class="c-send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
+    </div>
+    <div style="font-size:11px;color:var(--c-muted);text-align:center;margin-top:8px;">⚡ Firebase Powered • Realtime Sync</div>
+  </div>
+</div>
+
+<!-- ==================== ADMIN VIEW ==================== -->
+<div id="admin-view" class="view-hidden">
+  <header class="a-header">
+    <div class="a-logo">
+      <span class="a-logo-badge">ADMIN</span>
+      <h1>ज्ञान AI — Control Panel</h1>
+    </div>
+    <div class="a-header-right">
+      <div class="a-header-stat">Total: <strong id="hdrTotal">0</strong> entries</div>
+      <button class="a-btn a-btn-sec" onclick="closeAdmin()" style="padding:7px 14px;background:#fff;">💬 Back to Chat</button>
+    </div>
+  </header>
+
+  <div class="a-tabs">
+    <button class="a-tab active" onclick="openTab('dash')">📊 Dashboard</button>
+    <button class="a-tab" onclick="openTab('add')">➕ Add Entry</button>
+    <button class="a-tab" onclick="openTab('upload')">📄 PDF Upload</button>
+    <button class="a-tab" onclick="openTab('manage')">🗂️ Manage All</button>
+  </div>
+
+  <main class="a-main">
+    <!-- Dashboard -->
+    <div class="a-panel active" id="p-dash">
+      <div class="a-sec-head"><h2>📊 Dashboard (Firebase Synced)</h2><p>Real-time knowledge overview</p></div>
+      <div class="a-stats-grid">
+        <div class="a-stat-card c1"><div class="num" id="dTotal">0</div><div class="label">Total Entries</div></div>
+        <div class="a-stat-card c2"><div class="num" id="dWords">0</div><div class="label">Total Words</div></div>
+        <div class="a-stat-card c3"><div class="num" id="dBooks">0</div><div class="label">Books / PDFs</div></div>
+      </div>
+    </div>
+
+    <!-- Add Entry -->
+    <div class="a-panel" id="p-add">
+      <div class="a-sec-head"><h2>➕ New Entry</h2><p>Manually save to Firestore</p></div>
+      <div class="a-card">
+        <div class="a-card-head">📝 Details</div>
+        <div class="a-card-body">
+          <div class="a-field-row">
+            <div class="a-field"><label>Title *</label><input type="text" id="aTitle"></div>
+            <div class="a-field"><label>Category *</label>
+              <select id="aCat">
+                <option value="book">📗 Kitab (Book)</option><option value="note">📝 Notes</option>
+                <option value="law">⚖️ Kanoon</option><option value="general">🌐 General</option>
+              </select>
+            </div>
+          </div>
+          <div class="a-field full"><label>Content *</label><textarea id="aContent"></textarea></div>
+          <div><button class="a-btn a-btn-pri" id="btnSaveEntry" onclick="saveEntry()">✅ Save to Firebase</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload -->
+    <div class="a-panel" id="p-upload">
+      <div class="a-sec-head"><h2>📄 Upload Files</h2><p>Extract text and save to DB</p></div>
+      <div class="a-card">
+        <div class="a-card-head">📁 File Drop</div>
+        <div class="a-card-body">
+          <div class="a-upload-zone" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" accept=".txt,.pdf" multiple onchange="handleFiles(this.files)">
+            <div style="font-size:36px;">📂</div>
+            <h3>Click or Drop Files here</h3>
+            <p>Supports .txt and .pdf</p>
+          </div>
+          <div id="fileList" style="margin-top:10px; font-size:12px;"></div>
+          <button class="a-btn a-btn-pri" id="btnProcessFiles" style="display:none;margin-top:10px;" onclick="processFiles()">⚡ Extract & Save All</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manage -->
+    <div class="a-panel" id="p-manage">
+      <div class="a-sec-head"><h2>🗂️ Manage Data</h2><p>Edit or delete from Firestore</p></div>
+      <div class="a-table-wrap">
+        <div class="a-table-tools">
+          <input type="text" placeholder="Search entries..." oninput="filterTable(this.value)">
+        </div>
+        <table>
+          <thead><tr><th>Title</th><th>Category</th><th>Words</th><th>Actions</th></tr></thead>
+          <tbody id="manageTbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ==================== LOGIN MODAL ==================== -->
+<div id="login-modal">
+  <div class="login-box">
+    <h2>Admin Access</h2>
+    <input type="password" id="loginPass" placeholder="Password daalo...">
+    <button onclick="doLogin()">🔐 Login</button>
+    <button class="close-btn" onclick="closeLogin()">Cancel</button>
+    <p style="font-size:11px; margin-top:15px; color:#666;">Default: admin123</p>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ==================== JAVASCRIPT (Firebase + Logic) ==================== -->
+<script type="module">
+  // FIREBASE IMPORTS (V11)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+  // 1. Initialize Firebase
+  const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-gyan-app';
+  
+  // Rule 1: Strict Paths (Public Knowledge Base)
+  const kbCollection = collection(db, 'artifacts', appId, 'public', 'data', 'knowledge');
+
+  // Global State
+  let kb = []; // Local mirror of Firestore data
+  let currentUser = null;
+  let pendingFiles = [];
+
+  // ==================== AUTH & SYNC ====================
+  const initAuth = async () => {
+    try {
+      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+        await signInWithCustomToken(auth, __initial_auth_token);
+      } else {
+        await signInAnonymously(auth);
+      }
+    } catch (e) {
+      console.error("Auth Error:", e);
+      showToast("Authentication Failed!", "err");
+    }
+  };
+  initAuth();
+
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    if (user) {
+      // Start Realtime Listener for Firestore
+      onSnapshot(kbCollection, (snapshot) => {
+        kb = [];
+        snapshot.forEach(doc => {
+          kb.push({ id: doc.id, ...doc.data() });
+        });
+        
+        // Update both UI contexts
+        updateChatUI();
+        if(!document.getElementById('admin-view').classList.contains('view-hidden')) {
+          updateAdminUI();
+        }
+      }, (error) => {
+        console.error("Snapshot error", error);
+      });
+    }
+  });
+
+
+  // ==================== UI TOGGLES & LOGIN ====================
+  window.openLogin = () => document.getElementById('login-modal').style.display = 'flex';
+  window.closeLogin = () => {
+    document.getElementById('login-modal').style.display = 'none';
+    document.getElementById('loginPass').value = '';
+  };
+  
+  window.doLogin = () => {
+    const pass = document.getElementById('loginPass').value;
+    if(pass === 'admin123') {
+      closeLogin();
+      document.getElementById('chat-view').classList.add('view-hidden');
+      document.getElementById('admin-view').classList.remove('view-hidden');
+      updateAdminUI();
+      showToast("✅ Admin Mode Activated");
+    } else {
+      alert("❌ Galat Password!");
+    }
+  };
+
+  window.closeAdmin = () => {
+    document.getElementById('admin-view').classList.add('view-hidden');
+    document.getElementById('chat-view').classList.remove('view-hidden');
+  };
+
+  window.showToast = (msg) => {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 3000);
+  };
+
+  // ==================== CHAT LOGIC ====================
+  function updateChatUI() {
+    document.getElementById('kbCount').textContent = kb.length;
+    document.getElementById('c-noDataBanner').style.display = kb.length === 0 ? 'flex' : 'none';
+  }
+
+  window.quickAsk = (q) => { document.getElementById('chatInput').value = q; window.sendMsg(); };
+
+  document.getElementById('chatInput').addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window.sendMsg(); }
+  });
+
+  window.sendMsg = async () => {
+    const input = document.getElementById('chatInput');
+    const q = input.value.trim();
+    if(!q) return;
+    
+    document.getElementById('sendBtn').disabled = true;
+    input.value = '';
+    
+    const wb = document.getElementById('welcomeBlock');
+    if(wb) wb.remove();
+    
+    addChatMsg('user', q);
+    const tid = addTyping();
+    
+    // Simulate slight delay for natural feel
+    await new Promise(r => setTimeout(r, 600)); 
+    
+    const result = searchKnowledge(q);
+    removeTyping(tid);
+    
+    if(result.found) {
+      addChatAI(result.answer, result.sources);
+    } else {
+      addChatNoAns(q);
+    }
+    
+    document.getElementById('sendBtn').disabled = false;
+    scrollBottom();
+  };
+
+  function searchKnowledge(query) {
+    if(!kb.length) return {found: false};
+    
+    const stopWords = new Set(['kya','hai','hain','mein','ka','ki','ke','ko','se','aur','par','bhi','to','jo','ye','yeh','woh','ek','do','main','tum','aap','hum','koi','kuch','ab','tha','thi','the','ho','hun','mere','meri','mera']);
+    const qWords = query.toLowerCase().replace(/[?।,!।\.]/g,'').split(/\s+/).filter(w => w.length > 1 && !stopWords.has(w));
+    
+    if(!qWords.length) return {found: false};
+
+    // TF-IDF inspired offline matching
+    const scored = kb.map(entry => {
+      const tl = entry.title.toLowerCase();
+      const cl = entry.content.toLowerCase();
+      let score = 0;
+      qWords.forEach(w => {
+        if(tl.includes(w)) score += 5;
+        if(cl.includes(w)) {
+          const count = (cl.match(new RegExp(w, 'g')) || []).length;
+          score += Math.min(count, 5); // cap frequency weight
+        }
+      });
+      return { ...entry, score };
+    }).filter(e => e.score > 0).sort((a,b) => b.score - a.score);
+
+    if(!scored.length) return {found: false};
+    
+    const top = scored.slice(0, 3);
+    const sources = [...new Set(top.map(t => t.title))];
+    
+    // Build answer by extracting relevant sentences
+    let pool = [];
+    top.forEach(entry => {
+      const sents = entry.content.split(/(?<=[।\.\!\?])\s+|(?<=।)/).map(s => s.trim()).filter(s => s.length > 20);
+      sents.forEach(s => {
+        const sl = s.toLowerCase();
+        const rel = qWords.filter(w => sl.includes(w)).length;
+        if(rel > 0) pool.push({text: s, rel: rel, src: entry.title});
+      });
+    });
+    
+    pool.sort((a,b) => b.rel - a.rel);
+    const best = pool.slice(0, 5);
+    
+    let answer = "";
+    if(!best.length) {
+      answer = `"${top[0].title}" se:\n\n${top[0].content.substring(0, 300)}...`;
+    } else {
+      const bySrc = {};
+      best.forEach(s => { if(!bySrc[s.src]) bySrc[s.src] = []; bySrc[s.src].push(s.text); });
+      Object.keys(bySrc).forEach(src => {
+        if(Object.keys(bySrc).length > 1) answer += `📌 ${src}:\n`;
+        answer += bySrc[src].join(' ') + '\n\n';
+      });
+    }
+
+    return { found: true, answer: answer.trim(), sources };
+  }
+
+  function addChatMsg(role, text) {
+    const d = document.createElement('div');
+    d.className = `c-msg ${role}`;
+    d.innerHTML = `<div class="c-avatar">${role==='user'?'👤':'🧠'}</div><div class="c-bubble">${esc(text).replace(/\n/g,'<br>')}</div>`;
+    document.getElementById('chatArea').appendChild(d);
+  }
+  
+  function addChatAI(text, sources) {
+    const d = document.createElement('div');
+    d.className = 'c-msg ai';
+    const chips = sources.map(s => `<span class="c-src-chip">📚 ${esc(s)}</span>`).join('');
+    d.innerHTML = `<div class="c-avatar">🧠</div><div class="c-bubble">${esc(text).replace(/\n/g,'<br>')}<div class="c-sources">📖 Source: ${chips}</div></div>`;
+    document.getElementById('chatArea').appendChild(d);
+  }
+
+  function addChatNoAns(q) {
+    const d = document.createElement('div');
+    d.className = 'c-msg ai';
+    d.innerHTML = `<div class="c-avatar">🧠</div><div class="c-bubble"><div class="c-no-ans">❌ "<strong>${esc(q)}</strong>" ke baare mein koi jaankari nahi hai.<br><br>Admin Panel mein data add karein.</div></div>`;
+    document.getElementById('chatArea').appendChild(d);
+  }
+
+  function addTyping() {
+    const id = 'typ_' + Date.now();
+    const d = document.createElement('div'); d.className = 'c-msg ai'; d.id = id;
+    d.innerHTML = `<div class="c-avatar">🧠</div><div class="c-typing"><div class="c-dot"></div><div class="c-dot"></div><div class="c-dot"></div></div>`;
+    document.getElementById('chatArea').appendChild(d);
+    return id;
+  }
+  function removeTyping(id) { const el = document.getElementById(id); if(el) el.remove(); }
+  function scrollBottom() { const a = document.getElementById('chatArea'); a.scrollTop = a.scrollHeight; }
+
+  // ==================== ADMIN LOGIC (Firestore Writes) ====================
+  window.openTab = (id) => {
+    document.querySelectorAll('.a-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.a-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector(`button[onclick="openTab('${id}')"]`).classList.add('active');
+    document.getElementById(`p-${id}`).classList.add('active');
+  };
+
+  function updateAdminUI() {
+    document.getElementById('hdrTotal').textContent = kb.length;
+    document.getElementById('dTotal').textContent = kb.length;
+    document.getElementById('dWords').textContent = kb.reduce((s,k) => s + (k.words||0), 0);
+    document.getElementById('dBooks').textContent = kb.filter(k => k.category === 'book').length;
+    renderManageTable(kb);
+  }
+
+  window.saveEntry = async () => {
+    if(!currentUser) return showToast("❌ Auth Error!");
+    
+    const title = document.getElementById('aTitle').value.trim();
+    const category = document.getElementById('aCat').value;
+    const content = document.getElementById('aContent').value.trim();
+    
+    if(!title || !content) return alert('Title aur Content jaruri hai!');
+    
+    const btn = document.getElementById('btnSaveEntry');
+    btn.disabled = true; btn.textContent = "⏳ Saving...";
+
+    try {
+      await addDoc(kbCollection, {
+        title, category, content,
+        words: content.split(/\s+/).length,
+        addedAt: Date.now()
+      });
+      showToast("✅ Firebase me save ho gaya!");
+      document.getElementById('aTitle').value = '';
+      document.getElementById('aContent').value = '';
+    } catch (e) {
+      console.error(e);
+      alert("Error saving: " + e.message);
+    } finally {
+      btn.disabled = false; btn.textContent = "✅ Save to Firebase";
+    }
+  };
+
+  window.deleteEntry = async (id) => {
+    if(!currentUser) return;
+    if(!confirm("Pakka delete karna hai?")) return;
+    try {
+      await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'knowledge', id));
+      showToast("🗑️ Delete ho gaya");
+    } catch(e) { console.error(e); alert("Error: "+e.message); }
+  };
+
+  function renderManageTable(data) {
+    const tbody = document.getElementById('manageTbody');
+    if(!data.length) { tbody.innerHTML = `<tr><td colspan="4">Koi data nahi hai</td></tr>`; return; }
+    
+    tbody.innerHTML = data.map(k => `
+      <tr>
+        <td><strong>${esc(k.title)}</strong></td>
+        <td><span class="cat-pill">${k.category}</span></td>
+        <td>${k.words}</td>
+        <td><button class="a-btn a-btn-danger" onclick="deleteEntry('${k.id}')">🗑️ Delete</button></td>
+      </tr>
+    `).join('');
+  }
+
+  window.filterTable = (term) => {
+    const lower = term.toLowerCase();
+    const filtered = kb.filter(k => k.title.toLowerCase().includes(lower) || k.content.toLowerCase().includes(lower));
+    renderManageTable(filtered);
+  };
+
+  // ==================== FILE PARSING (PDF / TXT) ====================
+  window.handleFiles = (files) => {
+    pendingFiles = Array.from(files);
+    document.getElementById('fileList').innerHTML = pendingFiles.map(f => `📄 ${esc(f.name)}`).join('<br>');
+    document.getElementById('btnProcessFiles').style.display = pendingFiles.length ? 'block' : 'none';
+  };
+
+  window.processFiles = async () => {
+    if(!pendingFiles.length || !currentUser) return;
+    const btn = document.getElementById('btnProcessFiles');
+    btn.disabled = true; btn.textContent = "⏳ Processing...";
+
+    let added = 0;
+    for(let file of pendingFiles) {
+      try {
+        let content = '';
+        if(file.name.endsWith('.pdf')) {
+          const ab = await file.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+          for(let p=1; p<=pdf.numPages; p++) {
+            const page = await pdf.getPage(p);
+            const tc = await page.getTextContent();
+            content += tc.items.map(i => i.str).join(' ') + '\n';
+          }
+        } else {
+          content = await new Promise((res,rej) => {
+            const r = new FileReader();
+            r.onload = e => res(e.target.result);
+            r.onerror = rej;
+            r.readAsText(file);
+          });
+        }
+        
+        if(content.trim().length > 10) {
+          await addDoc(kbCollection, {
+            title: file.name,
+            category: 'book',
+            content: content.trim(),
+            words: content.split(/\s+/).length,
+            addedAt: Date.now()
+          });
+          added++;
+        }
+      } catch (e) { console.error("File parsing error", e); }
+    }
+    
+    showToast(`✅ ${added} files Firebase me save ho gayi!`);
+    pendingFiles = [];
+    document.getElementById('fileList').innerHTML = '';
+    btn.style.display = 'none';
+    btn.disabled = false; btn.textContent = "⚡ Extract & Save All";
+  };
+
+  // Utility
+  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+</script>
+</body>
+</html>
