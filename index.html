@@ -344,25 +344,24 @@ tr:hover td { background: var(--bg-light); }
       </div>
     </div>
 
-    <!-- Web Scraper Import (NOW WITH AUTO-PILOT) -->
+    <!-- Web Scraper Import -->
     <div class="a-panel" id="p-web">
       <div class="a-sec-head"><div><h2>🌐 Ultimate Web Scraper</h2><p>Internet ki jankari apne AI mein feed karein bina mehnat kiye!</p></div></div>
       
-      <!-- NAYA: AUTO-PILOT TOPIC SCRAPER -->
-      <div class="a-card" style="border: 2px solid #8e44ad;">
-        <div class="a-card-head" style="background: #fdf5ff; color: #8e44ad;">🛸 Auto-Pilot Topic Scraper (No Links Needed)</div>
+      <!-- AUTO-PILOT TOPIC SCRAPER -->
+      <div class="a-card" style="border: 2px solid #8e44ad; box-shadow: 0 4px 15px rgba(142, 68, 173, 0.15);">
+        <div class="a-card-head" style="background: #fdf5ff; color: #8e44ad;">🛸 Hyper-Speed Auto-Pilot Scraper</div>
         <div class="a-card-body" style="text-align: center;">
-          <p style="font-size:12px;color:var(--muted-light);margin-bottom:16px;"><strong>MAGIC MODE:</strong> Aap bas ek topic ka naam type karein. Hamara AI khud internet par us topic ko search karega aur top websites ka lamba data extract karke database me daal dega!</p>
+          <p style="font-size:12px;color:var(--muted-light);margin-bottom:16px;"><strong>⚡ GOD MODE:</strong> Aap bas ek topic ka naam type karein. Hamara AI ek hi single network request mein 10 websites ko parallel download karke database me thop dega!</p>
           
           <div class="a-field-row" style="margin-bottom: 16px;">
             <div class="a-field">
-              <input type="text" id="autoTopic" placeholder="Type Topic (e.g. Artificial Intelligence, History of India)" style="padding: 14px; font-size: 14px; border-color: #8e44ad;">
+              <input type="text" id="autoTopic" placeholder="Type Topic (e.g. Artificial Intelligence, Indian History)" style="padding: 14px; font-size: 14px; border-color: #8e44ad; box-shadow: 0 0 0 2px rgba(142, 68, 173, 0.1);">
             </div>
             <div class="a-field" style="max-width: 200px;">
               <select id="autoCount" style="padding: 14px;">
-                <option value="3">Top 3 Pages (Fast)</option>
-                <option value="5" selected>Top 5 Pages</option>
-                <option value="10">Top 10 Pages (Deep)</option>
+                <option value="5">Top 5 Pages (Insta-Fast)</option>
+                <option value="10" selected>Top 10 Pages (Ultra)</option>
               </select>
             </div>
           </div>
@@ -371,13 +370,13 @@ tr:hover td { background: var(--bg-light); }
           
           <div>
             <button class="a-btn a-btn-pri" id="btnAutoScrape" onclick="window.autoScrapeTopic()" style="background: #8e44ad; font-size: 15px; padding: 12px 24px; width: 100%; justify-content: center; cursor:pointer;">
-              🚀 Search & Auto-Scrape
+              🚀 Search & Auto-Scrape (Hyper-Speed)
             </button>
           </div>
         </div>
       </div>
 
-      <!-- EXISTING: MANUAL BULK URL IMPORTER -->
+      <!-- MANUAL BULK URL IMPORTER -->
       <div class="a-card">
         <div class="a-card-head">🔗 Manual Bulk URL Importer</div>
         <div class="a-card-body" style="text-align: center;">
@@ -388,7 +387,7 @@ tr:hover td { background: var(--bg-light); }
           
           <div style="margin-top: 12px;">
             <button class="a-btn a-btn-pri" id="btnWebImport" onclick="window.importFromWeb()" style="background: #e67e22; font-size: 15px; padding: 12px 24px; width: 100%; justify-content: center; cursor:pointer;">
-              ⚡ Scrape Links
+              ⚡ Scrape Links (Proxy Race Mode)
             </button>
           </div>
         </div>
@@ -563,9 +562,8 @@ tr:hover td { background: var(--bg-light); }
       }
     });
 
-    // Timeout logic for fetching
     const fetchWithTimeout = async (resource, options = {}) => {
-      const { timeout = 10000 } = options;
+      const { timeout = 8000 } = options;
       const controller = new AbortController();
       const id = setTimeout(() => controller.abort(), timeout);
       const response = await fetch(resource, { ...options, signal: controller.signal });
@@ -573,7 +571,7 @@ tr:hover td { background: var(--bg-light); }
       return response;
     };
 
-    // 🌟 NAYA: AUTO-PILOT TOPIC SCRAPER (NO LINKS NEEDED) 🌟
+    // 🌟 NAYA: HYPER-SPEED AUTO-PILOT SCRAPER (SINGLE API SHOT) 🌟
     window.autoScrapeTopic = async () => {
       const topic = document.getElementById('autoTopic').value.trim();
       const count = parseInt(document.getElementById('autoCount').value);
@@ -584,74 +582,63 @@ tr:hover td { background: var(--bg-light); }
       const statusEl = document.getElementById('autoImportStatus');
 
       btn.disabled = true;
-      btn.textContent = "🔍 Searching Internet...";
+      btn.textContent = "🚀 Hyper-Speed Engine Running...";
       logEl.style.display = "block";
       statusEl.style.display = "block";
-      logEl.innerHTML = '';
+      logEl.innerHTML = '<div style="color:var(--primary); margin-bottom:4px; font-weight:600;">⚡ Bypassing limits using Multi-Threading API...</div>';
       statusEl.style.color = "var(--primary)";
-      statusEl.textContent = `🚀 Finding top ${count} pages for "${topic}"...`;
+      statusEl.textContent = `🚀 Finding & Reading top ${count} pages for "${topic}" in ONE SHOT...`;
 
       try {
-          // 1. Use Wikipedia Search API to find related articles
           const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(topic)}&srlimit=${count}&format=json&origin=*`;
           const res = await fetch(searchUrl);
           const data = await res.json();
           const titles = data.query.search.map(s => s.title);
 
-          if(titles.length === 0) throw new Error("Is topic par internet pe kuch nahi mila.");
+          if(titles.length === 0) throw new Error("Internet pe is topic ke baare mein kuch nahi mila.");
 
-          statusEl.textContent = `⚡ Found ${titles.length} pages. Reading them all instantly...`;
+          const titlesJoined = titles.map(t => encodeURIComponent(t)).join('|');
+          const wikiApi = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles=${titlesJoined}&explaintext=1&origin=*`;
+
+          logEl.innerHTML += `<div style="color:var(--accent2); margin-bottom:4px;">⏳ Downloading ${titles.length} articles simultaneously in a single network burst...</div>`;
+
+          const contentRes = await fetch(wikiApi);
+          const contentData = await contentRes.json();
+          const pages = contentData.query.pages;
 
           let successCount = 0;
           let batch = writeBatch(db);
           let batchHasData = false;
 
-          // 2. Fetch full text for all those articles in parallel
-          const promises = titles.map((title, index) => {
-              const logId = `auto-log-${index}`;
-              logEl.innerHTML += `<div id="${logId}" style="color:#64748b; margin-bottom:4px; font-family:monospace;">⏳ <b>Reading:</b> ${title}...</div>`;
-
-              const wikiApi = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles=${encodeURIComponent(title)}&explaintext=1&origin=*`;
-
-              return fetchWithTimeout(wikiApi)
-                  .then(r => r.json())
-                  .then(d => {
-                      const pages = d.query.pages;
-                      const pageId = Object.keys(pages)[0];
-                      if(pageId !== "-1" && pages[pageId].extract) {
-                          const text = pages[pageId].extract.replace(/\s+/g, ' ').trim();
-                          if(text.length > 200) {
-                              const newDocRef = doc(kbCollection);
-                              batch.set(newDocRef, {
-                                  title: "Auto-Wiki: " + pages[pageId].title,
-                                  category: 'general',
-                                  content: text,
-                                  words: text.split(/\s+/).length,
-                                  addedAt: Date.now()
-                              });
-                              batchHasData = true;
-                              successCount++;
-                              document.getElementById(logId).innerHTML = `✅ <b style="color:var(--green);">Success:</b> ${title} (${text.split(/\s+/).length} words)`;
-                          } else {
-                              document.getElementById(logId).innerHTML = `❌ <b style="color:var(--danger);">Skipped:</b> ${title} (Content too short)`;
-                          }
-                      }
-                  }).catch(err => {
-                      document.getElementById(logId).innerHTML = `❌ <b style="color:var(--danger);">Failed:</b> ${title} - Network Error`;
-                  });
+          Object.keys(pages).forEach((pageId) => {
+              const page = pages[pageId];
+              if (pageId !== "-1" && page.extract) {
+                  const text = page.extract.replace(/\s+/g, ' ').trim();
+                  if (text.length > 200) {
+                      const newDocRef = doc(kbCollection);
+                      batch.set(newDocRef, {
+                          title: "Auto-Wiki: " + page.title,
+                          category: 'general',
+                          content: text,
+                          words: text.split(/\s+/).length,
+                          addedAt: Date.now()
+                      });
+                      batchHasData = true;
+                      successCount++;
+                      logEl.innerHTML += `<div style="color:var(--green); margin-bottom:4px; font-size:11px;">✅ <b>Saved:</b> ${page.title} (${text.split(/\s+/).length} words)</div>`;
+                  }
+              }
           });
 
-          await Promise.allSettled(promises);
-
           if(batchHasData) {
-              statusEl.textContent = `🚀 Saving massive data to Database...`;
+              statusEl.textContent = `🚀 Uploading massive bulk data to Database...`;
               await batch.commit();
           }
 
           statusEl.style.color = successCount > 0 ? "var(--green)" : "var(--danger)";
-          statusEl.textContent = `🏁 Auto-Pilot Complete! Saved ${successCount} deep articles on "${topic}".`;
+          statusEl.textContent = `🏁 Hyper-Speed Complete! Saved ${successCount} deep articles in milliseconds.`;
           if(successCount > 0) {
-             window.showToast(`🚀 ${successCount} articles auto-scraped & saved!`);
+             window.showToast(`🚀 ${successCount} articles saved at light speed!`);
              document.getElementById('autoTopic').value = '';
           }
 
@@ -660,12 +647,13 @@ tr:hover td { background: var(--bg-light); }
           statusEl.textContent = `❌ Error: ${e.message}`;
       } finally {
           btn.disabled = false;
-          btn.innerHTML = "🚀 Search & Auto-Scrape";
+          btn.innerHTML = "🚀 Search & Auto-Scrape (Hyper-Speed)";
       }
     };
 
 
-    // EXISTING: MANUAL BULK WEBSITE SCRAPER
+    // 🌟 GOD MODE: PROXY RACING FOR MANUAL SCRAPER 🌟
+    // Ab scraper sequential proxy ki jagah saari proxies ek saath daudayega (Promise.any)
     window.importFromWeb = async () => {
       const rawUrls = document.getElementById('webLink').value.trim();
       if(!rawUrls) { window.showToast('⚠️ Kam se kam ek Website ka link paste karein', 'warn'); return; }
@@ -681,9 +669,9 @@ tr:hover td { background: var(--bg-light); }
       logEl.style.display = "block";
       logEl.innerHTML = '';
       statusEl.style.color = "var(--primary)";
-      statusEl.textContent = `🚀 Processing ${urls.length} website(s) in Parallel...`;
+      statusEl.textContent = `🏎️ Proxy Racing Engine Started for ${urls.length} URL(s)...`;
       btn.disabled = true;
-      btn.textContent = "⏳ Engine Running...";
+      btn.textContent = "⏳ Racing...";
 
       let successCount = 0;
       let failCount = 0;
@@ -694,15 +682,13 @@ tr:hover td { background: var(--bg-light); }
           let text = "";
           let pageTitle = url.split('/')[2];
 
-          // DIRECT WIKIPEDIA API BYPASS
+          // Direct Wiki Bypass (No Proxy Needed)
           if(url.includes('wikipedia.org/wiki/')) {
               try {
                   const urlObj = new URL(url);
-                  const domain = urlObj.hostname; 
                   const topic = url.split('/wiki/')[1].split('#')[0].split('?')[0];
-                  const wikiApi = `https://${domain}/w/api.php?action=query&format=json&prop=extracts&titles=${topic}&explaintext=1&origin=*`;
-                  
-                  const res = await fetchWithTimeout(wikiApi);
+                  const wikiApi = `https://${urlObj.hostname}/w/api.php?action=query&format=json&prop=extracts&titles=${topic}&explaintext=1&origin=*`;
+                  const res = await fetchWithTimeout(wikiApi, {timeout: 4000});
                   if(res.ok) {
                       const data = await res.json();
                       const pages = data.query.pages;
@@ -712,31 +698,32 @@ tr:hover td { background: var(--bg-light); }
                           pageTitle = pages[pageId].title;
                       }
                   }
-              } catch(e) {
-                  console.log("Wiki API fail, falling back to proxy...", e);
-              }
+              } catch(e) { /* Ignore and fallback */ }
           }
 
-          // Proxy Fallback
+          // THE MAGIC: PROXY RACING
+          // Teen proxies ek sath race lagayengi. Jo sabse pehle jitegi, uska data uthayenge!
           if(!text || text.trim() === "") {
-              let htmlContent = null;
               const proxies = [
                   `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
                   `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
                   `https://corsproxy.io/?${encodeURIComponent(url)}`
               ];
 
-              for (let proxy of proxies) {
-                  try {
-                      const res = await fetchWithTimeout(proxy);
-                      if (res.ok) {
-                          htmlContent = await res.text();
-                          if (htmlContent && htmlContent.length > 500) break; 
-                      }
-                  } catch (e) { continue; }
-              }
+              const fetchPromises = proxies.map(async (proxy) => {
+                  const res = await fetchWithTimeout(proxy, { timeout: 6000 });
+                  if (!res.ok) throw new Error("Proxy fail");
+                  const htmlText = await res.text();
+                  if (htmlText && htmlText.length > 500) return htmlText;
+                  throw new Error("Empty content");
+              });
 
-              if(!htmlContent || htmlContent.trim() === '') throw new Error("Connection Timeout / Proxy Blocked");
+              let htmlContent;
+              try {
+                  htmlContent = await Promise.any(fetchPromises);
+              } catch(e) {
+                  throw new Error("All proxies timed out or blocked");
+              }
 
               const parser = new DOMParser();
               const htmlDoc = parser.parseFromString(htmlContent, 'text/html');
@@ -752,13 +739,12 @@ tr:hover td { background: var(--bg-light); }
               unwanted.forEach(el => el.remove());
 
               let mainNode = htmlDoc.querySelector('#mw-content-text, article, main, .post-content, #content') || htmlDoc.body;
-
               text = mainNode.textContent || "";
           }
 
           text = text.replace(/\s+/g, ' ').trim();
 
-          if(text.length < 100) throw new Error("Padhne layak zyada text nahi mila. (Security ne content hide kar diya)");
+          if(text.length < 100) throw new Error("Padhne layak zyada text nahi mila.");
 
           const newDocRef = doc(kbCollection);
           batch.set(newDocRef, {
@@ -774,7 +760,7 @@ tr:hover td { background: var(--bg-light); }
 
       const promises = urls.map((url, index) => {
           const logId = `log-${index}`;
-          logEl.innerHTML += `<div id="${logId}" style="color:#64748b; margin-bottom:4px; font-family:monospace;">⏳ <b>Fetching:</b> ${url.substring(0, 40)}...</div>`;
+          logEl.innerHTML += `<div id="${logId}" style="color:#64748b; margin-bottom:4px; font-family:monospace;">🏎️ <b>Racing:</b> ${url.substring(0, 40)}...</div>`;
           
           return fetchUrl(url)
               .then(title => {
@@ -803,7 +789,7 @@ tr:hover td { background: var(--bg-light); }
       }
       
       btn.disabled = false;
-      btn.innerHTML = "⚡ Scrape Links";
+      btn.innerHTML = "⚡ Scrape Links (Proxy Race Mode)";
     };
 
     // Other Utility Functions
@@ -883,13 +869,15 @@ tr:hover td { background: var(--bg-light); }
       try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'knowledge', id)); window.showToast("Document Removed"); } catch(e) {}
     };
 
+    // 🌟 MASSIVE SPEED UP FOR LOCAL FILE UPLOADS (25 CHUNKS) 🌟
     window.processFiles = async () => {
       if(!window.pendingFiles.length) return;
       const btn = document.getElementById('btnProcessFiles'); btn.disabled = true; 
       let added = 0, totalFiles = window.pendingFiles.length, batch = writeBatch(db), batchCount = 0;
-      for(let i = 0; i < totalFiles; i += 5) {
-        const chunk = window.pendingFiles.slice(i, i + 5);
-        btn.textContent = `⚡ Fast Extraction: ${Math.min(i + 5, totalFiles)} / ${totalFiles}`; 
+      // Yahan 5 ki jagah 25 files ek sath process hongi
+      for(let i = 0; i < totalFiles; i += 25) {
+        const chunk = window.pendingFiles.slice(i, i + 25);
+        btn.textContent = `⚡ Hyper Extraction: ${Math.min(i + 25, totalFiles)} / ${totalFiles}`; 
         await Promise.all(chunk.map(async (file) => {
           try {
             let content = '';
@@ -909,18 +897,20 @@ tr:hover td { background: var(--bg-light); }
         }));
       }
       if(batchCount > 0) await batch.commit();
-      window.showToast(`✅ ${added} Document(s) Indexed!`);
+      window.showToast(`✅ ${added} Document(s) Indexed Super Fast!`);
       window.pendingFiles = []; document.getElementById('fileList').style.display = 'none'; btn.style.display = 'none'; btn.disabled = false; btn.textContent = "⚡ Extract & Save All Data";
     };
 
     function translateText(text) { return text; }
 
+    // 🌟 INSTANT CHAT SPEED (NO ARTIFICIAL DELAY) 🌟
     window.sendMsg = async () => {
       const input = document.getElementById('chatInput'); const q = input.value.trim(); if(!q) return;
       document.getElementById('sendBtn').disabled = true; input.value = '';
       const wb = document.getElementById('welcomeBlock'); if(wb) wb.remove();
       window.addChatMsg('user', q); const tid = window.addTyping();
-      await new Promise(r => setTimeout(r, 900)); 
+      // Pehle 900ms tha, ab 100ms kar diya hai! Ekdum jhatke mein reply aayega.
+      await new Promise(r => setTimeout(r, 100)); 
       const answer = getSmartAnswerOffline(q);
       window.removeTyping(tid); window.addChatAI(answer);
       document.getElementById('sendBtn').disabled = false; window.scrollBottom();
