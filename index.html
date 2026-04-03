@@ -87,9 +87,9 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .c-welcome { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 60px 20px; gap: 16px; margin: auto; }
 .c-welcome-logo { width: 64px; height: 64px; background: var(--primary-light); color: var(--primary); border-radius: 16px; display: flex; justify-content: center; align-items: center; margin-bottom: 8px;}
 .c-welcome h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
-.c-welcome p { font-size: 15px; color: var(--muted-dark); max-width: 450px; line-height: 1.6; }
+.c-welcome p { font-size: 15px; color: var(--muted-dark); max-width: 550px; line-height: 1.6; }
 
-.c-suggestion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; width: 100%; max-width: 500px; }
+.c-suggestion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; width: 100%; max-width: 550px; }
 .c-suggestion { 
   background: var(--surface-dark); border: 1px solid var(--border-dark); 
   border-radius: 8px; padding: 16px; text-align: left; cursor: pointer; 
@@ -110,10 +110,9 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .c-bubble { padding: 16px 20px; border-radius: 12px; font-size: 15px; line-height: 1.7; color: var(--text-dark); }
 .c-msg.user .c-bubble { background: var(--surface-dark-hover); border-top-right-radius: 4px; }
 .c-msg.ai .c-bubble { background: var(--surface-dark); border: 1px solid var(--border-dark); border-top-left-radius: 4px; }
-
-.c-sources { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border-dark); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-.c-sources-label { font-size: 11px; color: var(--muted-dark); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-right: 4px;}
-.c-src-chip { background: var(--bg-dark); border: 1px solid var(--border-dark); padding: 4px 10px; border-radius: 4px; color: var(--muted-dark); font-size: 11px; font-weight: 500; }
+.c-msg.ai .c-bubble strong { color: #fff; font-weight: 600; }
+.c-msg.ai .c-bubble a { color: var(--primary); text-decoration: none; }
+.c-msg.ai .c-bubble a:hover { text-decoration: underline; }
 
 .c-typing { display: flex; gap: 4px; align-items: center; padding: 16px 20px; background: var(--surface-dark); border: 1px solid var(--border-dark); border-radius: 12px; border-top-left-radius: 4px; }
 .c-dot { width: 6px; height: 6px; background: var(--muted-dark); border-radius: 50%; animation: blink 1.4s infinite; }
@@ -140,7 +139,8 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .c-send-btn:hover { background: var(--primary-hover); }
 .c-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.c-footer-text { text-align: center; font-size: 11px; color: var(--muted-dark); margin-top: 12px; font-weight: 500; }
+.c-footer-text { text-align: center; font-size: 11px; color: var(--muted-dark); margin-top: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px;}
+.c-internet-badge { background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px;}
 
 /* ==================== ADMIN VIEW (LIGHT - CORPORATE) ==================== */
 #admin-view { background: var(--bg-light); color: var(--text-light); min-height: 100vh; }
@@ -180,10 +180,10 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smooth
 .a-stat-card .label { font-size: 12px; font-weight: 600; color: var(--muted-light); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
 
 /* Dashboard Quick Actions */
-.a-quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+.a-quick-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
 .a-action-btn {
   background: var(--surface-light); border: 2px dashed var(--primary); border-radius: 12px;
-  padding: 32px; text-align: center; cursor: pointer; transition: all 0.2s;
+  padding: 32px 24px; text-align: center; cursor: pointer; transition: all 0.2s;
   color: var(--primary); display: flex; flex-direction: column; align-items: center; gap: 12px;
 }
 .a-action-btn:hover { background: var(--primary-light); transform: translateY(-2px); }
@@ -274,34 +274,34 @@ tr:hover td { background: var(--bg-light); }
     </div>
   </header>
 
-  <div id="c-noDataBanner" class="c-no-data" style="display:none;">
-    ⚠️ Database mein koi data available nahi hai. Kripya Admin Panel se knowledge/books add karein.
-  </div>
-
   <div class="c-chat-area" id="chatArea">
     <div class="c-welcome" id="welcomeBlock">
       <div class="c-welcome-logo">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
       </div>
       <h2>Hello, Main VX hoon.</h2>
-      <p>Aapka Private AI Assistant. Main kisi bahari API ka use nahi karta. Main sirf ushi data par aadharit jawaab dunga jo aapne <b>Admin Panel</b> se daala hai.</p>
+      <p>Aapka Hybrid AI Assistant. Main aapke <b>Firebase Data</b> aur <b>Internet</b> dono ka use karke aapko smart aur natural answers dunga!</p>
       <div class="c-suggestion-grid">
-        <button class="c-suggestion" onclick="window.quickAsk('System mein abhi kya information hai?')"><strong>System Overview</strong>Kya information hai?</button>
-        <button class="c-suggestion" onclick="window.quickAsk('Mujhe rules aur guidelines ke baare mein batao')"><strong>Key Policies</strong>Important rules kya hain?</button>
-        <button class="c-suggestion" onclick="window.quickAsk('Can you summarize the available data?')"><strong>English Summary</strong>Summary in English</button>
-        <button class="c-suggestion" onclick="window.quickAsk('Latest documents kaun se hain?')"><strong>Recent Docs</strong>Latest updates</button>
+        <button class="c-suggestion" onclick="window.quickAsk('Chutti lene ke kya niyam hain?')"><strong>Company Policy</strong>Leave Policy (From Database)</button>
+        <button class="c-suggestion" onclick="window.quickAsk('Google ka CEO kaun hai?')"><strong>General Knowledge</strong>Latest Tech News (From Internet)</button>
+        <button class="c-suggestion" onclick="window.quickAsk('Company ki security rules summarize karo')"><strong>Summarize</strong>IT Rules Summary</button>
+        <button class="c-suggestion" onclick="window.quickAsk('Aaj ka mausam kaisa hai Delhi me?')"><strong>Real-time Info</strong>Weather updates (From Internet)</button>
       </div>
     </div>
   </div>
 
   <div class="c-input-bar">
     <div class="c-input-wrapper">
-      <textarea class="c-chat-input" id="chatInput" placeholder="Sawal puchiye... (Hindi ya English mein, Enter to send)" rows="1"></textarea>
+      <textarea class="c-chat-input" id="chatInput" placeholder="Sawal puchiye... (Database ya Internet kisi se bhi)" rows="1"></textarea>
       <button class="c-send-btn" id="sendBtn" onclick="window.sendMsg()">
         <svg class="svg-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
       </button>
     </div>
-    <div class="c-footer-text">100% Offline AI Logic • Powered by Firebase Firestore</div>
+    <div class="c-footer-text">
+      Powered by Firebase <span style="margin:0 4px;">•</span> 
+      <span class="c-internet-badge">🌍 LIVE INTERNET ACCESS</span> <span style="margin:0 4px;">•</span> 
+      Generative AI Logic
+    </div>
   </div>
 </div>
 
@@ -323,9 +323,9 @@ tr:hover td { background: var(--bg-light); }
 
   <div class="a-tabs">
     <button class="a-tab active" onclick="window.openTab('dash')">Overview</button>
-    <button class="a-tab" onclick="window.openTab('add')">✏️ Type Data Manually</button>
-    <button class="a-tab" onclick="window.openTab('upload')">📄 Upload PDF/Files</button>
-    <button class="a-tab" onclick="window.openTab('manage')">Manage Database</button>
+    <button class="a-tab" onclick="window.openTab('add')">✏️ Type Data</button>
+    <button class="a-tab" onclick="window.openTab('upload')">📄 Upload PDF</button>
+    <button class="a-tab" onclick="window.openTab('manage')">Manage DB</button>
   </div>
 
   <main class="a-main">
@@ -340,65 +340,55 @@ tr:hover td { background: var(--bg-light); }
 
       <!-- Quick Add Buttons on Dashboard -->
       <div class="a-quick-actions">
+        <!-- New Load Sample Data Button -->
+        <div class="a-action-btn" onclick="window.loadSampleData()" id="btnLoadSample" style="border-color: #10b981; color: #10b981;">
+          <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+          <div>
+            <h3>Load Sample Data</h3>
+            <p>1-Click mein testing ke liye Dummy Data add karein</p>
+          </div>
+        </div>
         <div class="a-action-btn" onclick="window.openTab('add')">
           <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
           <div>
-            <h3>Type Data Manually</h3>
-            <p>Kuch bhi copy/paste karein ya type karein aur save karein</p>
+            <h3>Type Manually</h3>
+            <p>Kuch bhi copy/paste karein ya khud type karein</p>
           </div>
         </div>
         <div class="a-action-btn" onclick="window.openTab('upload')">
           <svg class="svg-icon" style="width:32px;height:32px;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m14-7l-5-5-5 5m5-5v12"></path></svg>
           <div>
-            <h3>Upload PDF or Book</h3>
-            <p>Files upload karein, AI automatically text extract kar lega</p>
+            <h3>Upload PDF</h3>
+            <p>Files upload karein, AI text extract kar lega</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Add Entry (Manual Data Typing) -->
+    <!-- Add Entry -->
     <div class="a-panel" id="p-add">
       <div class="a-sec-head">
-        <div>
-          <h2>Add Knowledge Manually</h2>
-          <p>Yahan apni koi bhi jankari, rules ya book ka text copy/paste karein.</p>
-        </div>
+        <div><h2>Add Knowledge Manually</h2><p>Yahan apni koi bhi jankari, rules ya book ka text copy/paste karein.</p></div>
       </div>
       <div class="a-card">
         <div class="a-card-head">Entry Details</div>
         <div class="a-card-body">
           <div class="a-field-row">
-            <div class="a-field">
-              <label>Document Title / Heading</label>
-              <input type="text" id="aTitle" placeholder="E.g., Hamari company rules, Ya chapter 1...">
-            </div>
-            <div class="a-field">
-              <label>Category</label>
-              <select id="aCat">
-                <option value="book">Kitab / Book</option>
-                <option value="policy">Rules / Policy</option>
-                <option value="note">Notes</option>
-                <option value="general">General Info</option>
-              </select>
+            <div class="a-field"><label>Document Title</label><input type="text" id="aTitle" placeholder="E.g., Hamari company rules"></div>
+            <div class="a-field"><label>Category</label>
+              <select id="aCat"><option value="book">Kitab / Book</option><option value="policy">Rules / Policy</option><option value="general">General Info</option></select>
             </div>
           </div>
-          <div class="a-field full">
-            <label>Knowledge Content / Text (Jo bhi AI ko sikhana hai yahan type karein)</label>
-            <textarea id="aContent" placeholder="Poora text yahan paste karein... Jitna zyada detail hogi AI utna acha answer dega."></textarea>
-          </div>
+          <div class="a-field full"><label>Knowledge Content / Text</label><textarea id="aContent" placeholder="Poora text yahan paste karein..."></textarea></div>
           <div><button class="a-btn a-btn-pri" id="btnSaveEntry" onclick="window.saveEntry()">Push to Database (Save)</button></div>
         </div>
       </div>
     </div>
 
-    <!-- Upload (PDF/TXT) -->
+    <!-- Upload -->
     <div class="a-panel" id="p-upload">
       <div class="a-sec-head">
-        <div>
-          <h2>Upload PDF or Text Files</h2>
-          <p>Badi files, PDFs ya Text files upload karein. System khud read kar lega.</p>
-        </div>
+        <div><h2>Upload PDF or Text Files</h2><p>Badi files, PDFs ya Text files upload karein.</p></div>
       </div>
       <div class="a-card">
         <div class="a-card-head">Secure File Drop</div>
@@ -447,25 +437,35 @@ tr:hover td { background: var(--bg-light); }
 
 <div id="toast"></div>
 
-
-<!-- ==================== SCRIPT 1: UI LOGIC (Always Works Fast) ==================== -->
+<!-- ==================== SCRIPT 1: UI LOGIC ==================== -->
 <script>
-  // Global States
   window.kbData = [];
   window.pendingFiles = [];
 
-  // UTILS
   function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  
+  // Format markdown from Gemini
+  function formatMarkdown(text) {
+    let formatted = esc(text);
+    // Bold
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    // Bullet points
+    formatted = formatted.replace(/^\* (.*?)$/gm, '• $1');
+    // Links (from Google Search Grounding)
+    formatted = formatted.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    // Line breaks
+    formatted = formatted.replace(/\n/g, '<br>');
+    return formatted;
+  }
   
   window.showToast = (msg, type='success') => {
     const t = document.getElementById('toast');
     t.textContent = msg;
-    t.style.background = type === 'err' ? 'var(--danger)' : 'var(--text-light)';
+    t.style.background = type === 'err' ? 'var(--danger)' : (type === 'warn' ? '#f59e0b' : 'var(--text-light)');
     t.style.display = 'block';
     setTimeout(() => t.style.display = 'none', 3000);
   };
 
-  // TABS & NAVIGATION
   window.openTab = (id) => {
     document.querySelectorAll('.a-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.a-panel').forEach(p => p.classList.remove('active'));
@@ -494,10 +494,8 @@ tr:hover td { background: var(--bg-light); }
     document.getElementById('chat-view').classList.remove('view-hidden');
   };
 
-  // UI UPDATES
   window.updateChatUI = () => {
     document.getElementById('kbCount').textContent = window.kbData.length;
-    document.getElementById('c-noDataBanner').style.display = window.kbData.length === 0 ? 'flex' : 'none';
   };
 
   window.updateAdminUI = () => {
@@ -511,7 +509,6 @@ tr:hover td { background: var(--bg-light); }
   window.renderManageTable = (data) => {
     const tbody = document.getElementById('manageTbody');
     if(!data.length) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--muted-light)">Koi data nahi hai abhi.</td></tr>`; return; }
-    
     tbody.innerHTML = data.map(k => `
       <tr>
         <td style="font-weight:500;">${esc(k.title)}</td>
@@ -528,7 +525,6 @@ tr:hover td { background: var(--bg-light); }
     window.renderManageTable(filtered);
   };
 
-  // CHAT UI INTERACTIONS
   window.quickAsk = (q) => { document.getElementById('chatInput').value = q; window.sendMsg(); };
 
   document.getElementById('chatInput').addEventListener('keydown', (e) => {
@@ -542,20 +538,10 @@ tr:hover td { background: var(--bg-light); }
     document.getElementById('chatArea').appendChild(d);
   };
   
-  window.addChatAI = (text, sources) => {
+  window.addChatAI = (text) => {
     const d = document.createElement('div'); d.className = 'c-msg ai';
-    const chips = sources.map(s => `<span class="c-src-chip">${esc(s)}</span>`).join('');
-    d.innerHTML = `<div class="c-avatar">VX</div><div class="c-bubble">${esc(text).replace(/\n/g,'<br>')}<div class="c-sources"><span class="c-sources-label">Sources:</span> ${chips}</div></div>`;
-    document.getElementById('chatArea').appendChild(d);
-  };
-
-  window.addChatNoAns = (q, lang) => {
-    const d = document.createElement('div'); d.className = 'c-msg ai';
-    const msg = lang === 'en' 
-      ? `Sorry, I do not have any information regarding "<strong>${esc(q)}</strong>" in my database.<br><br>Please add relevant data via the Admin Panel first.`
-      : `Maaf karein, "<strong>${esc(q)}</strong>" ke baare mein mere database mein koi jaankari nahi hai.<br><br>Kripya pehle is document ko Admin Panel se upload karein.`;
-    
-    d.innerHTML = `<div class="c-avatar">VX</div><div class="c-bubble">${msg}</div>`;
+    const formattedText = formatMarkdown(text);
+    d.innerHTML = `<div class="c-avatar">VX</div><div class="c-bubble">${formattedText}</div>`;
     document.getElementById('chatArea').appendChild(d);
   };
 
@@ -570,7 +556,6 @@ tr:hover td { background: var(--bg-light); }
   window.removeTyping = (id) => { const el = document.getElementById(id); if(el) el.remove(); };
   window.scrollBottom = () => { const a = document.getElementById('chatArea'); a.scrollTop = a.scrollHeight; };
 
-  // FILE HANDLING UI
   window.handleFiles = (files) => {
     window.pendingFiles = Array.from(files);
     document.getElementById('fileList').innerHTML = window.pendingFiles.map(f => `📄 <strong>${esc(f.name)}</strong> (${(f.size/1024).toFixed(1)} KB)`).join('<br>');
@@ -578,15 +563,16 @@ tr:hover td { background: var(--bg-light); }
   };
 </script>
 
-<!-- ==================== SCRIPT 2: FIREBASE & CORE LOGIC ==================== -->
+<!-- ==================== SCRIPT 2: FIREBASE & GEMINI HYBRID LOGIC ==================== -->
 <script type="module">
-  // FIREBASE IMPORTS
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
   import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
   import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+  // The environment handles injecting the required Gemini API Key automatically.
+  const geminiApiKey = ""; 
+
   try {
-    // Apka Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyB7FO4QoPGQPPaIUQNVOFNE3jwYrfPst08",
       authDomain: "vx-ai-8bdf5.firebaseapp.com",
@@ -603,7 +589,6 @@ tr:hover td { background: var(--bg-light); }
     const appId = 'vx-workspace-v1';
     const kbCollection = collection(db, 'artifacts', appId, 'public', 'data', 'knowledge');
 
-    // 1. Firebase Auth
     signInAnonymously(auth).catch(e => {
       console.error("Auth Error:", e);
       window.showToast("Database Connection Error", "err");
@@ -612,7 +597,6 @@ tr:hover td { background: var(--bg-light); }
     onAuthStateChanged(auth, (user) => {
       window.currentUser = user;
       if (user) {
-        // 2. Real-time Database Sync
         onSnapshot(kbCollection, (snapshot) => {
           window.kbData = [];
           snapshot.forEach(doc => {
@@ -628,36 +612,59 @@ tr:hover td { background: var(--bg-light); }
       }
     });
 
-    // 3. Save Function (Admin)
+    window.loadSampleData = async () => {
+      if(!window.currentUser) return window.showToast("Connection Error", "err");
+      const btn = document.getElementById('btnLoadSample');
+      btn.style.opacity = '0.5'; btn.style.pointerEvents = 'none';
+      window.showToast("Loading Sample Data... Please wait");
+
+      const sampleDocs = [
+        {
+          title: "Company Leave Policy 2026",
+          category: "policy",
+          content: "Employees are entitled to 30 days of paid leave per year. This includes 12 casual leaves and 18 earned leaves. If an employee takes sick leave for more than 2 consecutive days, a registered medical certificate is mandatory. Maternity leave is provided for up to 6 months for female employees. Paternity leave is 15 days. Unused earned leaves can be carried forward to the next year, up to a maximum of 45 days. Leave applications must be submitted at least one week in advance through the HR portal."
+        },
+        {
+          title: "Work From Home (WFH) Guidelines",
+          category: "policy",
+          content: "The company offers a hybrid work model. Employees can work from home (WFH) for a maximum of 2 days a week. Tuesdays and Thursdays are mandatory office days for team meetings. While working from home, employees must be online and reachable on Slack or Microsoft Teams during core business hours, which are 10:00 AM to 4:00 PM. A stable internet connection is required. The company will provide a one-time WFH allowance of Rs 10,000 to set up a home office workstation."
+        }
+      ];
+
+      try {
+        let addedCount = 0;
+        for(let doc of sampleDocs) {
+          await addDoc(kbCollection, {
+            title: doc.title, category: doc.category, content: doc.content, words: doc.content.split(/\s+/).length, addedAt: Date.now()
+          });
+          addedCount++;
+        }
+        window.showToast(`✅ ${addedCount} Sample Documents Added Successfully!`);
+      } catch (e) {
+        console.error(e); window.showToast("Error adding sample data", "err");
+      } finally {
+        btn.style.opacity = '1'; btn.style.pointerEvents = 'auto';
+      }
+    };
+
     window.saveEntry = async () => {
       if(!window.currentUser) return window.showToast("Connection Error", "err");
-      
       const title = document.getElementById('aTitle').value.trim();
       const category = document.getElementById('aCat').value;
       const content = document.getElementById('aContent').value.trim();
       
       if(!title || !content) return alert('Title and Content are required!');
-      
       const btn = document.getElementById('btnSaveEntry');
       btn.disabled = true; btn.textContent = "Pushing...";
 
       try {
-        await addDoc(kbCollection, {
-          title, category, content,
-          words: content.split(/\s+/).length,
-          addedAt: Date.now()
-        });
+        await addDoc(kbCollection, { title, category, content, words: content.split(/\s+/).length, addedAt: Date.now() });
         window.showToast("Data Saved Successfully!");
-        document.getElementById('aTitle').value = '';
-        document.getElementById('aContent').value = '';
-      } catch (e) {
-        console.error(e); alert("Error saving: " + e.message);
-      } finally {
-        btn.disabled = false; btn.textContent = "Push to Database (Save)";
-      }
+        document.getElementById('aTitle').value = ''; document.getElementById('aContent').value = '';
+      } catch (e) { console.error(e); alert("Error saving: " + e.message);
+      } finally { btn.disabled = false; btn.textContent = "Push to Database (Save)"; }
     };
 
-    // 4. Delete Function (Admin)
     window.deleteEntry = async (id) => {
       if(!window.currentUser) return;
       if(!confirm("Are you sure you want to permanently delete this document?")) return;
@@ -667,7 +674,6 @@ tr:hover td { background: var(--bg-light); }
       } catch(e) { console.error(e); alert("Error: "+e.message); }
     };
 
-    // 5. File Processing (Admin)
     window.processFiles = async () => {
       if(!window.pendingFiles.length || !window.currentUser) return;
       const btn = document.getElementById('btnProcessFiles');
@@ -687,45 +693,80 @@ tr:hover td { background: var(--bg-light); }
             }
           } else {
             content = await new Promise((res,rej) => {
-              const r = new FileReader();
-              r.onload = e => res(e.target.result);
-              r.onerror = rej;
-              r.readAsText(file);
+              const r = new FileReader(); r.onload = e => res(e.target.result); r.onerror = rej; r.readAsText(file);
             });
           }
           
-          if(content.trim().length > 10) {
+          content = content.replace(/\s+/g, ' ').trim();
+          if(content.length > 10) {
             await addDoc(kbCollection, {
-              title: file.name,
-              category: 'book',
-              content: content.trim(),
-              words: content.split(/\s+/).length,
-              addedAt: Date.now()
+              title: file.name, category: 'book', content: content, words: content.split(/\s+/).length, addedAt: Date.now()
             });
             added++;
           }
         } catch (e) { console.error("File parsing error", e); }
       }
-      
       window.showToast(`${added} Document(s) Indexed Successfully!`);
-      window.pendingFiles = [];
-      document.getElementById('fileList').innerHTML = '';
-      btn.style.display = 'none';
-      btn.disabled = false; btn.textContent = "Extract & Save Data";
+      window.pendingFiles = []; document.getElementById('fileList').innerHTML = '';
+      btn.style.display = 'none'; btn.disabled = false; btn.textContent = "Extract & Save Data";
     };
 
-    // 6. Search & Chat Engine (User - No API used)
-    // Language detection function
-    function detectLanguage(qWords) {
-      const enKeywords = ['what', 'why', 'how', 'when', 'who', 'is', 'are', 'the', 'this', 'that', 'explain', 'tell', 'about', 'summarize', 'can'];
-      const hiKeywords = ['kya', 'kyun', 'kaise', 'kab', 'kaun', 'hai', 'hain', 'ye', 'woh', 'batao', 'samjhao', 'mein', 'karo', 'ke', 'ki'];
+    // --- 🌟 MAGIC: HYBRID AI ENGINE (FIREBASE + GEMINI API + INTERNET) 🌟 ---
+    
+    // Step 1: Extract relevant text from Firebase Database (if any)
+    function getDatabaseContext(query) {
+      if (!window.kbData.length) return "";
       
-      let enCount = 0; let hiCount = 0;
-      qWords.forEach(w => {
-        if(enKeywords.includes(w)) enCount++;
-        if(hiKeywords.includes(w)) hiCount++;
+      const rawWords = query.toLowerCase().replace(/[?।,!।\.]/g,'').split(/\s+/);
+      const stopWords = new Set(['kya','hai','hain','mein','ka','ki','ke','ko','se','aur','par','bhi','to','jo','ye','yeh','woh','ek','do','main','tum','aap','hum','koi','kuch','ab','tha','thi','the','ho','hun','is', 'are', 'the', 'what', 'how', 'to', 'a', 'an', 'of', 'in', 'on', 'for', 'with']);
+      let qWords = rawWords.filter(w => w.length > 2 && !stopWords.has(w));
+      
+      if(qWords.length === 0) return ""; // Summary request, let Gemini handle it fully
+
+      let bestContext = [];
+      window.kbData.forEach(doc => {
+          const paras = doc.content.split(/(?<=\.)\s+/).filter(p => p.trim().length > 30);
+          paras.forEach(p => {
+              let score = 0;
+              const pLower = p.toLowerCase();
+              qWords.forEach(w => {
+                  if(pLower.includes(w)) score += 10;
+              });
+              if(score > 0) bestContext.push({ text: `[${doc.title}]: ${p.trim()}`, score });
+          });
       });
-      return enCount >= hiCount ? 'en' : 'hi';
+
+      bestContext.sort((a,b) => b.score - a.score);
+      return bestContext.slice(0, 3).map(c => c.text).join('\n\n'); // Send top 3 paras to Gemini
+    }
+
+    // Step 2: Fetch with Retry Logic (Exponential Backoff)
+    async function fetchGeminiWithRetry(promptText, retries = 5) {
+      const delays = [1000, 2000, 4000, 8000, 16000];
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiApiKey}`;
+      
+      const payload = {
+        contents: [{ parts: [{ text: promptText }] }],
+        tools: [{ "google_search": {} }] // Enable Internet Browsing!
+      };
+
+      for (let i = 0; i < retries; i++) {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          
+          if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+          
+          const result = await response.json();
+          return result.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't generate an answer.";
+        } catch (err) {
+          if (i === retries - 1) throw err;
+          await new Promise(r => setTimeout(r, delays[i]));
+        }
+      }
     }
 
     window.sendMsg = async () => {
@@ -742,84 +783,42 @@ tr:hover td { background: var(--bg-light); }
       window.addChatMsg('user', q);
       const tid = window.addTyping();
       
-      await new Promise(r => setTimeout(r, 600)); 
-      
-      const result = searchKnowledge(q);
-      window.removeTyping(tid);
-      
-      if(result.found) {
-        window.addChatAI(result.answer, result.sources);
-      } else {
-        window.addChatNoAns(q, result.lang);
+      try {
+        const dbContext = getDatabaseContext(q);
+        
+        // Dynamic Prompt for Gemini
+        const systemPrompt = `You are 'VX', a highly intelligent and helpful AI assistant.
+        
+        Here is some private data from the user's database:
+        ---
+        ${dbContext ? dbContext : "(No relevant data found in private database)"}
+        ---
+
+        User's Query: "${q}"
+
+        INSTRUCTIONS:
+        1. If the answer is present in the private data provided above, answer strictly based on that data.
+        2. If the private data does not contain the answer (or is empty), YOU MUST USE YOUR INTERNET/GENERAL KNOWLEDGE via Google Search to answer the user's query perfectly. Do not say "I don't know" if it's a general question (like weather, news, facts).
+        3. Provide the answer in a natural, conversational tone. Do NOT say "Based on the private data" or "According to the database". Just give the answer directly.
+        4. ALWAYS reply in the language the user used. If the user asks in Hindi/Hinglish (e.g., "kya hai?", "kaise karein?"), you MUST reply in conversational Hinglish (Hindi written in English alphabet). If they ask in English, reply in English.
+        5. Keep the formatting clean using bold (**) and bullet points where necessary.`;
+
+        const aiResponse = await fetchGeminiWithRetry(systemPrompt);
+        
+        window.removeTyping(tid);
+        window.addChatAI(aiResponse);
+      } catch (error) {
+        console.error("Gemini API Error:", error);
+        window.removeTyping(tid);
+        window.addChatAI("Maaf kijiye, mujhe network se judne mein dikkat ho rahi hai. Kripya thodi der baad try karein.");
       }
       
       document.getElementById('sendBtn').disabled = false;
       window.scrollBottom();
     };
 
-    function searchKnowledge(query) {
-      if(!window.kbData.length) return {found: false, lang: 'hi'};
-      
-      const stopWords = new Set(['kya','hai','hain','mein','ka','ki','ke','ko','se','aur','par','bhi','to','jo','ye','yeh','woh','ek','do','main','tum','aap','hum','koi','kuch','ab','tha','thi','the','ho','hun','mere','meri','mera', 'is', 'are', 'the', 'what', 'how', 'to', 'a', 'an']);
-      const rawWords = query.toLowerCase().replace(/[?।,!।\.]/g,'').split(/\s+/);
-      const qWords = rawWords.filter(w => w.length > 1 && !stopWords.has(w));
-      const lang = detectLanguage(rawWords);
-      
-      if(!qWords.length) return {found: false, lang};
-
-      const scored = window.kbData.map(entry => {
-        const tl = entry.title.toLowerCase();
-        const cl = entry.content.toLowerCase();
-        let score = 0;
-        qWords.forEach(w => {
-          if(tl.includes(w)) score += 10; // High priority to title matching
-          if(cl.includes(w)) {
-            const count = (cl.match(new RegExp(w, 'g')) || []).length;
-            score += Math.min(count, 5);
-          }
-        });
-        return { ...entry, score };
-      }).filter(e => e.score > 0).sort((a,b) => b.score - a.score);
-
-      if(!scored.length) return {found: false, lang};
-      
-      const top = scored.slice(0, 3);
-      const sources = [...new Set(top.map(t => t.title))];
-      
-      let pool = [];
-      top.forEach(entry => {
-        // Safer split for sentences without lookbehinds
-        const sents = entry.content.replace(/([.?!।])/g, "$1|").split("|").map(s => s.trim()).filter(s => s.length > 15);
-        sents.forEach(s => {
-          const sl = s.toLowerCase();
-          const rel = qWords.filter(w => sl.includes(w)).length;
-          if(rel > 0) pool.push({text: s, rel: rel, src: entry.title});
-        });
-      });
-      
-      pool.sort((a,b) => b.rel - a.rel);
-      const best = pool.slice(0, 4); // Top 4 relevant sentences
-      
-      let answer = "";
-      let prefix = lang === 'en' ? "Based on the provided knowledge base:\n\n" : "Aapke database ke anusaar:\n\n";
-
-      if(!best.length) {
-        answer = prefix + `${top[0].content.substring(0, 300)}...`;
-      } else {
-        const bySrc = {};
-        best.forEach(s => { if(!bySrc[s.src]) bySrc[s.src] = []; bySrc[s.src].push(s.text); });
-        Object.keys(bySrc).forEach(src => {
-          if(Object.keys(bySrc).length > 1) answer += `📌 [${src}]:\n`;
-          answer += bySrc[src].join(' ') + '\n\n';
-        });
-        answer = prefix + answer;
-      }
-
-      return { found: true, answer: answer.trim(), sources, lang };
-    }
-
   } catch(error) {
-    console.error("Firebase module error:", error);
+    console.error("Initialization Error:", error);
     window.showToast("System Initialization Failed", "err");
   }
 </script>
