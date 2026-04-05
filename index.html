@@ -142,13 +142,17 @@ header {
 .input-wrapper:focus-within { border-color: var(--input-focus); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
 .chat-input { flex: 1; background: transparent; border: none; color: var(--text-primary); font-family: inherit; font-size: 16px; outline: none; resize: none; max-height: 150px; min-height: 24px; padding: 12px 12px 12px 4px; line-height: 1.5; }
 .chat-input::placeholder { color: var(--text-secondary); }
-.send-btn { width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--text-primary); color: var(--bg-main); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.2s; margin-bottom: 2px; }
+
+/* NAYA FIX: Actions Group */
+.input-actions { display: flex; align-items: center; gap: 8px; padding-bottom: 2px; padding-left: 6px; }
+
+.send-btn { width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--text-primary); color: var(--bg-main); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.2s; }
 .send-btn:hover { transform: scale(1.05); }
 .send-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: scale(1); }
 .send-btn svg { width: 18px; height: 18px; fill: currentColor; stroke: none; }
 
 /* Mic Button & Language Toggle Styling */
-.mic-btn { background: transparent; color: var(--text-secondary); margin-right: 4px; }
+.mic-btn { background: transparent; color: var(--text-secondary); }
 .mic-btn:hover { background: rgba(255, 255, 255, 0.05); transform: none; }
 .mic-btn svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .mic-btn.recording { color: var(--accent-color); animation: pulseRed 1.5s infinite; }
@@ -157,7 +161,8 @@ header {
   background: transparent; color: var(--text-secondary);
   border: 1px solid var(--header-border); border-radius: 8px;
   font-size: 11px; font-weight: 800; letter-spacing: 1px;
-  padding: 6px 8px; margin-right: 8px; margin-bottom: 8px;
+  padding: 0 10px; height: 34px; /* Fixed Height se alignment theek rahegi */
+  display: flex; align-items: center; justify-content: center;
   transition: 0.2s; cursor: pointer;
 }
 .lang-btn:hover { color: var(--text-primary); border-color: var(--text-secondary); }
@@ -223,17 +228,22 @@ header {
     <div class="input-wrapper">
       <textarea class="chat-input" id="chatInput" placeholder="Chat with VX..." rows="1" oninput="autoResize(this)"></textarea>
       
-      <!-- NAYA: Language Toggle Button -->
-      <button class="lang-btn" id="langToggle" onclick="toggleSpeechLang()">HI</button>
-      
-      <!-- Mic Button -->
-      <button class="send-btn mic-btn" id="micBtn" onclick="toggleVoice()">
-        <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
-      </button>
+      <!-- NAYA FIX: Inn teeno ko group kar diya -->
+      <div class="input-actions">
+        <!-- Language Toggle Button -->
+        <button class="lang-btn" id="langToggle" onclick="toggleSpeechLang()">HI</button>
+        
+        <!-- Mic Button -->
+        <button class="send-btn mic-btn" id="micBtn" onclick="toggleVoice()">
+          <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+        </button>
 
-      <button class="send-btn" id="sendBtn" onclick="triggerSend()">
-        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"></path></svg>
-      </button>
+        <!-- Send Button -->
+        <button class="send-btn" id="sendBtn" onclick="triggerSend()">
+          <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"></path></svg>
+        </button>
+      </div>
+
     </div>
   </div>
 </div>
