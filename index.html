@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VX AI</title>
+<title>Vamax AI</title>
 
 <!-- Modern Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
@@ -53,7 +53,7 @@ body {
   background: var(--bg-main); 
   background-image: var(--bg-gradient);
   color: var(--text-primary);
-  height: 100vh; height: 100dvh;
+  height: 100vh; height: 100dvh; /* Mobile Fix */
   display: flex; overflow: hidden;
   transition: background 0.4s ease, color 0.4s ease;
 }
@@ -100,7 +100,7 @@ header {
 /* PROFILE DROPDOWN */
 .profile-menu {
   position: absolute; top: 50px; right: 0; background: var(--dropdown-bg);
-  border: 1px solid var(--header-border); border-radius: 12px; width: 240px;
+  border: 1px solid var(--header-border); border-radius: 12px; width: 200px;
   padding: 8px; box-shadow: 0 10px 30px var(--shadow-color);
   opacity: 0; pointer-events: none; transform: translateY(-10px); transition: all 0.2s ease;
 }
@@ -110,7 +110,6 @@ header {
   font-size: 14px; font-weight: 500; color: var(--text-primary); text-align: left; transition: background 0.2s;
 }
 .menu-item:hover { background: var(--dropdown-hover); }
-.menu-divider { height: 1px; background: var(--header-border); margin: 8px 0; }
 
 /* CHAT AREA */
 .chat-area { flex: 1; overflow-y: auto; padding: 40px 15%; display: flex; flex-direction: column; gap: 32px; scroll-behavior: smooth; }
@@ -148,8 +147,13 @@ header {
 .send-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: scale(1); }
 .send-btn svg { width: 18px; height: 18px; fill: currentColor; stroke: none; }
 
-/* TOAST */
-#toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 14px 24px; background: #0f172a; color: #fff; border-radius: 10px; z-index: 10000; display: none; font-size: 14px; font-weight: 600; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); }
+/* NAYA: Mic Button & Toast Styling */
+.mic-btn { background: transparent; color: var(--text-secondary); margin-right: 4px; }
+.mic-btn:hover { background: rgba(255, 255, 255, 0.05); transform: none; }
+.mic-btn svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.mic-btn.recording { color: var(--accent-color); animation: pulseRed 1.5s infinite; }
+@keyframes pulseRed { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.4); } 70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 0, 60, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 60, 0); } }
+#toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); padding: 14px 24px; background: #0f172a; color: #fff; border-radius: 10px; z-index: 10000; display: none; font-size: 14px; font-weight: 600; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); transition: 0.3s; }
 
 @media (max-width: 768px) {
   .chat-area { padding-left: 20px; padding-right: 20px; }
@@ -164,15 +168,11 @@ header {
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 <div class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span style="font-weight: 600;">Cloud Memory ☁️</span>
+    <span style="font-weight: 600;">Recent Chats</span>
     <button class="icon-btn" onclick="toggleSidebar()"><svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
   </div>
-  <div class="sidebar-content" id="sidebar-history-content">
-    <p style="opacity: 0.6; text-align: center; margin-top: 20px;">Sign in with Google to save & sync your chat history.</p>
-    <button onclick="window.loginWithGoogle()" style="margin-top: 20px; padding: 12px; width: 100%; background: white; color: black; border-radius: 8px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px;">
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:18px;">
-        Sign in with Google
-    </button>
+  <div class="sidebar-content">
+    <p style="opacity: 0.6; text-align: center; margin-top: 20px;">History will be enabled after deployment.</p>
   </div>
 </div>
 
@@ -183,39 +183,20 @@ header {
       <button class="icon-btn" onclick="toggleSidebar()"><svg class="icon" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
     </div>
     
-    <div class="app-title">VX</div>
+    <div class="app-title">Vamax</div>
     
     <div class="right-section">
       <button class="icon-btn" onclick="toggleProfileMenu(event)">
-        <img id="nav-profile-pic" src="" style="width: 32px; height: 32px; border-radius: 50%; display: none; object-fit: cover;">
-        <svg id="nav-profile-icon" class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
       </button>
       
       <!-- DROPDOWN -->
       <div class="profile-menu" id="profileMenu">
-        <!-- Guest View -->
-        <div id="menu-guest">
-            <button class="menu-item" onclick="window.loginWithGoogle()">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:18px;"> Sign in with Google
-            </button>
-        </div>
-        <!-- Logged In View -->
-        <div id="menu-user" style="display: none;">
-            <div style="padding: 12px 16px; margin-bottom: 8px;">
-                <strong id="p-name" style="color: var(--text-primary);">Name</strong><br>
-                <small id="p-email" style="color: var(--text-secondary);">Email</small>
-            </div>
-            <div class="menu-divider"></div>
-            <button class="menu-item" onclick="window.logout()">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                Logout Account
-            </button>
-        </div>
-        <div class="menu-divider"></div>
         <button class="menu-item" onclick="toggleTheme()">
           <svg class="icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> Switch Theme
         </button>
         <button class="menu-item"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Privacy Policy</button>
+        <button class="menu-item"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Help Center</button>
       </div>
     </div>
   </header>
@@ -231,16 +212,22 @@ header {
   <div class="input-container">
     <div class="input-wrapper">
       <textarea class="chat-input" id="chatInput" placeholder="Chat with VX..." rows="1" oninput="autoResize(this)"></textarea>
-      <button class="send-btn" id="sendBtn" onclick="window.triggerSend()">
+      
+      <!-- NAYA: Mic Button -->
+      <button class="send-btn mic-btn" id="micBtn" onclick="toggleVoice()">
+        <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+      </button>
+
+      <button class="send-btn" id="sendBtn" onclick="triggerSend()">
         <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"></path></svg>
       </button>
     </div>
   </div>
 </div>
 
+<!-- NAYA: Toast Notification Box -->
 <div id="toast"></div>
 
-<!-- ==================== UI SCRIPT ==================== -->
 <script>
   function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('active'); }
   function toggleProfileMenu(e) { e.stopPropagation(); document.getElementById('profileMenu').classList.toggle('show'); }
@@ -250,6 +237,7 @@ header {
   function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function formatMarkdown(text) { let f = esc(text); f = f.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); return f.replace(/\n/g, '<br>'); }
   
+  // NAYA: Toast function for Mic feedback
   function showToast(msg, color="#10b981") {
     const t = document.getElementById('toast');
     t.textContent = msg; t.style.borderLeft = `4px solid ${color}`;
@@ -258,8 +246,7 @@ header {
 
   function scrollBottom() { const chatArea = document.getElementById('chatArea'); chatArea.scrollTop = chatArea.scrollHeight; }
 
-  // Shared UI Add Message (Database se sync)
-  window.renderUIMessage = function(role, text) {
+  function renderUIMessage(role, text) {
     const chatArea = document.getElementById('chatArea');
     const div = document.createElement('div'); div.className = `msg-row ${role}`;
     div.innerHTML = `<div class="avatar">${role === 'user' ? 'U' : 'V'}</div>
@@ -274,169 +261,8 @@ header {
     div.innerHTML = `<div class="avatar">V</div><div class="bubble"><div class="typing-indicator"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
     chatArea.appendChild(div); scrollBottom(); return id;
   }
-</script>
 
-<!-- ==================== FIREBASE CLOUD SCRIPT ==================== -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-  import { getAuth, signInAnonymously, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-  import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-  // Existing working Firebase Config
-  const firebaseConfig = {
-    apiKey: "AIzaSyB7FO4QoPGQPPaIUQNVOFNE3jwYrfPst08",
-    authDomain: "vx-ai-8bdf5.firebaseapp.com",
-    projectId: "vx-ai-8bdf5",
-    storageBucket: "vx-ai-8bdf5.firebasestorage.app",
-    messagingSenderId: "950189759329",
-    appId: "1:950189759329:web:aa694cfb162f2126618320"
-  };
-  
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const appId = "vx-ai-v2"; 
-
-  let currentUser = null;
-  let isGuest = true;
-  let loadedMessageIds = new Set();
-  let isFirstLoad = true;
-  let unsubscribeHistory = null;
-
-  // RULE 3: Auth Before Queries (Fallback to Anonymous first)
-  const initAuth = async () => { try { await signInAnonymously(auth); } catch (e) { console.error(e); } };
-  initAuth();
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      currentUser = user;
-      isGuest = user.isAnonymous;
-      updateProfileUI();
-      if (!isGuest) {
-        syncCloudHistory(); // Start syncing if real user
-      }
-    } else {
-      currentUser = null;
-    }
-  });
-
-  function updateProfileUI() {
-    const menuGuest = document.getElementById('menu-guest');
-    const menuUser = document.getElementById('menu-user');
-    const pic = document.getElementById('nav-profile-pic');
-    const icon = document.getElementById('nav-profile-icon');
-
-    if (isGuest) {
-      menuGuest.style.display = 'block'; menuUser.style.display = 'none';
-      pic.style.display = 'none'; icon.style.display = 'block';
-    } else {
-      menuGuest.style.display = 'none'; menuUser.style.display = 'block';
-      document.getElementById('p-name').textContent = currentUser.displayName || "User";
-      document.getElementById('p-email').textContent = currentUser.email;
-      if (currentUser.photoURL) {
-        pic.src = currentUser.photoURL; pic.style.display = 'block'; icon.style.display = 'none';
-      }
-    }
-  }
-
-  // Google Login Trigger
-  window.loginWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      showToast("Opening Google Login...", "#3b82f6");
-      await signInWithPopup(auth, provider);
-      showToast("Welcome to VX AI!", "#10b981");
-      document.getElementById('profileMenu').classList.remove('show');
-    } catch (e) { showToast("Login Canceled", "#ef4444"); }
-  };
-
-  window.logout = async () => {
-    if (unsubscribeHistory) unsubscribeHistory();
-    await signOut(auth);
-    await signInAnonymously(auth); // Revert to guest mode
-    document.getElementById('profileMenu').classList.remove('show');
-    
-    // Reset UI completely
-    document.getElementById('chatArea').innerHTML = `<div class="hero-section" id="welcomeBlock"><h2>How can I help you?</h2></div>`;
-    loadedMessageIds.clear(); isFirstLoad = true;
-    document.getElementById('sidebar-history-content').innerHTML = `
-        <p style="opacity: 0.6; text-align: center; margin-top: 20px;">Sign in with Google to save & sync your chat history.</p>
-        <button onclick="window.loginWithGoogle()" style="margin-top: 20px; padding: 12px; width: 100%; background: white; color: black; border-radius: 8px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px;">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:18px;"> Sign in with Google
-        </button>`;
-    showToast("Logged out securely.", "#ef4444");
-  };
-
-  // RULE 1 & 2: Safe fetching & Sorting in Memory
-  function syncCloudHistory() {
-    const msgRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'messages');
-    
-    unsubscribeHistory = onSnapshot(msgRef, (snapshot) => {
-      let msgs = [];
-      snapshot.forEach(doc => msgs.push({id: doc.id, ...doc.data()}));
-      msgs.sort((a, b) => a.timestamp - b.timestamp); // Sort by Time in JS
-
-      if (isFirstLoad) {
-        const wb = document.getElementById('welcomeBlock'); if(wb) wb.remove();
-        msgs.forEach(msg => {
-          if (!loadedMessageIds.has(msg.id)) {
-            window.renderUIMessage(msg.role, msg.content);
-            loadedMessageIds.add(msg.id);
-          }
-        });
-        isFirstLoad = false;
-      } else {
-        // Just sync new ones that come from other devices
-        msgs.forEach(msg => {
-          if (!loadedMessageIds.has(msg.id)) {
-            window.renderUIMessage(msg.role, msg.content);
-            loadedMessageIds.add(msg.id);
-          }
-        });
-      }
-
-      // Update Sidebar UI
-      document.getElementById('sidebar-history-content').innerHTML = `
-        <div style="padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--header-border); border-radius: 12px; margin-bottom: 10px;">
-            <strong style="color: var(--text-primary)">${currentUser.displayName}</strong><br>
-            <small style="color: var(--text-secondary)">${currentUser.email}</small>
-        </div>
-        <p style="color: #10b981; font-weight: 600; font-size: 13px; text-align: center; margin: 20px 0;">✓ Cloud Memory Synced (${msgs.length} msgs)</p>
-        <button onclick="window.clearCloudHistory()" style="margin-top: 10px; padding: 12px; width: 100%; background: rgba(255,0,60,0.1); color: var(--accent-color); border: 1px solid rgba(255,0,60,0.3); border-radius: 8px; font-weight: 600; transition: 0.2s;">
-            Clear All History
-        </button>
-      `;
-    }, (error) => { console.error("Cloud Error", error); });
-  }
-
-  // Clear History Rule Compliance
-  window.clearCloudHistory = async () => {
-    if (!currentUser || isGuest) return;
-    if(!confirm("Are you sure you want to delete all chats permanently?")) return;
-    showToast("Clearing Cloud Memory...", "#f59e0b");
-    try {
-        const msgRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'messages');
-        const snap = await getDocs(msgRef);
-        snap.forEach(d => { deleteDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'messages', d.id)); });
-        
-        document.getElementById('chatArea').innerHTML = `<div class="hero-section" id="welcomeBlock"><h2>How can I help you?</h2></div>`;
-        loadedMessageIds.clear(); isFirstLoad = true;
-        showToast("Cloud Memory Wiped!", "#10b981");
-    } catch(e) { showToast("Error clearing history", "#ef4444"); }
-  };
-
-  // Save specific message to Database
-  async function saveToCloud(role, text) {
-    if (!currentUser || isGuest) return;
-    const msgRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'messages');
-    try {
-      const docRef = await addDoc(msgRef, { role: role, content: text, timestamp: Date.now() });
-      loadedMessageIds.add(docRef.id); // Khud add kiya hai toh snapshot double load na kare
-    } catch (e) { console.error(e); }
-  }
-
-  // Master Send Logic (Connects Python Backend & Firebase)
-  window.triggerSend = async () => {
+  async function triggerSend() {
     const input = document.getElementById('chatInput'); 
     const q = input.value.trim(); 
     if(!q) return;
@@ -445,10 +271,7 @@ header {
     input.value = ''; input.style.height = 'auto';
     const wb = document.getElementById('welcomeBlock'); if(wb) wb.remove();
     
-    // Render and Save User Msg
-    window.renderUIMessage('user', q);
-    await saveToCloud('user', q);
-
+    renderUIMessage('user', q);
     const tid = addTyping();
     
     try {
@@ -462,14 +285,11 @@ header {
         const data = await response.json();
         
         document.getElementById(tid).remove();
-        
-        // Render and Save AI Msg
-        window.renderUIMessage('ai', data.answer);
-        await saveToCloud('ai', data.answer);
+        renderUIMessage('ai', data.answer);
 
     } catch(err) {
         document.getElementById(tid).remove();
-        window.renderUIMessage('ai', "⚠️ Python Server se connection fail ho gaya.");
+        renderUIMessage('ai', "⚠️ Bhai, Python Server se connection fail ho gaya.");
     }
 
     document.getElementById('sendBtn').disabled = false; 
@@ -477,9 +297,62 @@ header {
   }
 
   document.getElementById('chatInput').addEventListener('keydown', (e) => { 
-    if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window.triggerSend(); } 
+    if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); triggerSend(); } 
   });
 
+  // ==========================================
+  // NAYA: Voice Assistant Logic (Jarvis Mode)
+  // ==========================================
+  let recognition;
+  let isRecording = false;
+
+  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRec();
+      recognition.continuous = false;
+      recognition.interimResults = false; 
+      recognition.lang = 'hi-IN'; // Hindi aur Hinglish ke liye best setup
+
+      recognition.onstart = () => {
+          isRecording = true;
+          document.getElementById('micBtn').classList.add('recording');
+          showToast("🎤 Sun raha hu... Boliye!", "#3b82f6");
+      };
+
+      recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          const input = document.getElementById('chatInput');
+          // Purane text ke aage naya text jodein
+          input.value += (input.value ? " " : "") + transcript;
+          autoResize(input);
+      };
+
+      recognition.onerror = (event) => {
+          showToast("⚠️ Mic Error: " + event.error, "#ef4444");
+          stopRecording();
+      };
+
+      recognition.onend = () => {
+          stopRecording();
+      };
+  }
+
+  function toggleVoice() {
+      if (!recognition) {
+          showToast("⚠️ Aapka browser Voice Input support nahi karta. Chrome use karein.", "#ef4444");
+          return;
+      }
+      if (isRecording) {
+          recognition.stop();
+      } else {
+          try { recognition.start(); } catch(e) { /* Ignore if already started */ }
+      }
+  }
+
+  function stopRecording() {
+      isRecording = false;
+      document.getElementById('micBtn').classList.remove('recording');
+  }
 </script>
 
 </body>
