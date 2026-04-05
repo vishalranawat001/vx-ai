@@ -147,11 +147,21 @@ header {
 .send-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: scale(1); }
 .send-btn svg { width: 18px; height: 18px; fill: currentColor; stroke: none; }
 
-/* NAYA: Mic Button & Toast Styling */
+/* Mic Button & Language Toggle Styling */
 .mic-btn { background: transparent; color: var(--text-secondary); margin-right: 4px; }
 .mic-btn:hover { background: rgba(255, 255, 255, 0.05); transform: none; }
 .mic-btn svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .mic-btn.recording { color: var(--accent-color); animation: pulseRed 1.5s infinite; }
+
+.lang-btn {
+  background: transparent; color: var(--text-secondary);
+  border: 1px solid var(--header-border); border-radius: 8px;
+  font-size: 11px; font-weight: 800; letter-spacing: 1px;
+  padding: 6px 8px; margin-right: 8px; margin-bottom: 8px;
+  transition: 0.2s; cursor: pointer;
+}
+.lang-btn:hover { color: var(--text-primary); border-color: var(--text-secondary); }
+
 @keyframes pulseRed { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.4); } 70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 0, 60, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 60, 0); } }
 #toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); padding: 14px 24px; background: #0f172a; color: #fff; border-radius: 10px; z-index: 10000; display: none; font-size: 14px; font-weight: 600; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); transition: 0.3s; }
 
@@ -213,7 +223,10 @@ header {
     <div class="input-wrapper">
       <textarea class="chat-input" id="chatInput" placeholder="Chat with VX..." rows="1" oninput="autoResize(this)"></textarea>
       
-      <!-- NAYA: Mic Button -->
+      <!-- NAYA: Language Toggle Button -->
+      <button class="lang-btn" id="langToggle" onclick="toggleSpeechLang()">HI</button>
+      
+      <!-- Mic Button -->
       <button class="send-btn mic-btn" id="micBtn" onclick="toggleVoice()">
         <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
       </button>
@@ -225,7 +238,7 @@ header {
   </div>
 </div>
 
-<!-- NAYA: Toast Notification Box -->
+<!-- Toast Notification Box -->
 <div id="toast"></div>
 
 <script>
@@ -237,7 +250,6 @@ header {
   function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function formatMarkdown(text) { let f = esc(text); f = f.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); return f.replace(/\n/g, '<br>'); }
   
-  // NAYA: Toast function for Mic feedback
   function showToast(msg, color="#10b981") {
     const t = document.getElementById('toast');
     t.textContent = msg; t.style.borderLeft = `4px solid ${color}`;
@@ -301,28 +313,45 @@ header {
   });
 
   // ==========================================
-  // NAYA: Voice Assistant Logic (Jarvis Mode)
+  // Voice Assistant Logic (Language Toggle)
   // ==========================================
   let recognition;
   let isRecording = false;
+  let currentSpeechLang = 'hi-IN'; // Default Hindi
+
+  // Language Toggle Function
+  window.toggleSpeechLang = function() {
+      const btn = document.getElementById('langToggle');
+      if (currentSpeechLang === 'hi-IN') {
+          currentSpeechLang = 'en-IN'; // Indian English for better accent detection
+          btn.textContent = 'EN';
+          showToast("🗣️ Mic Language: English", "#3b82f6");
+      } else {
+          currentSpeechLang = 'hi-IN';
+          btn.textContent = 'HI';
+          showToast("🗣️ Mic Language: Hindi", "#10b981");
+      }
+      if (recognition) {
+          recognition.lang = currentSpeechLang;
+      }
+  };
 
   if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
       recognition = new SpeechRec();
       recognition.continuous = false;
       recognition.interimResults = false; 
-      recognition.lang = 'hi-IN'; // Hindi aur Hinglish ke liye best setup
+      recognition.lang = currentSpeechLang; 
 
       recognition.onstart = () => {
           isRecording = true;
           document.getElementById('micBtn').classList.add('recording');
-          showToast("🎤 Sun raha hu... Boliye!", "#3b82f6");
+          showToast(currentSpeechLang === 'hi-IN' ? "🎤 Sun raha hu... Boliye!" : "🎤 Listening... Speak now!", "#3b82f6");
       };
 
       recognition.onresult = (event) => {
           const transcript = event.results[0][0].transcript;
           const input = document.getElementById('chatInput');
-          // Purane text ke aage naya text jodein
           input.value += (input.value ? " " : "") + transcript;
           autoResize(input);
       };
@@ -339,13 +368,13 @@ header {
 
   function toggleVoice() {
       if (!recognition) {
-          showToast("⚠️ Aapka browser Voice Input support nahi karta. Chrome use karein.", "#ef4444");
+          showToast("⚠️ Aapka browser Voice Input support nahi karta.", "#ef4444");
           return;
       }
       if (isRecording) {
           recognition.stop();
       } else {
-          try { recognition.start(); } catch(e) { /* Ignore if already started */ }
+          try { recognition.start(); } catch(e) { }
       }
   }
 
